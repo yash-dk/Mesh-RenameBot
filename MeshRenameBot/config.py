@@ -5,4 +5,3 @@ try:
 except ImportError:
     class Config:
         DB_URI = [str, ""]
-

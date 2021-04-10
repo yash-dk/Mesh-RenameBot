@@ -108,7 +108,6 @@ class UserDB(DataBaseHandle):
 
         self.ccur(cur)
 
-
     def get_thumbnail(self, user_id):
         user_id = str(user_id)
         sql = "SELECT * FROM ttk_users WHERE user_id=%s"
