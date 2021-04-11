@@ -10,3 +10,4 @@ except ImportError:
         BOT_TOKEN = [str, "bot:token here"]
         COMPLETED_STR = [str, "▰"]
         REMAINING_STR = [str, "▱"]
+        MAX_QUEUE_SIZE = [int, 5]
