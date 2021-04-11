@@ -11,3 +11,4 @@ except ImportError:
         COMPLETED_STR = [str, "▰"]
         REMAINING_STR = [str, "▱"]
         MAX_QUEUE_SIZE = [int, 5]
+        SLEEP_SECS = [int, 10]

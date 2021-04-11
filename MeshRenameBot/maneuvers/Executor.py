@@ -36,7 +36,6 @@ class Executor():
         renamelog.debug("Started stopped with id {workerid} successfully".format(workerid=self.workerid))
     
     def stop(self):
-        print(f"attempt to stop worker {self.workerid}")
         if self._current_maneuver is not None:
             self._current_maneuver.cancel()
         

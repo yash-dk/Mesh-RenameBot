@@ -12,6 +12,7 @@ class DefaultManeuver(ABC):
 
         self._canceled = False # Track the cancel status
         self._halt = False # Track if the maneuver is halted [not implemented]
+    
     @property
     def sender_id(self):
         return self._sender_id

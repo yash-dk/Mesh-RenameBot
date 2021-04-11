@@ -17,9 +17,8 @@ class ExecutorManager:
 
     def close_executors(self):
         for i in self.active_executors:
-            print("clossing")
             i.stop()
 
     def stop(self):
-        self.close_executors()    
+        self.close_executors()
     
