@@ -23,5 +23,19 @@ def get_var(variable_name: str) -> Union[str, list, bool, int]:
                     new_val = int(new_val)
                 except ValueError:
                     renamelog.error(Trans.WRONG_VALUE_ERROR.format(variable_name))
+            
+            elif typename == bool:
+                new_val = new_val.lower()
+                if new_val == "true":
+                    new_val = True
+                else:
+                    new_val = False
+            
+            elif typename == list:
+                new_val = new_val.split(",")
 
+            val = new_val
 
+        return val
+                    
+    return None
