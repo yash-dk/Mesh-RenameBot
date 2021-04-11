@@ -2,11 +2,14 @@ from pyrogram import Client, filters
 from pyrogram.handlers import MessageHandler
 from pyrogram.types import Message
 import re
-from ..utils.SaveFile import SaveFile1
+import time
 import asyncio
+import logging
 from pyrogram.file_id import FileId
-
+from ..utils.progress_for_pyro import progress_for_pyrogram
 from ..translations.trans import Trans
+
+renamelog = logging.getLogger(__name__)
 
 
 def add_handlers(client: Client) -> None:
@@ -26,6 +29,8 @@ async def start_handler(client: Client, msg: Message) -> None:
 
 async def rename_handler(client: Client, msg: Message) -> None:
     rep_msg = msg.reply_to_message
+    new_name = msg.text.split(" ",1)[1]
+    
 
     if rep_msg is None:
         await msg.reply("Reply rename to media file.")
@@ -34,26 +39,24 @@ async def rename_handler(client: Client, msg: Message) -> None:
         await msg.reply("Reply rename to media file.")
         return
 
-    byte_queue = asyncio.Queue(maxsize=0)
     msg.download
-    await msg.reply("Renaming now")
     queue = asyncio.Queue()
 
     loop = asyncio.get_event_loop()
-    print("Submit the download task")
+    renamelog.debug("Submit the download task")
     loop.create_task(download_fun(client, rep_msg, queue))
-    print("Submit the load chunks task")
-    loop.create_task(load_chunk_fun(client, rep_msg, queue))
+    renamelog.debug("Submit the load chunks task")
+    loop.create_task(load_chunk_fun(client, rep_msg, queue, new_name))
 
 
 async def download_fun(client: Client, msg: Message, queue: asyncio.Queue):
-    print("start the download")
+    renamelog.debug("start the download")
     
     await client.Q_file(FileId.decode(msg.document.file_id), msg.document.file_size, lambda c,t:print(c,t), queue)
 
 
-async def load_chunk_fun(client,msg: Message,queue: asyncio.Queue):
-    print("file size ", msg.document.file_size)
+async def load_chunk_fun(client,msg: Message,queue: asyncio.Queue, new_file_name: str):
+    renamelog.debug("file size "+ str(msg.document.file_size))
     #try:
     #    res = await client.save_file1(queue, msg.document.file_size, msg.document.file_name)
     #except Exception as e:
@@ -61,4 +64,15 @@ async def load_chunk_fun(client,msg: Message,queue: asyncio.Queue):
     #print(type(res))
     #rmsg = await msg.reply_document("test.py")
     #await rmsg.edit_media(media=res)
-    await client.send_document_ipfile(msg.chat.id,queue,msg.document.file_size, msg.document.file_name, thumb="testt.jpg")
+    if msg.document.file_size > 10485760:
+        progress = await msg.reply("Renaming the file currently hold on.",quote=True)
+        await client.send_document_ipfile(msg.chat.id,queue,msg.document.file_size, new_file_name, progress=progress_for_pyrogram, progress_args=(
+            f"Uploading {new_file_name}",
+            progress,
+            time.time(),
+            5,
+            client
+            ))
+    else:
+        await msg.reply("Renaming the file currently hold on.",quote=True)
+        await client.send_document_ipfile(msg.chat.id,queue,msg.document.file_size, new_file_name)
