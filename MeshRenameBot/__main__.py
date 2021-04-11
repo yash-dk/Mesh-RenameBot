@@ -15,6 +15,5 @@ if __name__ == "__main__":
     
     rbot = MeshRenameBot("MeshRenameBot", get_var("API_ID"), get_var("API_HASH"), bot_token=get_var("BOT_TOKEN"), workers=200)
     excm = ExecutorManager()
-    excm.stop()
     add_handlers(rbot)
     rbot.run()

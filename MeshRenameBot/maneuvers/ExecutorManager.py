@@ -19,6 +19,9 @@ class ExecutorManager:
         for i in self.active_executors:
             i.stop()
 
+    async def create_maneuver(self, maneuver):
+        await self.maneuvers_queue.put(maneuver)
+
     def stop(self):
         self.close_executors()
     
