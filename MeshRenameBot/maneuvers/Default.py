@@ -9,6 +9,7 @@ class DefaultManeuver(ABC):
         self._cmd_message = cmd_message
         self._sender_id = cmd_message.from_user.id
         self._chat_id = cmd_message.chat.id
+        self._unique_id = 0
 
         self._canceled = False # Track the cancel status
         self._halt = False # Track if the maneuver is halted [not implemented]

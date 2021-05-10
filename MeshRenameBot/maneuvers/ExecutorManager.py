@@ -5,6 +5,7 @@ from .Executor import Executor
 class ExecutorManager:
     maneuvers_queue = asyncio.Queue(maxsize=0)
     active_executors = []
+    canceled_uids = []
 
     def __init__(self):
         self._max_simultaneous = get_var("MAX_QUEUE_SIZE")

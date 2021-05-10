@@ -8,8 +8,10 @@ import logging, asyncio
 import math
 import os
 import time
+from pyrogram import StopTransmission
 from .human_format import human_readable_bytes,human_readable_timedelta
 from ..core.get_config import get_var
+from ..maneuvers.ExecutorManager import ExecutorManager
 
 renamelog = logging.getLogger(__name__)
 
@@ -21,6 +23,7 @@ async def progress_for_pyrogram(
     start,
     time_out,
     client,
+    uid,
     cancel_msg=None,
     updb=None,
     markup=None
@@ -31,15 +34,11 @@ async def progress_for_pyrogram(
     # too early to update the progress
     if diff < 1:
         return
-    
+    eo = ExecutorManager()
+    if uid in eo.canceled_uids:
+        raise StopTransmission()
+
     if round(diff % time_out) == 0 or current == total:
-        if cancel_msg is not None:
-            # dirty alt. was not able to find something to stop upload
-            # todo inspect with "StopAsyncIteration"
-            # IG Open stream will be Garbage Collected
-            if updb.get_cancel_status(cancel_msg.chat.id,cancel_msg.message_id):
-                print("Stopping transmission")
-                client.stop_transmission()
     
         # if round(current / total * 100, 0) % 5 == 0:
         percentage = current * 100 / total

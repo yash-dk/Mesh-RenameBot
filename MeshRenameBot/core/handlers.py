@@ -24,6 +24,7 @@ def add_handlers(client: Client) -> None:
 
     client.add_handler(MessageHandler(start_handler, filters.regex("/start", re.IGNORECASE)))
     client.add_handler(MessageHandler(rename_handler, filters.regex("/rename", re.IGNORECASE)))
+    client.add_handler(MessageHandler(cancel_this, filters.regex("/cancel", re.IGNORECASE)))
 
     print("added")
     signal.signal(signal.SIGINT, term_handler)
@@ -41,3 +42,11 @@ async def rename_handler(client: Client, msg: Message) -> None:
 def term_handler(signum, frame):
     print("yolo")
     ExecutorManager().stop()
+
+async def cancel_this(client: Client, msg: Message) -> None:
+    if not msg.reply_to_message is None:
+        rep_msg = msg.reply_to_message
+        uid = int(str(rep_msg.chat.id)+str(rep_msg.message_id))
+        if uid not in ExecutorManager().canceled_uids:
+            print(f"Putting cancel for {uid}")
+            ExecutorManager().canceled_uids.append(uid)
