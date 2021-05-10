@@ -1,5 +1,5 @@
 from pyrogram import Client, filters
-from pyrogram.handlers import MessageHandler
+from pyrogram.handlers import MessageHandler, CallbackQueryHandler
 from pyrogram.types import Message
 import re
 import time
@@ -24,9 +24,7 @@ def add_handlers(client: Client) -> None:
 
     client.add_handler(MessageHandler(start_handler, filters.regex("/start", re.IGNORECASE)))
     client.add_handler(MessageHandler(rename_handler, filters.regex("/rename", re.IGNORECASE)))
-    client.add_handler(MessageHandler(cancel_this, filters.regex("/cancel", re.IGNORECASE)))
-
-    print("added")
+    client.add_handler(CallbackQueryHandler(cancel_this, filters.regex("cancel", re.IGNORECASE)))
     signal.signal(signal.SIGINT, term_handler)
     signal.signal(signal.SIGTERM, term_handler)
 
@@ -36,17 +34,12 @@ async def start_handler(client: Client, msg: Message) -> None:
 
 async def rename_handler(client: Client, msg: Message) -> None:
     rep_msg = msg.reply_to_message
-    print("in handler",rep_msg.media)
     await ExecutorManager().create_maneuver(RenameManeuver(client, rep_msg, msg))
 
 def term_handler(signum, frame):
-    print("yolo")
     ExecutorManager().stop()
 
 async def cancel_this(client: Client, msg: Message) -> None:
-    if not msg.reply_to_message is None:
-        rep_msg = msg.reply_to_message
-        uid = int(str(rep_msg.chat.id)+str(rep_msg.message_id))
-        if uid not in ExecutorManager().canceled_uids:
-            print(f"Putting cancel for {uid}")
-            ExecutorManager().canceled_uids.append(uid)
+    data = str(msg.data).split(" ")
+    ExecutorManager().canceled_uids.append(int(data[1]))
+    await msg.answer("The rename has been cancled. Will be updated soon.", show_alert=True)

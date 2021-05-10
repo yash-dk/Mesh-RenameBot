@@ -24,8 +24,6 @@ async def progress_for_pyrogram(
     time_out,
     client,
     uid,
-    cancel_msg=None,
-    updb=None,
     markup=None
 ):
     now = time.time()
