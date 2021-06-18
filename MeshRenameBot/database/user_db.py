@@ -1,6 +1,7 @@
 from .base_db import DataBaseHandle
 from ..config import Config
 import psycopg2
+import psycopg2.extras
 import json
 import os
 
@@ -13,7 +14,7 @@ class UserDB(DataBaseHandle):
         if dburl is None:
             dburl = os.environ.get("DB_URI", None)
             if dburl is None:
-                dburl = Config.DB_URI
+                dburl = Config.DB_URI[1]
 
         super().__init__(dburl)
         cur = self.scur()

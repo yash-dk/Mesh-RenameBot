@@ -1,4 +1,10 @@
 current_lang = "en"
+from .en import EnTrans
 
-if current_lang == "en":
-    from .en import Trans
+def get_trans(title, lang = None) -> str:
+    if lang is None:
+        if current_lang == "en":
+            return getattr(EnTrans, title)
+    else:
+        if current_lang == "en":
+            return getattr(EnTrans, title)
