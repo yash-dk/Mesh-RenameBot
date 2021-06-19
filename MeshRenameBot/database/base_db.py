@@ -60,8 +60,8 @@ class DataBaseHandle:
                     cur = self._conn.cursor()
                 break
 
-            except psycopg2.InterfaceError:
-                renamelog.info(f"Attempting to Re-establish the connection to server {i} times.")
+            except psycopg2.InterfaceError as e:
+                renamelog.info(f"Attempting to Re-establish the connection to server {i} times. {e}")
                 self.re_establish()
 
         return cur
