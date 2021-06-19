@@ -55,7 +55,8 @@ class FilterUtils:
                 self._user_db.set_var("filters", json.dumps(jdata), user_id)
 
     
-    def remove_filter(self, filter_id, user_id):
+    def remove_filter(self, filter_id):
+        user_id = self._user_id
         if filter_id is not None and user_id is not None:
             data = self._user_db.get_var("filters", user_id)
             
@@ -142,6 +143,9 @@ async def filter_interact(client, msg):
     
     elif data[1] == "remove":
         fsu = FilterUtils(msg.from_user.id)
+        if len(data) == 3:
+            fsu.remove_filter(data[2])
+
         ufilters = fsu.get_filters()
         
         fstr = "Your Current Filters:- \n"
@@ -153,7 +157,7 @@ async def filter_interact(client, msg):
             fstr += str(j)+". "
             fstr += fsu.get_type_str(ufilters[i])
             fstr += "\n"
-            currline.append(InlineKeyboardButton(str(j),f"fltr remove {j}"))
+            currline.append(InlineKeyboardButton(str(j),f"fltr remove {i}"))
             j += 1
 
             if len(currline) == 3:
@@ -204,7 +208,7 @@ async def filter_interact(client, msg):
                 ...
                 
                 inob = userin(client)
-                await msg.message.edit_text("Enter the text that you wan to add.",reply_markup=None)
+                await msg.message.edit_text("Enter the text that you want to add.",reply_markup=None)
                 valg = await inob.get_value(client, msg)
                 if valg is None:
                     await msg.message.edit_text(fltr_add+"\n\n No input received from you.", reply_markup=markup1)
@@ -229,4 +233,22 @@ async def filter_interact(client, msg):
                     [InlineKeyboardButton("Back.","back")]],
                 )
                 await msg.message.edit_text("Where do you want to add the text.", reply_markup=addition_markup)
+        
+        if data[2] == "remove":
+            inob = userin(client)
+
+            await msg.message.edit_text("Enter the text that you want to remove.",reply_markup=None)
+            valg = await inob.get_value(client, msg)
+            if valg is None:
+                await msg.message.edit_text(fltr_add+"\n\n No input received from you.", reply_markup=markup1)
+            
+            elif valg == "ignore":
+                await msg.message.edit_text(fltr_add+"\n\n Received ignore from you.", reply_markup=markup1)
+
+            else:
+                success_add = "\nAdded the Remove filter successfully. <code>{}</code> will be removed.".format(valg)
+                fsu.add_filer(FilterUtils.REMOVE_FILTER, valg)
+                await msg.message.edit_text(fltr_add + success_add, reply_markup=markup1)
+                
+
 
