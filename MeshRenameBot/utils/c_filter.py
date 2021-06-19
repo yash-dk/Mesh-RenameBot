@@ -1,3 +1,4 @@
+from logging import Filter
 from re import I
 from ..database.user_db import UserDB
 from .user_input import userin
@@ -28,10 +29,14 @@ class FilterUtils:
             if first_param is not None and second_param is not None:
                 data = self._user_db.get_var("filters", user_id)
                 
-                jdata = json.loads(data)
-                jdata[str(time.time()).replace(".", "")] = [ftype, first_param, second_param]
+                if data is None:
+                    jdata = {}
+                    jdata[str(time.time()).replace(".", "")] = [ftype, first_param, second_param]
+                else:
+                    jdata = json.loads(data)
+                    jdata[str(time.time()).replace(".", "")] = [ftype, first_param, second_param]
                 
-                self._user_db.set_var("filter", json.dumps(jdata), user_id)
+                self._user_db.set_var("filters", json.dumps(jdata), user_id)
         elif ftype == self.REMOVE_FILTER:
             if first_param is not None:
                 data = self._user_db.get_var("filters", user_id)
@@ -39,15 +44,15 @@ class FilterUtils:
                 jdata = json.loads(data)
                 jdata[str(time.time()).replace(".", "")] = [ftype, first_param]
                 
-                self._user_db.set_var("filter", json.dumps(jdata), user_id)
+                self._user_db.set_var("filters", json.dumps(jdata), user_id)
         elif ftype == self.ADDITION_FILTER:
             if first_param is not None and second_param is not None:
                 data = self._user_db.get_var("filters", user_id)
                 
                 jdata = json.loads(data)
-                jdata[str(time.time()).replace(".", "")] = [ftype, second_param, first_param]
+                jdata[str(time.time()).replace(".", "")] = [ftype, first_param, second_param]
                 
-                self._user_db.set_var("filter", json.dumps(jdata), user_id)
+                self._user_db.set_var("filters", json.dumps(jdata), user_id)
 
     
     def remove_filter(self, filter_id, user_id):
@@ -56,13 +61,15 @@ class FilterUtils:
             
             jdata = json.loads(data)
             jdata.pop(filter_id)
-            self._user_db.set_var("filter", json.dumps(jdata), user_id)
+            self._user_db.set_var("filters", json.dumps(jdata), user_id)
 
     
     def get_filters(self):
         user_id = self._user_id
+        
         if user_id is not None:
             data = self._user_db.get_var("filters", user_id)
+        
             if data is not None:
                 jdata = json.loads(data)
                 return jdata
@@ -120,14 +127,17 @@ from the while file name.
 async def filter_interact(client, msg):
     # fltr type
     data = msg.data.split(" ")
+    
+    markup1 = InlineKeyboardMarkup(
+        [[InlineKeyboardButton("Add Replace Filter.","fltr addf replace")],
+        [InlineKeyboardButton("Add Addition Filter.","fltr addf addition")],
+        [InlineKeyboardButton("Add Remove Filter.","fltr addf remove")],
+        [InlineKeyboardButton("Back.","back")]],
+    )
+
     if data[1] == "add":
         await msg.answer()
-        markup1 = InlineKeyboardMarkup(
-            [[InlineKeyboardButton("Add Replace Filter.","fltr addf replace")],
-            [InlineKeyboardButton("Add Addition Filter.","fltr addf addition")],
-            [InlineKeyboardButton("Add Remove Filter.","fltr addf remove")],
-            [InlineKeyboardButton("Back.","back")]],
-        )
+        
         await msg.message.edit_text(fltr_add, reply_markup=markup1)
     
     elif data[1] == "remove":
@@ -143,12 +153,15 @@ async def filter_interact(client, msg):
             fstr += str(j)+". "
             fstr += fsu.get_type_str(ufilters[i])
             fstr += "\n"
-            j += 1
             currline.append(InlineKeyboardButton(str(j),f"fltr remove {j}"))
+            j += 1
 
             if len(currline) == 3:
                 ilinekeys.append(currline)
                 currline = []
+        
+        if not currline == []:
+            ilinekeys.append(currline)
 
         if ilinekeys == []:
             ilinekeys = None
@@ -158,10 +171,62 @@ async def filter_interact(client, msg):
         await msg.message.edit_text(fstr, reply_markup=ilinekeys)
     
     elif data[1] == "addf":
+        
+        fsu = FilterUtils(msg.from_user.id)
+
         if data[2] == "replace":
+            # Replace Filter Logic
+
             fltm = "Send the msg in this format. <code>what to replace | what to replace with</code>"
             await msg.message.edit_text(fltm,reply_markup=None)
             
             inob = userin(client)
             valg = await inob.get_value(client, msg)
-            print(valg)
+            
+            if valg is None:
+                await msg.message.edit_text(fltr_add+"\n\n No input received from you.", reply_markup=markup1)
+            
+            elif valg == "ignore":
+                await msg.message.edit_text(fltr_add+"\n\n Received ignore from you.", reply_markup=markup1)
+            
+            else:
+                if not "|" in valg:
+                    await msg.message.edit_text(fltr_add+"\n\n The input is not valid. Check the format which is given.", reply_markup=markup1)
+            
+                else:
+                    valg = valg.split("|",2)
+                    success_add = "\nAdded the Replace filter successfully. <code>{}</code> will be replaced with <code>{}</code>.".format(valg[0], valg[1])
+                    fsu.add_filer(FilterUtils.REPLACE_FILTER,valg[0],valg[1])
+                    
+                    await msg.message.edit_text(fltr_add + success_add, reply_markup=markup1)
+        if data[2] == "addition":
+            if len(data) == 4:
+                ...
+                
+                inob = userin(client)
+                await msg.message.edit_text("Enter the text that you wan to add.",reply_markup=None)
+                valg = await inob.get_value(client, msg)
+                if valg is None:
+                    await msg.message.edit_text(fltr_add+"\n\n No input received from you.", reply_markup=markup1)
+                
+                elif valg == "ignore":
+                    await msg.message.edit_text(fltr_add+"\n\n Received ignore from you.", reply_markup=markup1)
+
+                else:
+                    if data[3] == "left":
+                        success_add = "\nAdded the Addition filter successfully. <code>{}</code> will be added to <code>LEFT</code>.".format(valg)
+                        fsu.add_filer(FilterUtils.ADDITION_FILTER, valg, FilterUtils.ADDITION_FILTER_LEFT)
+                        await msg.message.edit_text(fltr_add + success_add, reply_markup=markup1)
+                    else:
+                        success_add = "\nAdded the Addition filter successfully. <code>{}</code> will be added to <code>RIGHT</code>.".format(valg)
+                        fsu.add_filer(FilterUtils.ADDITION_FILTER, valg, FilterUtils.ADDITION_FILTER_RIGHT)
+                        await msg.message.edit_text(fltr_add + success_add, reply_markup=markup1)
+
+            else:
+                addition_markup = InlineKeyboardMarkup(
+                    [[InlineKeyboardButton("Addition to LEFT.","fltr addf addition left")],
+                    [InlineKeyboardButton("Addition to RIGHT.","fltr addf addition right")],
+                    [InlineKeyboardButton("Back.","back")]],
+                )
+                await msg.message.edit_text("Where do you want to add the text.", reply_markup=addition_markup)
+

@@ -25,7 +25,7 @@ class UserDB(DataBaseHandle):
             json_data VARCHAR(1000) NOT NULL, --Keeping it as json so that it flexible to add stuff.
             thumbnail BYTEA DEFAULT NULL,
             is_premium SMALLINT NOT NULL DEFAULT 0,
-            tasks_count INTEGER NOT NULL,
+            tasks_count INTEGER NOT NULL DEFAULT 0,
             file_choice SMALLINT NOT NULL DEFAULT 0
         )
         """

@@ -12,6 +12,7 @@ from ..translations.trans import get_trans
 from ..maneuvers.ExecutorManager import ExecutorManager
 from ..maneuvers.Rename import RenameManeuver
 from ..utils.c_filter import filter_controller, filter_interact
+from ..utils.user_input import interactive_input
 
 renamelog = logging.getLogger(__name__)
 
@@ -23,6 +24,7 @@ def add_handlers(client: Client) -> None:
         client (pyrogram.Client): Initialized pyrogram client.
     """
 
+    client.add_handler(MessageHandler(interactive_input))
     client.add_handler(MessageHandler(start_handler, filters.regex("/start", re.IGNORECASE)))
     client.add_handler(MessageHandler(rename_handler, filters.regex("/rename", re.IGNORECASE)))
     client.add_handler(CallbackQueryHandler(cancel_this, filters.regex("cancel", re.IGNORECASE)))
