@@ -93,6 +93,44 @@ class FilterUtils:
     
         return const_str
 
+    def has_filters(self):
+        return True if len(self.get_filters()) > 0 else False
+
+    async def filtered_name(self, original_name):
+        fltrs = self.get_filters()
+        add_filters = []
+        remove_filters = []
+        replace_filters = []
+
+        for i in fltrs.values():
+            if i[0] == self.ADDITION_FILTER:
+                add_filters.append(i)
+            
+            if i[0] == self.REPLACE_FILTER:
+                replace_filters.append(i)
+            
+            if i[0] == self.REMOVE_FILTER:
+                remove_filters.append(i)
+            
+        # Remove First
+        for i in remove_filters:
+            original_name = original_name.replace(i[1],"")
+            
+        # Replace second
+        for i in replace_filters:
+            original_name = original_name.replace(i[1], i[2])
+
+
+        # Addition At the last.
+        for i in add_filters:
+            if i[2] == self.ADDITION_FILTER_LEFT:
+                original_name = i[1] + original_name
+                
+            if i[2] == self.ADDITION_FILTER_RIGHT:
+                original_name += i[1] 
+
+        return original_name
+
 async def filter_controller(client, msg, is_edit=False):
     user_id = msg.from_user.id
     fsu = FilterUtils(user_id)
