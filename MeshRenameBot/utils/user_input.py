@@ -18,7 +18,8 @@ class userin:
         
         self.track_users[e.from_user.id] = []
         start = time.time()
-
+        val = None
+        
         while True:
             if (time.time() - start) >= 20:
                 break
@@ -45,32 +46,6 @@ class userin:
         print("val is", val)
         return val
 
-    async def val_input_callback(self, client, e,o_sender,lis,file):
-        # get the input value
-        print(" I am herere ")
-        if o_sender != e.from_user.id:
-            print("No sender")
-            return
-        if not file:
-            lis[0] = True
-            lis[1] = e.text
-            print(e.text)
-            await e.delete()
-        else:
-            if e.document is not None:
-                path = await e.download_media()
-                lis[0]  = True
-                lis[1] = path 
-                await e.delete()
-            else:
-                if "ignore" in e.text:
-                    lis[0]  = True
-                    lis[1] = "ignore"
-                    await e.delete()
-                else:
-                    await e.delete()
-        print("The end")
-        raise StopPropagation()
 
 async def interactive_input(client, msg):
     if msg.from_user.id in userin.track_users.keys():

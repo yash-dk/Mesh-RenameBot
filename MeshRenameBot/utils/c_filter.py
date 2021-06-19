@@ -93,7 +93,7 @@ class FilterUtils:
     
         return const_str
 
-async def filter_controller(client, msg):
+async def filter_controller(client, msg, is_edit=False):
     user_id = msg.from_user.id
     fsu = FilterUtils(user_id)
     ufilters = fsu.get_filters()
@@ -108,7 +108,10 @@ async def filter_controller(client, msg):
             [InlineKeyboardButton("Remove Filter.","fltr remove")]
         ]
     )
-    await msg.reply_text(fstr, quote=True, reply_markup=rmark)
+    if is_edit:
+        await msg.message.edit_text(fstr, reply_markup=rmark)
+    else:
+        await msg.reply_text(fstr, quote=True, reply_markup=rmark)
 
 fltr_add = """
 Welcome to adding filter.
@@ -133,7 +136,7 @@ async def filter_interact(client, msg):
         [[InlineKeyboardButton("Add Replace Filter.","fltr addf replace")],
         [InlineKeyboardButton("Add Addition Filter.","fltr addf addition")],
         [InlineKeyboardButton("Add Remove Filter.","fltr addf remove")],
-        [InlineKeyboardButton("Back.","back")]],
+        [InlineKeyboardButton("Back.","fltr back home")]],
     )
 
     if data[1] == "add":
@@ -166,6 +169,8 @@ async def filter_interact(client, msg):
         
         if not currline == []:
             ilinekeys.append(currline)
+        
+        ilinekeys.append([InlineKeyboardButton("Back.","fltr back home")])
 
         if ilinekeys == []:
             ilinekeys = None
@@ -249,6 +254,7 @@ async def filter_interact(client, msg):
                 success_add = "\nAdded the Remove filter successfully. <code>{}</code> will be removed.".format(valg)
                 fsu.add_filer(FilterUtils.REMOVE_FILTER, valg)
                 await msg.message.edit_text(fltr_add + success_add, reply_markup=markup1)
-                
-
-
+    
+    elif data[1] == "back":
+        if data[2] == "home":
+            await filter_controller(client, msg, True)
