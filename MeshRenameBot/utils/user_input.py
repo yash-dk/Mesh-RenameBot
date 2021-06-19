@@ -1,7 +1,7 @@
 from functools import partial
 from pyrogram.handlers import MessageHandler
 from pyrogram import StopPropagation
-from pyrogram import filters
+from pyrogram import filters, types
 import time, asyncio, re
 
 class userin:
@@ -11,7 +11,7 @@ class userin:
     def __init__(self, client):
         self._client = client
     
-    async def get_value(self, client, e,file=False):
+    async def get_value(self, client, e, file=False, del_msg=False):
         # todo replace with conver. - or maybe not Fix Dont switch to conversion
         # this function gets the new value to be set from the user in current context
 
@@ -19,7 +19,7 @@ class userin:
         self.track_users[e.from_user.id] = []
         start = time.time()
         val = None
-        
+
         while True:
             if (time.time() - start) >= 20:
                 break
@@ -41,7 +41,9 @@ class userin:
             
             await asyncio.sleep(1)
         
-        
+        if val is not None and del_msg:
+            await msg_obj.delete()
+
         self.track_users.pop(e.from_user.id)
         print("val is", val)
         return val

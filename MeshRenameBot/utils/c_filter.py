@@ -159,7 +159,7 @@ Replace Filter:- This filter will replace a
 given word with the one you sepcified
 
 Addition Filter:- This filter will add given word
-at end ot beginning.
+at end or beginning.
 
 Remove Filter:- This filer will remove given word
 from the while file name.
@@ -224,11 +224,11 @@ async def filter_interact(client, msg):
         if data[2] == "replace":
             # Replace Filter Logic
 
-            fltm = "Send the msg in this format. <code>what to replace | what to replace with</code>"
+            fltm = "Send the msg in this format. <code>what to replace | what to replace with</code> or /ignore to go back."
             await msg.message.edit_text(fltm,reply_markup=None)
             
             inob = userin(client)
-            valg = await inob.get_value(client, msg)
+            valg = await inob.get_value(client, msg, del_msg=True)
             
             if valg is None:
                 await msg.message.edit_text(fltr_add+"\n\n No input received from you.", reply_markup=markup1)
@@ -251,8 +251,8 @@ async def filter_interact(client, msg):
                 ...
                 
                 inob = userin(client)
-                await msg.message.edit_text("Enter the text that you want to add.",reply_markup=None)
-                valg = await inob.get_value(client, msg)
+                await msg.message.edit_text("Enter the text that you want to add or /ignore to go back.",reply_markup=None)
+                valg = await inob.get_value(client, msg, del_msg=True)
                 if valg is None:
                     await msg.message.edit_text(fltr_add+"\n\n No input received from you.", reply_markup=markup1)
                 
@@ -280,8 +280,8 @@ async def filter_interact(client, msg):
         if data[2] == "remove":
             inob = userin(client)
 
-            await msg.message.edit_text("Enter the text that you want to remove.",reply_markup=None)
-            valg = await inob.get_value(client, msg)
+            await msg.message.edit_text("Enter the text that you want to remove or /ignore to go back.",reply_markup=None)
+            valg = await inob.get_value(client, msg, del_msg=True)
             if valg is None:
                 await msg.message.edit_text(fltr_add+"\n\n No input received from you.", reply_markup=markup1)
             
