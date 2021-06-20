@@ -1,19 +1,14 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-# (c) Shrimadhav U K + YashDK [yash-dk@github] 
-
-# the logging things
-import logging, asyncio
-
+import logging
+import asyncio
 import math
-import os
 import time
 from pyrogram import StopTransmission
-from .human_format import human_readable_bytes,human_readable_timedelta
+from .human_format import human_readable_bytes, human_readable_timedelta
 from ..core.get_config import get_var
 from ..maneuvers.ExecutorManager import ExecutorManager
 
 renamelog = logging.getLogger(__name__)
+
 
 async def progress_for_pyrogram(
     current,
@@ -79,4 +74,3 @@ async def progress_for_pyrogram(
             await asyncio.sleep(1)
         except:
             pass
-

@@ -1,8 +1,6 @@
-from functools import partial
-from pyrogram.handlers import MessageHandler
-from pyrogram import StopPropagation
-from pyrogram import filters, types
-import time, asyncio, re
+import time
+import asyncio
+
 
 class userin:
 
@@ -15,7 +13,6 @@ class userin:
         # todo replace with conver. - or maybe not Fix Dont switch to conversion
         # this function gets the new value to be set from the user in current context
 
-        
         self.track_users[e.from_user.id] = []
         start = time.time()
         val = None

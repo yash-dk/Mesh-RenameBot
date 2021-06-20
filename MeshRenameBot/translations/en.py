@@ -33,7 +33,7 @@ class EnTrans:
 Welcome to adding filter.
 3 Types of filter.
 
-Replace Filter:- This filter will replace a 
+Replace Filter:- This filter will replace a
 given word with the one you sepcified
 
 Addition Filter:- This filter will add given word
