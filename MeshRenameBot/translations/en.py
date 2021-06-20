@@ -19,3 +19,54 @@ class EnTrans:
     RENAME_ERRORED_REPORT = "The download was errored. Report this error."
 
     RENAME_CANCEL_BY_USER = "Canceled by the user."
+
+    FLTR_ADD_LEFT_STR = "Addition Filter: <code>{}</code> <code>To Left</code>"
+    FLTR_ADD_RIGHT_STR = "Addition Filter: <code>{}</code> <code>To Right</code>"
+    FLTR_RM_STR = "Remove Filter: <code>{}</code>"
+    FLTR_REPLACE_STR = "Replace Filter: <code>{}</code> with <code>{}</code>"
+
+    CURRENT_FLTRS = "Your Current Filters:-"
+    ADD_FLTR = "Add Filter."
+    RM_FLTR = "Remove Filter."
+
+    FILTERS_INTRO = """
+Welcome to adding filter.
+3 Types of filter.
+
+Replace Filter:- This filter will replace a 
+given word with the one you sepcified
+
+Addition Filter:- This filter will add given word
+at end or beginning.
+
+Remove Filter:- This filer will remove given word
+from the while file name.
+
+"""
+
+    ADD_REPLACE_FLTR = "Add Replace Filter."
+    ADD_ADDITION_FLTR = "Add Addition Filter."
+    ADD_REMOVE_FLTR = "Add Remove Filter."
+    BACK = "Back."
+
+    REPALCE_FILTER_INIT_MSG = "Send the msg in this format. <code>what to replace | what to replace with</code> or /ignore to go back.\nNote that sapce after and before '|' will be considered."
+
+    NO_INPUT_FROM_USER = "No input received from you."
+    INPUT_IGNORE = "Received ignore from you."
+    WRONG_INPUT_FORMAT = "The input is not valid. Check the format which is given."
+    REPLACE_FILTER_SUCCESS = "Added the Replace filter successfully. <code>'{}'</code> will be replaced with <code>'{}'</code>."
+
+    ADDITION_FILTER_INIT_MSG = "Enter the text that you want to add or /ignore to go back."
+
+    ADDITION_FILTER_SUCCESS_LEFT = "Added the Addition filter successfully. <code>{}</code> will be added to <code>LEFT</code>."
+
+    ADDITION_FILTER_SUCCESS_RIGHT = "Added the Addition filter successfully. <code>{}</code> will be added to <code>RIGHT</code>."
+
+    ADDITION_LEFT = "Addition to LEFT."
+    ADDITION_RIGHT = "Addition to RIGHT."
+
+    ADDITION_POSITION_PROMPT = "Where do you want to add the text."
+
+    REMOVE_FILTER_INIT_MSG = "Enter the text that you want to remove or /ignore to go back."
+
+    REMOVE_FILTER_SUCCESS = "Added the Remove filter successfully. <code>{}</code> will be removed."

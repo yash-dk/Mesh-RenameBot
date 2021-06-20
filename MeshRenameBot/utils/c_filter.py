@@ -1,5 +1,5 @@
 from logging import Filter
-from re import I
+from re import I, T
 from ..database.user_db import UserDB
 from .user_input import userin
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -7,6 +7,8 @@ import json
 import time, re
 from pyrogram import filters
 from pyrogram.handlers import MessageHandler
+from ..translations.trans import Trans
+from MeshRenameBot.translations import trans
 
 class FilterUtils:
     # Filter Types
@@ -81,15 +83,16 @@ class FilterUtils:
         const_str = ""
         if filt[0] == self.ADDITION_FILTER:
             if filt[2] == self.ADDITION_FILTER_LEFT:
-                const_str = "Addition Filter: <code>{}</code> <code>To Left</code>".format(filt[1])
+                const_str = Trans.FLTR_ADD_LEFT_STR.format(filt[1])
 
             if filt[2] == self.ADDITION_FILTER_RIGHT:
-                const_str = "Addition Filter: <code>{}</code> <code>To Right</code>".format(filt[1])
+                const_str = Trans.FLTR_ADD_RIGHT_STR.format(filt[1])
 
         if filt[0] == self.REMOVE_FILTER:
-            const_str = "Remove Filter: <code>{}</code>".format(filt[1])
+            const_str = Trans.FLTR_RM_STR.format(filt[1])
+
         if filt[0] == self.REPLACE_FILTER:
-            const_str =  "Replace Filter: <code>{}</code> with <code>{}</code>".format(filt[1], filt[2])
+            const_str =  Trans.FLTR_REPLACE_STR.format(filt[1], filt[2])
     
         return const_str
 
@@ -135,15 +138,16 @@ async def filter_controller(client, msg, is_edit=False):
     user_id = msg.from_user.id
     fsu = FilterUtils(user_id)
     ufilters = fsu.get_filters()
-    fstr = "Your Current Filters:- \n"
+    fstr = Trans.CURRENT_FLTRS + " \n"
+
     for i in ufilters.keys():
         fstr += fsu.get_type_str(ufilters[i])
         fstr += "\n"
 
     rmark = InlineKeyboardMarkup(
         [
-            [InlineKeyboardButton("Add Filter.","fltr add")],
-            [InlineKeyboardButton("Remove Filter.","fltr remove")]
+            [InlineKeyboardButton(Trans.ADD_FLTR,"fltr add")],
+            [InlineKeyboardButton(Trans.RM_FLTR,"fltr remove")]
         ]
     )
     if is_edit:
@@ -151,30 +155,17 @@ async def filter_controller(client, msg, is_edit=False):
     else:
         await msg.reply_text(fstr, quote=True, reply_markup=rmark)
 
-fltr_add = """
-Welcome to adding filter.
-3 Types of filter.
-
-Replace Filter:- This filter will replace a 
-given word with the one you sepcified
-
-Addition Filter:- This filter will add given word
-at end or beginning.
-
-Remove Filter:- This filer will remove given word
-from the while file name.
-
-"""
+fltr_add = Trans.FILTERS_INTRO
 
 async def filter_interact(client, msg):
     # fltr type
     data = msg.data.split(" ")
     
     markup1 = InlineKeyboardMarkup(
-        [[InlineKeyboardButton("Add Replace Filter.","fltr addf replace")],
-        [InlineKeyboardButton("Add Addition Filter.","fltr addf addition")],
-        [InlineKeyboardButton("Add Remove Filter.","fltr addf remove")],
-        [InlineKeyboardButton("Back.","fltr back home")]],
+        [[InlineKeyboardButton(Trans.ADD_REPLACE_FLTR, "fltr addf replace")],
+        [InlineKeyboardButton(Trans.ADD_ADDITION_FLTR, "fltr addf addition")],
+        [InlineKeyboardButton(Trans.ADD_REMOVE_FLTR, "fltr addf remove")],
+        [InlineKeyboardButton(Trans.BACK,"fltr back home")]],
     )
 
     if data[1] == "add":
@@ -189,7 +180,7 @@ async def filter_interact(client, msg):
 
         ufilters = fsu.get_filters()
         
-        fstr = "Your Current Filters:- \n"
+        fstr = Trans.CURRENT_FLTRS + " \n"
         j = 1
         
         ilinekeys = []
@@ -208,7 +199,7 @@ async def filter_interact(client, msg):
         if not currline == []:
             ilinekeys.append(currline)
         
-        ilinekeys.append([InlineKeyboardButton("Back.","fltr back home")])
+        ilinekeys.append([InlineKeyboardButton(Trans.BACK,"fltr back home")])
 
         if ilinekeys == []:
             ilinekeys = None
@@ -224,72 +215,75 @@ async def filter_interact(client, msg):
         if data[2] == "replace":
             # Replace Filter Logic
 
-            fltm = "Send the msg in this format. <code>what to replace | what to replace with</code> or /ignore to go back.\nNote that sapce after and before '|' will be considered."
+            fltm = Trans.REPALCE_FILTER_INIT_MSG
             await msg.message.edit_text(fltm,reply_markup=None)
             
             inob = userin(client)
             valg = await inob.get_value(client, msg, del_msg=True)
             
             if valg is None:
-                await msg.message.edit_text(fltr_add+"\n\n No input received from you.", reply_markup=markup1)
+                await msg.message.edit_text(fltr_add + "\n\n" + Trans.NO_INPUT_FROM_USER, reply_markup=markup1)
             
             elif valg == "ignore":
-                await msg.message.edit_text(fltr_add+"\n\n Received ignore from you.", reply_markup=markup1)
+                await msg.message.edit_text(fltr_add+"\n\n"+Trans.INPUT_IGNORE, reply_markup=markup1)
             
             else:
                 if not "|" in valg:
-                    await msg.message.edit_text(fltr_add+"\n\n The input is not valid. Check the format which is given.", reply_markup=markup1)
+                    await msg.message.edit_text(fltr_add+"\n\n"+Trans.WRONG_INPUT_FORMAT, reply_markup=markup1)
             
                 else:
                     valg = valg.split("|",2)
-                    success_add = "\nAdded the Replace filter successfully. <code>'{}'</code> will be replaced with <code>'{}'</code>.".format(valg[0], valg[1])
+                    success_add = "\n" + Trans.REPLACE_FILTER_SUCCESS.format(valg[0], valg[1])
+
                     fsu.add_filer(FilterUtils.REPLACE_FILTER,valg[0],valg[1])
                     
                     await msg.message.edit_text(fltr_add + success_add, reply_markup=markup1)
+
         if data[2] == "addition":
             if len(data) == 4:
                 ...
                 
                 inob = userin(client)
-                await msg.message.edit_text("Enter the text that you want to add or /ignore to go back.",reply_markup=None)
+                await msg.message.edit_text(Trans.ADDITION_FILTER_INIT_MSG,reply_markup=None)
                 valg = await inob.get_value(client, msg, del_msg=True)
                 if valg is None:
-                    await msg.message.edit_text(fltr_add+"\n\n No input received from you.", reply_markup=markup1)
+                    await msg.message.edit_text(fltr_add+"\n\n"+Trans.NO_INPUT_FROM_USER, reply_markup=markup1)
                 
                 elif valg == "ignore":
-                    await msg.message.edit_text(fltr_add+"\n\n Received ignore from you.", reply_markup=markup1)
+                    await msg.message.edit_text(fltr_add+"\n\n"+Trans.INPUT_IGNORE, reply_markup=markup1)
 
                 else:
                     if data[3] == "left":
-                        success_add = "\nAdded the Addition filter successfully. <code>{}</code> will be added to <code>LEFT</code>.".format(valg)
+                        success_add = "\n"+ Trans.ADDITION_FILTER_SUCCESS_LEFT.format(valg)
                         fsu.add_filer(FilterUtils.ADDITION_FILTER, valg, FilterUtils.ADDITION_FILTER_LEFT)
                         await msg.message.edit_text(fltr_add + success_add, reply_markup=markup1)
                     else:
-                        success_add = "\nAdded the Addition filter successfully. <code>{}</code> will be added to <code>RIGHT</code>.".format(valg)
+                        success_add = "\n"+ Trans.ADDITION_FILTER_SUCCESS_RIGHT.format(valg)
+
                         fsu.add_filer(FilterUtils.ADDITION_FILTER, valg, FilterUtils.ADDITION_FILTER_RIGHT)
                         await msg.message.edit_text(fltr_add + success_add, reply_markup=markup1)
 
             else:
                 addition_markup = InlineKeyboardMarkup(
-                    [[InlineKeyboardButton("Addition to LEFT.","fltr addf addition left")],
-                    [InlineKeyboardButton("Addition to RIGHT.","fltr addf addition right")],
-                    [InlineKeyboardButton("Back.","back")]],
+                    [[InlineKeyboardButton(Trans.ADDITION_LEFT,"fltr addf addition left")],
+                    [InlineKeyboardButton(Trans.ADDITION_RIGHT,"fltr addf addition right")],
+                    [InlineKeyboardButton(Trans.BACK,"fltr add")]],
                 )
-                await msg.message.edit_text("Where do you want to add the text.", reply_markup=addition_markup)
+                await msg.message.edit_text(Trans.ADDITION_POSITION_PROMPT, reply_markup=addition_markup)
         
         if data[2] == "remove":
             inob = userin(client)
 
-            await msg.message.edit_text("Enter the text that you want to remove or /ignore to go back.",reply_markup=None)
+            await msg.message.edit_text(Trans.REMOVE_FILTER_INIT_MSG,reply_markup=None)
             valg = await inob.get_value(client, msg, del_msg=True)
             if valg is None:
-                await msg.message.edit_text(fltr_add+"\n\n No input received from you.", reply_markup=markup1)
+                await msg.message.edit_text(fltr_add+"\n\n"+Trans.NO_INPUT_FROM_USER, reply_markup=markup1)
             
             elif valg == "ignore":
-                await msg.message.edit_text(fltr_add+"\n\n Received ignore from you.", reply_markup=markup1)
+                await msg.message.edit_text(fltr_add+"\n\n"+Trans.INPUT_IGNORE, reply_markup=markup1)
 
             else:
-                success_add = "\nAdded the Remove filter successfully. <code>{}</code> will be removed.".format(valg)
+                success_add = "\n" + Trans.REMOVE_FILTER_SUCCESS.format(valg)
                 fsu.add_filer(FilterUtils.REMOVE_FILTER, valg)
                 await msg.message.edit_text(fltr_add + success_add, reply_markup=markup1)
     
