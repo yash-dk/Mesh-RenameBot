@@ -5,7 +5,7 @@
 from datetime import timedelta
 
 
-def human_readable_bytes(value, digits=2, delim="", postfix=""):
+def human_readable_bytes(value: int, digits: int = 2, delim: str = "", postfix: str = "") -> str:
     """Return a human-readable file size.
     """
     if value is None:
@@ -20,7 +20,7 @@ def human_readable_bytes(value, digits=2, delim="", postfix=""):
     return f"{value:.{digits}f}" + delim + chosen_unit + postfix
 
 
-def human_readable_timedelta(seconds, precision=0):
+def human_readable_timedelta(seconds: int, precision: int = 0) -> str:
     """Return a human-readable time delta as a string.
     """
     pieces = []

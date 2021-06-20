@@ -4,12 +4,13 @@ import psycopg2
 import psycopg2.extras
 import json
 import os
+from typing import Union
 
 
 class UserDB(DataBaseHandle):
     shared_users = {}
 
-    def __init__(self, dburl: str = None):
+    def __init__(self, dburl: str = None) -> None:
 
         if dburl is None:
             dburl = os.environ.get("DB_URI", None)
@@ -52,7 +53,7 @@ class UserDB(DataBaseHandle):
 
         self.ccur(cur)
 
-    def get_var(self, var, user_id):
+    def get_var(self, var: str, user_id: int) -> Union[None, str]:
         user_id = str(user_id)
         sql = "SELECT * FROM ttk_users WHERE user_id=%s"
 
@@ -76,7 +77,7 @@ class UserDB(DataBaseHandle):
 
             self.ccur(cur)
 
-    def set_var(self, var, value, user_id):
+    def set_var(self, var: str, value: Union[int, str], user_id: int) -> None:
         user_id = str(user_id)
         sql = "SELECT * FROM ttk_users WHERE user_id=%s"
 
@@ -109,7 +110,7 @@ class UserDB(DataBaseHandle):
 
         self.ccur(cur)
 
-    def get_thumbnail(self, user_id):
+    def get_thumbnail(self, user_id: int) -> Union[str, bool]:
         user_id = str(user_id)
         sql = "SELECT * FROM ttk_users WHERE user_id=%s"
         cur = self.scur(dictcur=True)
@@ -138,25 +139,7 @@ class UserDB(DataBaseHandle):
         else:
             return False
 
-    def set_rclone(self, rclonefile, user_id):
-        user_id = str(user_id)
-
-        sql = "SELECT * FROM ttk_users WHERE user_id=%s"
-        cur = self.scur(dictcur=True)
-
-        cur.execute(sql, (user_id,))
-        if cur.rowcount > 0:
-            insql = "UPDATE ttk_users SET rclone_file=%s WHERE user_id=%s"
-            cur.execute(insql, (rclonefile, user_id))
-
-        else:
-            insql = "INSERT INTO ttk_users(user_id, json_data, rclone_file) VALUES(%s, '{}', %s)"
-            cur.execute(insql, (user_id, rclonefile))
-
-        self.ccur(cur)
-        return True
-
-    def set_thumbnail(self, thumbnail, user_id):
+    def set_thumbnail(self, thumbnail: bytes, user_id: int) -> bool:
         user_id = str(user_id)
 
         sql = "SELECT * FROM ttk_users WHERE user_id=%s"

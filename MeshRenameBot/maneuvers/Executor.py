@@ -6,7 +6,7 @@ renamelog = logging.getLogger(__name__)
 
 
 class Executor():
-    def __init__(self, queue: asyncio.Queue, workerid: int):
+    def __init__(self, queue: asyncio.Queue, workerid: int) -> None:
         self.maneuvers_queue = queue
         renamelog.info("Started executor with id {workerid} successfully".format(workerid=workerid))
         self._stop = False
@@ -15,7 +15,7 @@ class Executor():
 
         asyncio.get_event_loop().create_task(self.execute())
 
-    async def execute(self):
+    async def execute(self) -> None:
         while True:
             if self._stop:
                 break
@@ -35,7 +35,7 @@ class Executor():
         
         # renamelog.debug("Started stopped with id {workerid} successfully".format(workerid=self.workerid))
     
-    def stop(self):
+    def stop(self) -> None:
         if self._current_maneuver is not None:
             self._current_maneuver.cancel()
         

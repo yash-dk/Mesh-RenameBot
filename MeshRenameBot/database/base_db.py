@@ -66,7 +66,7 @@ class DataBaseHandle:
 
         return cur
 
-    def re_establish(self):
+    def re_establish(self) -> None:
         """Re tries to connect to the database if in any case it disconnects.
         """
 
@@ -81,7 +81,7 @@ class DataBaseHandle:
         except:
             time.sleep(1)  # Blocking call ... this stage is panic.
 
-    def ccur(self, cursor: psycopg2.extensions.cursor):
+    def ccur(self, cursor: psycopg2.extensions.cursor) -> None:
         """Closes the cursor that is passed to it.
 
         Args:

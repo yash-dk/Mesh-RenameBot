@@ -1,5 +1,7 @@
 import time
 import asyncio
+from typing import Union
+from pyrogram import Client, types
 
 
 class userin:
@@ -9,7 +11,7 @@ class userin:
     def __init__(self, client):
         self._client = client
     
-    async def get_value(self, client, e, file=False, del_msg=False):
+    async def get_value(self, client: Client, e: types.MessageEntity, file: bool = False, del_msg: bool = False) -> Union[None, str]:
         # todo replace with conver. - or maybe not Fix Dont switch to conversion
         # this function gets the new value to be set from the user in current context
 
@@ -46,7 +48,7 @@ class userin:
         return val
 
 
-async def interactive_input(client, msg):
+async def interactive_input(client: Client, msg: types.MessageEntity) -> None:
     if msg.from_user.id in userin.track_users.keys():
         userin.track_users[msg.from_user.id].append(msg)
     else:

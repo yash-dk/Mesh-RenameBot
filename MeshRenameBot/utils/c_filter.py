@@ -1,14 +1,12 @@
-from logging import Filter
-from re import I, T
+from pyrogram import Client, types
 from ..database.user_db import UserDB
 from .user_input import userin
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 import json
 import time
-from pyrogram import filters
-from pyrogram.handlers import MessageHandler
 from ..translations.trans import Trans
 from MeshRenameBot.translations import trans
+from typing import Union
 
 
 class FilterUtils:
@@ -21,11 +19,11 @@ class FilterUtils:
     ADDITION_FILTER_LEFT = 21
     ADDITION_FILTER_RIGHT = 22
 
-    def __init__(self, user_id):
+    def __init__(self, user_id: int) -> None:
         self._user_db = UserDB()
         self._user_id = user_id
  
-    def add_filer(self, ftype, first_param, second_param=None):
+    def add_filer(self, ftype: int, first_param: str, second_param: str = None) -> None:
         user_id = self._user_id
         if ftype == self.REPLACE_FILTER:
             if first_param is not None and second_param is not None:
@@ -56,7 +54,7 @@ class FilterUtils:
                 
                 self._user_db.set_var("filters", json.dumps(jdata), user_id)
 
-    def remove_filter(self, filter_id):
+    def remove_filter(self, filter_id: int) -> None:
         user_id = self._user_id
         if filter_id is not None and user_id is not None:
             data = self._user_db.get_var("filters", user_id)
@@ -65,7 +63,7 @@ class FilterUtils:
             jdata.pop(filter_id)
             self._user_db.set_var("filters", json.dumps(jdata), user_id)
 
-    def get_filters(self):
+    def get_filters(self) -> dict:
         user_id = self._user_id
         
         if user_id is not None:
@@ -77,7 +75,7 @@ class FilterUtils:
             else:
                 return {}
 
-    def get_type_str(self, filt):
+    def get_type_str(self, filt: list) -> str:
         const_str = ""
         if filt[0] == self.ADDITION_FILTER:
             if filt[2] == self.ADDITION_FILTER_LEFT:
@@ -94,10 +92,10 @@ class FilterUtils:
     
         return const_str
 
-    def has_filters(self):
+    def has_filters(self) -> bool:
         return True if len(self.get_filters()) > 0 else False
 
-    async def filtered_name(self, original_name):
+    async def filtered_name(self, original_name: str) -> str:
         fltrs = self.get_filters()
         add_filters = []
         remove_filters = []
@@ -132,7 +130,7 @@ class FilterUtils:
         return original_name
 
 
-async def filter_controller(client, msg, is_edit=False):
+async def filter_controller(client: Client, msg: types.MessageEntity, is_edit: bool = False) -> None:
     user_id = msg.from_user.id
     fsu = FilterUtils(user_id)
     ufilters = fsu.get_filters()
@@ -156,7 +154,7 @@ async def filter_controller(client, msg, is_edit=False):
 fltr_add = Trans.FILTERS_INTRO
 
 
-async def filter_interact(client, msg):
+async def filter_interact(client, msg: types.MessageEntity) -> None:
     # fltr type
     data = msg.data.split(" ")
     

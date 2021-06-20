@@ -40,7 +40,7 @@ async def rename_handler(client: Client, msg: Message) -> None:
     await ExecutorManager().create_maneuver(RenameManeuver(client, rep_msg, msg))
 
 
-def term_handler(signum, frame):
+def term_handler(signum: int, frame: int) -> None:
     ExecutorManager().stop()
 
 
