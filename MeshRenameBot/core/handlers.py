@@ -9,6 +9,7 @@ from ..maneuvers.ExecutorManager import ExecutorManager
 from ..maneuvers.Rename import RenameManeuver
 from ..utils.c_filter import filter_controller, filter_interact
 from ..utils.user_input import interactive_input
+from .thumb_manage import handle_set_thumb, handle_get_thumb, handle_clr_thumb
 
 renamelog = logging.getLogger(__name__)
 
@@ -25,6 +26,9 @@ def add_handlers(client: Client) -> None:
     client.add_handler(MessageHandler(rename_handler, filters.regex("/rename", re.IGNORECASE)))
     client.add_handler(CallbackQueryHandler(cancel_this, filters.regex("cancel", re.IGNORECASE)))
     client.add_handler(MessageHandler(filter_controller, filters.regex("/filters", re.IGNORECASE)))
+    client.add_handler(MessageHandler(handle_set_thumb, filters.regex("/setthumb", re.IGNORECASE)))
+    client.add_handler(MessageHandler(handle_get_thumb, filters.regex("/getthumb", re.IGNORECASE)))
+    client.add_handler(MessageHandler(handle_clr_thumb, filters.regex("/clrthumb", re.IGNORECASE)))
     client.add_handler(CallbackQueryHandler(filter_interact, filters.regex("fltr", re.IGNORECASE)))
 
     signal.signal(signal.SIGINT, term_handler)
