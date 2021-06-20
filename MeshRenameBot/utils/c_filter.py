@@ -224,7 +224,7 @@ async def filter_interact(client, msg):
         if data[2] == "replace":
             # Replace Filter Logic
 
-            fltm = "Send the msg in this format. <code>what to replace | what to replace with</code> or /ignore to go back."
+            fltm = "Send the msg in this format. <code>what to replace | what to replace with</code> or /ignore to go back.\nNote that sapce after and before '|' will be considered."
             await msg.message.edit_text(fltm,reply_markup=None)
             
             inob = userin(client)
@@ -242,7 +242,7 @@ async def filter_interact(client, msg):
             
                 else:
                     valg = valg.split("|",2)
-                    success_add = "\nAdded the Replace filter successfully. <code>{}</code> will be replaced with <code>{}</code>.".format(valg[0], valg[1])
+                    success_add = "\nAdded the Replace filter successfully. <code>'{}'</code> will be replaced with <code>'{}'</code>.".format(valg[0], valg[1])
                     fsu.add_filer(FilterUtils.REPLACE_FILTER,valg[0],valg[1])
                     
                     await msg.message.edit_text(fltr_add + success_add, reply_markup=markup1)

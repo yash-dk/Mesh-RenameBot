@@ -11,8 +11,10 @@ logging.basicConfig(
     )
 logging.getLogger("pyrogram").setLevel(logging.ERROR)
 
+#TODO Add a alert for an extra space recorded 
+
 if __name__ == "__main__":
-    
+
     rbot = MeshRenameBot("MeshRenameBot", get_var("API_ID"), get_var("API_HASH"), bot_token=get_var("BOT_TOKEN"), workers=200)
     excm = ExecutorManager()
     add_handlers(rbot)

@@ -8,7 +8,7 @@ import logging
 import signal
 from pyrogram.file_id import FileId
 from ..utils.progress_for_pyro import progress_for_pyrogram
-from ..translations.trans import get_trans
+from ..translations.trans import Trans
 from ..maneuvers.ExecutorManager import ExecutorManager
 from ..maneuvers.Rename import RenameManeuver
 from ..utils.c_filter import filter_controller, filter_interact
@@ -35,7 +35,7 @@ def add_handlers(client: Client) -> None:
     signal.signal(signal.SIGTERM, term_handler)
 
 async def start_handler(client: Client, msg: Message) -> None:
-    await msg.reply(get_trans("START_MSG"), quote=True)
+    await msg.reply(Trans.START_MSG, quote=True)
 
 
 async def rename_handler(client: Client, msg: Message) -> None:
@@ -48,4 +48,4 @@ def term_handler(signum, frame):
 async def cancel_this(client: Client, msg: Message) -> None:
     data = str(msg.data).split(" ")
     ExecutorManager().canceled_uids.append(int(data[1]))
-    await msg.answer(get_trans("CANCEL_MESSAGE"), show_alert=True)
+    await msg.answer(Trans.CANCEL_MESSAGE, show_alert=True)
