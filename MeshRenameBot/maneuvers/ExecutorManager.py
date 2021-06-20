@@ -2,6 +2,7 @@ import asyncio
 from ..core.get_config import get_var
 from .Executor import Executor
 
+
 class ExecutorManager:
     maneuvers_queue = asyncio.Queue(maxsize=0)
     active_executors = []
@@ -25,4 +26,3 @@ class ExecutorManager:
 
     def stop(self):
         self.close_executors()
-    

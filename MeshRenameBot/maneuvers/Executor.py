@@ -33,7 +33,7 @@ class Executor():
 
             await asyncio.sleep(3)
         
-        #renamelog.debug("Started stopped with id {workerid} successfully".format(workerid=self.workerid))
+        # renamelog.debug("Started stopped with id {workerid} successfully".format(workerid=self.workerid))
     
     def stop(self):
         if self._current_maneuver is not None:

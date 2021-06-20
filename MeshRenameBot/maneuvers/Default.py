@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from pyrogram import Client
 from pyrogram.types import Message
 
+
 class DefaultManeuver(ABC):
     def __init__(self, client: Client, media_message: Message, cmd_message: Message):
         self._client = client
@@ -11,8 +12,8 @@ class DefaultManeuver(ABC):
         self._chat_id = cmd_message.chat.id
         self._unique_id = 0
 
-        self._canceled = False # Track the cancel status
-        self._halt = False # Track if the maneuver is halted [not implemented]
+        self._canceled = False  # Track the cancel status
+        self._halt = False  # Track if the maneuver is halted [not implemented]
     
     @property
     def sender_id(self):
@@ -39,7 +40,3 @@ class DefaultManeuver(ABC):
     @property
     def is_canceled(self):
         return self._canceled
-
-    
-
-
