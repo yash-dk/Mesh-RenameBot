@@ -15,6 +15,8 @@ class EnTrans:
     RENAME_CANCEL = "Cancel this rename."
 
     RENAMING_FILE = "Renaming the file currently hold on."
+    
+    DL_RENAMING_FILE = "Downloading the file currently hold on."
 
     RENAME_ERRORED_REPORT = "The download was errored. Report this error."
 
