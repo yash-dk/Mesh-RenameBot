@@ -156,3 +156,41 @@ class UserDB(DataBaseHandle):
 
         self.ccur(cur)
         return True
+
+    MODE_SAME_AS_SENT = 0
+    MODE_AS_DOCUMENT = 1
+    MODE_AS_GMEDIA = 2
+
+    def set_mode(self, mode: int, user_id: int) -> None:
+        user_id = str(user_id)
+        sql = "SELECT * FROM ttk_users WHERE user_id=%s"
+        cur = self.scur(dictcur=True)
+
+        cur.execute(sql, (user_id,))
+        
+        if cur.rowcount > 0:
+            insql = "UPDATE ttk_users SET file_choice = %s where user_id=%s"
+            cur.execute(insql, (mode, user_id))
+            
+        else:
+            insql = "INSERT INTO ttk_users(user_id, file_choice) VALUES(%s, %s)"
+            cur.execute(insql, (user_id, mode))
+
+        self.ccur(cur)
+
+    def get_mode(self, user_id: int) -> int:
+        user_id = str(user_id)
+        sql = "SELECT * FROM ttk_users WHERE user_id=%s"
+        cur = self.scur(dictcur=True)
+
+        cur.execute(sql, (user_id,))
+
+        if cur.rowcount > 0:
+            row = cur.fetchone()
+            self.ccur(cur)
+
+            return row["file_choice"]
+        else:
+            self.ccur(cur)
+            self.set_mode(self.MODE_SAME_AS_SENT, user_id)
+            return self.MODE_SAME_AS_SENT

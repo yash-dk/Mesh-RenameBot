@@ -4,6 +4,8 @@ from PIL import Image
 import os
 import asyncio
 
+#TODO trans pending
+
 async def adjust_image(path: str) -> Union[str, None]:
     try:
         im = Image.open(path)

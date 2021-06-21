@@ -10,6 +10,7 @@ from ..maneuvers.Rename import RenameManeuver
 from ..utils.c_filter import filter_controller, filter_interact
 from ..utils.user_input import interactive_input
 from .thumb_manage import handle_set_thumb, handle_get_thumb, handle_clr_thumb
+from .mode_select import upload_mode
 
 renamelog = logging.getLogger(__name__)
 
@@ -29,6 +30,7 @@ def add_handlers(client: Client) -> None:
     client.add_handler(MessageHandler(handle_set_thumb, filters.regex("/setthumb", re.IGNORECASE)))
     client.add_handler(MessageHandler(handle_get_thumb, filters.regex("/getthumb", re.IGNORECASE)))
     client.add_handler(MessageHandler(handle_clr_thumb, filters.regex("/clrthumb", re.IGNORECASE)))
+    client.add_handler(MessageHandler(upload_mode, filters.regex("/mode", re.IGNORECASE)))
     client.add_handler(CallbackQueryHandler(filter_interact, filters.regex("fltr", re.IGNORECASE)))
 
     signal.signal(signal.SIGINT, term_handler)
@@ -52,3 +54,4 @@ async def cancel_this(client: Client, msg: Message) -> None:
     data = str(msg.data).split(" ")
     ExecutorManager().canceled_uids.append(int(data[1]))
     await msg.answer(Trans.CANCEL_MESSAGE, show_alert=True)
+
