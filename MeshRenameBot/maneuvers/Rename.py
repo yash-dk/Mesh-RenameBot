@@ -39,7 +39,7 @@ class RenameManeuver(DefaultManeuver):
                     await self._cmd_message.reply_text(Trans.RENAME_NO_FILTER_MATCH)
                     return
 
-                await self._cmd_message.reply_text(Trans.RENAME_FILTER_MATCH_USED)
+                await self._cmd_message.reply_text(Trans.RENAME_FILTER_MATCH_USED + f"\nFile name:- {new_file_name}")
             else:
                 await self._cmd_message.reply_text(Trans.RENAME_NOFLTR_NONAME)
                 return
