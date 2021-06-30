@@ -29,7 +29,7 @@ class RenameManeuver(DefaultManeuver):
         if self._media_message is None:
             await self._cmd_message.reply(Trans.REPLY_TO_MEDIA)
             return
-        elif self._media_message.media is None:
+        elif not self._media_message.media:
             await self._cmd_message.reply(Trans.REPLY_TO_MEDIA)
             return
         
