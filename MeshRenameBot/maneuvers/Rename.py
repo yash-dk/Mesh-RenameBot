@@ -26,6 +26,13 @@ class RenameManeuver(DefaultManeuver):
         self._fltr_obj = FilterUtils(cmd_message.from_user.id)
 
     async def execute(self) -> None:
+        if self._media_message is None:
+            await self._cmd_message.reply(Trans.REPLY_TO_MEDIA)
+            return
+        elif self._media_message.media is None:
+            await self._cmd_message.reply(Trans.REPLY_TO_MEDIA)
+            return
+        
         self._media_message.from_user = self._cmd_message.from_user
 
         try:

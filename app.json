@@ -1,0 +1,10 @@
+{
+    "name": "Mesh Rename Bot",
+    "description": "This bot is aimed to be the best rename bot around.",
+    "keywords": [
+      "rename bot",
+      "telegram"
+    ],
+    "success_url": "https://t.me/TorToolkit",
+    "website": "https://github.com/yash-dk/Mesh-RenameBot",
+    "repository": "https://github.com/yash-dk/Mesh-RenameBot",
