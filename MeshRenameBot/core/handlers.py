@@ -10,7 +10,7 @@ from ..maneuvers.Rename import RenameManeuver
 from ..utils.c_filter import filter_controller, filter_interact
 from ..utils.user_input import interactive_input
 from .thumb_manage import handle_set_thumb, handle_get_thumb, handle_clr_thumb
-from .mode_select import upload_mode
+from .mode_select import upload_mode, mode_callback
 
 renamelog = logging.getLogger(__name__)
 
@@ -32,6 +32,7 @@ def add_handlers(client: Client) -> None:
     client.add_handler(MessageHandler(handle_clr_thumb, filters.regex("/clrthumb", re.IGNORECASE)))
     client.add_handler(MessageHandler(upload_mode, filters.regex("/mode", re.IGNORECASE)))
     client.add_handler(CallbackQueryHandler(filter_interact, filters.regex("fltr", re.IGNORECASE)))
+    client.add_handler(CallbackQueryHandler(mode_callback, filters.regex("mode", re.IGNORECASE)))
 
     signal.signal(signal.SIGINT, term_handler)
     signal.signal(signal.SIGTERM, term_handler)
