@@ -13,7 +13,8 @@ from ..maneuvers.ExecutorManager import ExecutorManager
 from ..utils.c_filter import FilterUtils
 from pyrogram.file_id import FileId
 from ..translations.trans import Trans
-
+from hachoir.metadata import extractMetadata
+from hachoir.parser import createParser
 # Diff File
 
 renamelog = logging.getLogger(__name__)
@@ -35,12 +36,29 @@ class RenameManeuver(DefaultManeuver):
         
         self._media_message.from_user = self._cmd_message.from_user
 
+        is_video = False
+        is_audio = False
+
+        if self._media_message.video is not None:
+            is_video = True
+        elif self._media_message.audio is not None or self._media_message.voice is not None:
+            is_audio = True
+
         try:
             new_file_name = self._cmd_message.text.split(" ", 1)[1]
         except Exception as e:
             print(e)
             if self._fltr_obj.has_filters():
-                original_file_name = self._media_message.document.file_name
+                
+                if self._media_message.document is not None:
+                    original_file_name = self._media_message.document.file_name
+                elif self._media_message.video is not None:
+                    original_file_name = self._media_message.video.file_name
+                elif self._media_message.audio is not None or self._media_message.voice is not None:
+                    original_file_name = self._media_message.audio.file_name
+                else:
+                    original_file_name = "no_name"
+                
                 new_file_name = await self._fltr_obj.filtered_name(original_file_name)
                 if original_file_name == new_file_name:
                     await self._cmd_message.reply_text(Trans.RENAME_NO_FILTER_MATCH)
@@ -84,8 +102,9 @@ class RenameManeuver(DefaultManeuver):
         await asyncio.sleep(1)
 
         
-        renamelog.debug("file size " + str(self._media_message.document.file_size))
+        renamelog.debug("file size " + str(os.path.getsize(dl_path)))
         udb = UserDB()
+
         thumb_path = udb.get_thumbnail(self._media_message.from_user.id)
         if thumb_path is False:
             thumb_path = None
@@ -108,37 +127,103 @@ class RenameManeuver(DefaultManeuver):
             ndl_path = os.path.join(os.path.dirname(dl_path), new_file_name)
             os.rename(dl_path,ndl_path)
             
-            rmsg = await self._client.send_document(
-                self._cmd_message.chat.id,
-                ndl_path,
-                thumb=thumb_path,
-                force_document=is_force,
-                progress=progress_for_pyrogram,
-                progress_args=(
-                    f"Uploading the file {new_file_name}",
-                    progress,
-                    time.time(),
-                    get_var("SLEEP_SECS"),
-                    self._client,
-                    self._unique_id,
-                    markup
+            
+            renamelog.info(f"Is force {is_force} is audio {is_audio} is video {is_video}")
+            if is_audio and not is_force:
+                try:
+                    metadata = extractMetadata(createParser(ndl_path))
+                    duration = 0
+                    perfo = ""
+                    if metadata.has("duration"):
+                        duration = metadata.get('duration').seconds
+                    if metadata.has("author"):
+                        perfo = metadata.get('author')
+                except:
+                    duration = 0
+                    perfo = ""
+                
+                rmsg = await self._client.send_audio(
+                    self._cmd_message.chat.id,
+                    ndl_path,
+                    duration=duration,
+                    performer=perfo,
+                    thumb=thumb_path,
+                    progress=progress_for_pyrogram,
+                    progress_args=(
+                        f"Uploading the file {new_file_name}",
+                        progress,
+                        time.time(),
+                        get_var("SLEEP_SECS"),
+                        self._client,
+                        self._unique_id,
+                        markup
+                    )
                 )
-            )
+            
+            elif is_video and not is_force:
+                try:
+                    metadata = extractMetadata(createParser(thumb_path))
+                    if metadata.has("width"):
+                        width = metadata.get("width")
+                    if metadata.has("height"):
+                        height = metadata.get("height")
+                    if metadata.has("duration"):
+                        duration = metadata.get('duration').seconds
+                except:
+                    width = 0
+                    height = 0
+                    duration = 0
+
+                rmsg = await self._client.send_video(
+                    self._cmd_message.chat.id,
+                    ndl_path,
+                    duration=duration,
+                    width=width,
+                    height=height,
+                    thumb=thumb_path,
+                    progress=progress_for_pyrogram,
+                    progress_args=(
+                        f"Uploading the file {new_file_name}",
+                        progress,
+                        time.time(),
+                        get_var("SLEEP_SECS"),
+                        self._client,
+                        self._unique_id,
+                        markup
+                    )
+                )
+            
+            else:
+                rmsg = await self._client.send_document(
+                    self._cmd_message.chat.id,
+                    ndl_path,
+                    thumb=thumb_path,
+                    force_document=is_force,
+                    progress=progress_for_pyrogram,
+                    progress_args=(
+                        f"Uploading the file {new_file_name}",
+                        progress,
+                        time.time(),
+                        get_var("SLEEP_SECS"),
+                        self._client,
+                        self._unique_id,
+                        markup
+                    )
+                )
             if rmsg is None:
                 await progress.edit_text("Upload Cancled by the user.")
             else:
                 await progress.edit_text("Rename process Done.")
-            rem_this(thumb_path)
-            rem_this(dl_path)
-            rem_this(ndl_path)
-            return
+            
+            await asyncio.sleep(2) 
         except:
-            rem_this(dl_path)
-            rem_this(ndl_path)
-            rem_this(thumb_path)
             renamelog.exception("Errored while uplading the file.")
             await progress.edit_text("Rename process errored.")
             return
+
+        rem_this(thumb_path)
+        rem_this(ndl_path)
+        rem_this(dl_path)
         
         
 
@@ -146,4 +231,5 @@ def rem_this(path):
     try:
         os.remove(path)
     except:
-        renamelog.info("Errored while removeing the file.")
+        print(path)
+        renamelog.exception("Errored while removeing the file.")
