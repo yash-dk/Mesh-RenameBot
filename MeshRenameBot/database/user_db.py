@@ -23,7 +23,7 @@ class UserDB(DataBaseHandle):
         table = """CREATE TABLE IF NOT EXISTS ttk_users(
             id SERIAL PRIMARY KEY NOT NULL,
             user_id VARCHAR(50) NOT NULL,
-            json_data VARCHAR(1000) NOT NULL, --Keeping it as json so that it flexible to add stuff.
+            json_data VARCHAR(1000) NULL, --Keeping it as json so that it flexible to add stuff.
             thumbnail BYTEA DEFAULT NULL,
             is_premium SMALLINT NOT NULL DEFAULT 0,
             tasks_count INTEGER NOT NULL DEFAULT 0,
