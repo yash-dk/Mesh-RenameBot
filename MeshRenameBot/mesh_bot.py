@@ -29,4 +29,26 @@ renamelog = logging.getLogger(__name__)
 
 
 class MeshRenameBot(Client):
-    ...
+    async def get_file_id(self, message):
+        available_media = ("audio", "document", "photo", "sticker", "animation", "video", "voice", "video_note",
+                           "new_chat_photo")
+
+        if isinstance(message, types.Message):
+            for kind in available_media:
+                media = getattr(message, kind, None)
+
+                if media is not None:
+                    break
+            else:
+                raise ValueError("This message doesn't contain any downloadable media")
+        else:
+            media = message
+
+        if isinstance(media, str):
+            file_id_str = media
+        else:
+            file_id_str = media.file_id
+
+        file_id_obj = FileId.decode(file_id_str)
+        
+        return file_id_obj

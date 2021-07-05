@@ -135,10 +135,15 @@ class RenameManeuver(DefaultManeuver):
             if is_audio and not is_force:
                 try:
                     metadata = extractMetadata(createParser(ndl_path))
-                    duration = 0
+                    
                     perfo = ""
-                    if metadata.has("duration"):
-                        duration = metadata.get('duration').seconds
+
+                    duration = self._media_message.video.duration
+                    
+                    if duration == 0:
+                        if metadata.has("duration"):
+                            duration = metadata.get('duration').seconds
+                    
                     if metadata.has("author"):
                         perfo = metadata.get('author')
                 except:
@@ -170,8 +175,13 @@ class RenameManeuver(DefaultManeuver):
                         width = metadata.get("width")
                     if metadata.has("height"):
                         height = metadata.get("height")
-                    if metadata.has("duration"):
-                        duration = metadata.get('duration').seconds
+                    
+                    metadata = extractMetadata(createParser(ndl_path))
+                    duration = self._media_message.video.duration
+                    
+                    if duration == 0:
+                        if metadata.has("duration"):
+                            duration = metadata.get('duration').seconds
                 except:
                     width = 0
                     height = 0
