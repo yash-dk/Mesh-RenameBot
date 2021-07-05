@@ -6,6 +6,7 @@ from .Default import DefaultManeuver
 
 class ExecutorManager:
     maneuvers_queue = asyncio.Queue(maxsize=0)
+    all_maneuvers_log = []
     active_executors = []
     canceled_uids = []
 
@@ -24,6 +25,7 @@ class ExecutorManager:
 
     async def create_maneuver(self, maneuver: DefaultManeuver) -> None:
         await self.maneuvers_queue.put(maneuver)
+        self.all_maneuvers_log.append(maneuver)
 
     def stop(self) -> None:
         self.close_executors()

@@ -28,7 +28,12 @@ class Executor():
                 await self.maneuvers_queue.put(maneuver)
             else:
                 self._current_maneuver = maneuver
-                await maneuver.execute()
+                try:
+                    await maneuver.execute()
+                    maneuver.done()
+                except:
+                    maneuver.done()
+                    renamelog.exception("Execute failed")
                 self._current_maneuver = None
 
             await asyncio.sleep(3)

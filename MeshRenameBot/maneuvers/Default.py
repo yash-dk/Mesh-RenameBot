@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from pyrogram import Client
+import re
+from pyrogram import Client, raw
 from pyrogram.types import Message
 
 
@@ -14,6 +15,8 @@ class DefaultManeuver(ABC):
 
         self._canceled = False  # Track the cancel status
         self._halt = False  # Track if the maneuver is halted [not implemented]
+        self._execute_pending = True
+        self._done = False
     
     @property
     def sender_id(self) -> int:
@@ -33,10 +36,28 @@ class DefaultManeuver(ABC):
     def halt(self) -> None:
         self._halt = True
 
+    def done(self) -> None:
+        self._done = True
+
     @property
     def is_halted(self) -> bool:
         return self._halt
 
     @property
+    def is_executing(self) -> bool:
+        if not self._done and not self._execute_pending:
+            return True
+        else:
+            return False
+
+    @property
+    def is_pending(self) -> bool:
+        return self._execute_pending
+
+    @property
     def is_canceled(self) -> bool:
         return self._canceled
+
+    @property
+    def is_done(self) -> bool:
+        return self._done
