@@ -39,9 +39,19 @@ class RenameManeuver(DefaultManeuver):
         is_video = False
         is_audio = False
 
+        mime = ""
+        try:
+            mime = self._media_message.document.mime_type.split("/")[0]
+        except:
+            pass
+
         if self._media_message.video is not None:
             is_video = True
         elif self._media_message.audio is not None or self._media_message.voice is not None:
+            is_audio = True
+        elif mime == "video":
+            is_video = True
+        elif mime == "audio":
             is_audio = True
 
         try:
