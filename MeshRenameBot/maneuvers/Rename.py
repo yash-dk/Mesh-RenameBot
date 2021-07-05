@@ -136,9 +136,10 @@ class RenameManeuver(DefaultManeuver):
         try:
             thumb_path = await get_thumbnail(dl_path, self._cmd_message.from_user.id, is_force)
         except:
-            renamelog.exception("in error")
+            renamelog.exception("Thumb error")
             thumb_path = None
-        print(thumb_path)
+        
+        renamelog.info(thumb_path)
         renamelog.info(f"is force = {is_force}")
         await progress.edit_text("Downloading Done Now renaming.", reply_markup=None)        
 
