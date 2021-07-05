@@ -200,6 +200,7 @@ class RenameManeuver(DefaultManeuver):
                         if metadata.has("duration"):
                             duration = metadata.get('duration').seconds
                 except:
+                    renamelog.exception("in here")
                     width = 0
                     height = 0
                     duration = 0
