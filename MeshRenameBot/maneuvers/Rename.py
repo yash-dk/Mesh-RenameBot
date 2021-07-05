@@ -13,6 +13,7 @@ from ..maneuvers.ExecutorManager import ExecutorManager
 from ..utils.c_filter import FilterUtils
 from pyrogram.file_id import FileId
 from ..translations.trans import Trans
+from ..core.thumb_manage import get_thumbnail
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 # Diff File
@@ -118,9 +119,7 @@ class RenameManeuver(DefaultManeuver):
         renamelog.debug("file size " + str(os.path.getsize(dl_path)))
         udb = UserDB()
 
-        thumb_path = udb.get_thumbnail(self._media_message.from_user.id)
-        if thumb_path is False:
-            thumb_path = None
+        
         mode_choice = udb.get_mode(self._media_message.from_user.id)
         is_force = False
 
@@ -133,6 +132,12 @@ class RenameManeuver(DefaultManeuver):
             is_force = True
         else:
             is_force = False
+        
+        try:
+            thumb_path = await get_thumbnail(dl_path, self._cmd_message.from_user.id, is_force)
+        except:
+            thumb_path = None
+
         renamelog.info(f"is force = {is_force}")
         await progress.edit_text("Downloading Done Now renaming.", reply_markup=None)        
 
