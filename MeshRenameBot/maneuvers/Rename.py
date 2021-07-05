@@ -155,7 +155,10 @@ class RenameManeuver(DefaultManeuver):
                     
                     perfo = ""
 
-                    duration = self._media_message.video.duration
+                    if self._media_message.audio is not None:
+                        duration = self._media_message.audio.duration
+                    else:
+                        duration = 0
                     
                     if duration == 0:
                         if metadata.has("duration"):
@@ -194,7 +197,10 @@ class RenameManeuver(DefaultManeuver):
                         height = metadata.get("height")
                     
                     metadata = extractMetadata(createParser(ndl_path))
-                    duration = self._media_message.video.duration
+                    if self._media_message.video is not None:
+                        duration = self._media_message.video.duration
+                    else:
+                        duration = 0
                     
                     if duration == 0:
                         if metadata.has("duration"):
