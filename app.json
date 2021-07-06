@@ -5,6 +5,65 @@
       "rename bot",
       "telegram"
     ],
-    "success_url": "https://t.me/TorToolkit",
+    "success_url": "https://t.me/MeshBots",
     "website": "https://github.com/yash-dk/Mesh-RenameBot",
     "repository": "https://github.com/yash-dk/Mesh-RenameBot",
+    "stack": "heroku-20",
+    "env": {
+        "API_HASH": {
+            "description": "Input your API HASH from Telegram."
+        },
+        "API_ID": {
+            "description": "Input your API ID from Telegram."
+        },
+        "BOT_TOKEN": {
+            "description": "Telegram Bot Token."
+        },
+        "COMPLETED_STR": {
+            "description": "The symbol that represents the completed part of progress.",
+            "required": false
+        },
+        "REMAINING_STR": {
+            "description": "The symbol that represents the remaining part of progress.",
+            "required": false
+        },
+        "MAX_QUEUE_SIZE": {
+            "description": "Max rename to perform simultaneously.",
+            "required": false
+        },
+        "SLEEP_SECS": {
+            "description": "Wait in between edits of the progress update.",
+            "required": false
+        },
+        "IS_MONGO": {
+            "description": "Is the database URL provided MONGO DB.",
+            "required": false
+        }
+    },
+
+    "addons": [
+        {
+            "plan": "heroku-postgresql",
+            "options": {
+              "version": "12"
+            },
+            "as": "DB_URI"
+        }
+    ],
+
+    "buildpacks": [
+      {
+        "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"
+      },
+      {
+        "url": "heroku/python"
+      }
+    ],
+
+    "formation": {
+        "worker": {
+            "quantity": 1,
+            "size": "free"
+        }
+    }
+}
