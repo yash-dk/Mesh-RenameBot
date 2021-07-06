@@ -2,7 +2,7 @@
 
 This bot has a concept of filters which allows to auto-rename the files. This bot is aimed to be the best rename bot around. 
 
-### This is a beta release. Report the errors/features.
+## This is a beta release. Report the errors/features.
 Use of filters is easy just do what the bot says.
 
 # Features
@@ -15,6 +15,15 @@ Use of filters is easy just do what the bot says.
  - These features will be included if users are there for this repo.
  - [ ] Rename tasks resume after reboot.
  - [ ] More Admin Control and Dump channel.
+
+# Filters Explained
+Filter can be added using the /filter.
+- ## Addition Filter
+  - This filter will add the given text to the left or right of the file name.
+- ## Remove Filter
+  - This filter will remove the given text if it is present at all in the file name.
+- ## Replace
+  - This filter will replace the specific text with the new text.
 
 # Variables
 
@@ -44,6 +53,7 @@ Use of filters is easy just do what the bot says.
 
 `FORCEJOIN_ID` - ID of the chat for which is specified in `FORCEJOIN`.
 
+`TRACE_CHANNEL` - ID of the channel to which the track of the uses is sent who are using the bot. Put 0 for no tracking.
 
 # Commands
 `/start` - Check if the bot is running.
@@ -62,6 +72,8 @@ Use of filters is easy just do what the bot says.
 - Same format as it was sent. [If doc is sent doc is uploaded if video is sent video is uploaded.]
 - Force to Document. [Everything is uploaded as a file.]
 - Upload general media. [In streamable video/audio. etc.]
+
+`/queue` - Gives the state of your rename and the load on bot.
 
 # Credits
 [Me](https://github.com/yash-dk)
