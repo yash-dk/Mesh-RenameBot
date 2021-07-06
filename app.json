@@ -21,23 +21,53 @@
         },
         "COMPLETED_STR": {
             "description": "The symbol that represents the completed part of progress.",
-            "required": false
+            "required": false,
+            "value": "▰"
         },
         "REMAINING_STR": {
             "description": "The symbol that represents the remaining part of progress.",
-            "required": false
+            "required": false,
+            "value": "▱"
         },
         "MAX_QUEUE_SIZE": {
-            "description": "Max rename to perform simultaneously.",
-            "required": false
+            "description": "Max rename to perform simultaneously. int(number)",
+            "required": false,
+            "value": 5
         },
         "SLEEP_SECS": {
-            "description": "Wait in between edits of the progress update.",
-            "required": false
+            "description": "Wait in between edits of the progress update.  int(number)",
+            "required": false,
+            "value": 10
         },
         "IS_MONGO": {
             "description": "Is the database URL provided MONGO DB.",
-            "required": false
+            "required": false,
+            "value": false
+        },
+        "IS_PRIVATE": {
+            "description": "Is this bot for private use? true/false",
+            "required": false,
+            "value": false
+        },
+        "OWNER_ID": {
+            "description": "ID of the owner.",
+            "required": false,
+            "value": 0
+        },
+        "FORCEJOIN": {
+            "description": "Enter the user name(with @) or invite link of the chat that the use should join. Keep blank to disable.",
+            "required": false,
+            "value": ""
+        },
+        "FORCEJOIN_ID": {
+            "description": "ID of the chat for which is specified in FORCEJOIN.",
+            "required": false,
+            "value": -100123465978
+        },
+        "TRACE_CHANNEL": {
+            "description": "ID of the channel to which the track of the uses is sent who are using the bot. Put 0 for no tracking.",
+            "required": false,
+            "value": 0
         }
     },
 
