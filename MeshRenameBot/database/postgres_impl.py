@@ -13,9 +13,9 @@ class UserDB(DataBaseHandle):
     def __init__(self, dburl: str = None) -> None:
 
         if dburl is None:
-            dburl = os.environ.get("DB_URI", None)
+            dburl = os.environ.get("DATABASE_URL", None)
             if dburl is None:
-                dburl = get_var("DB_URI")
+                dburl = get_var("DATABASE_URL")
 
         super().__init__(dburl)
         cur = self.scur()

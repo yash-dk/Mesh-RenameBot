@@ -66,8 +66,7 @@
             "plan": "heroku-postgresql",
             "options": {
               "version": "12"
-            },
-            "as": "DB_URI"
+            }
         }
     ],
 
