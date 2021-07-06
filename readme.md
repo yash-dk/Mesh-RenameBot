@@ -37,6 +37,8 @@ Filter can be added using the /filter.
 
 # Variables
 
+update the config.py file inside the MeshRenameBot to change the config and commands.
+
 `DB_URI` - Database URL. Mongo or Postgres DB URL.
 
 `API_HASH` - Telegram API HASH.
