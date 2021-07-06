@@ -12,3 +12,4 @@ except ImportError:
         REMAINING_STR = [str, "▱"]
         MAX_QUEUE_SIZE = [int, 5]
         SLEEP_SECS = [int, 10]
+        IS_MONGO = [bool, False]

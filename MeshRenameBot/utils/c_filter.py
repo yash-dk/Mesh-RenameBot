@@ -41,16 +41,24 @@ class FilterUtils:
             if first_param is not None:
                 data = self._user_db.get_var("filters", user_id)
                 
-                jdata = json.loads(data)
-                jdata[str(time.time()).replace(".", "")] = [ftype, first_param]
+                if data is None:
+                    jdata = {}
+                    jdata[str(time.time()).replace(".", "")] = [ftype, first_param]
+                else:
+                    jdata = json.loads(data)
+                    jdata[str(time.time()).replace(".", "")] = [ftype, first_param]
                 
                 self._user_db.set_var("filters", json.dumps(jdata), user_id)
         elif ftype == self.ADDITION_FILTER:
             if first_param is not None and second_param is not None:
                 data = self._user_db.get_var("filters", user_id)
                 
-                jdata = json.loads(data)
-                jdata[str(time.time()).replace(".", "")] = [ftype, first_param, second_param]
+                if data is None:
+                    jdata = {}
+                    jdata[str(time.time()).replace(".", "")] = [ftype, first_param, second_param]
+                else:
+                    jdata = json.loads(data)
+                    jdata[str(time.time()).replace(".", "")] = [ftype, first_param, second_param]
                 
                 self._user_db.set_var("filters", json.dumps(jdata), user_id)
 
