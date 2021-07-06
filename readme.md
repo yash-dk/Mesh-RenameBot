@@ -5,11 +5,16 @@ This bot has a concept of filters which allows to auto-rename the files. This bo
 ## This is a beta release. Report the errors/features.
 Use of filters is easy just do what the bot says.
 
+### If any issue/doubt file issue.
+
 # Features
  - Auto Rename files with the help of filters.
  - Permanent Thumbnail support.
  - 3 Different upload modes.
  - Queue implement to maintain consistent speed across rename tasks.
+ - Supports both Mongo and Postgres DB.
+ - Track user activity.
+ - Force join for the user for use.
 
 # Upcoming Features
  - These features will be included if users are there for this repo.
@@ -27,7 +32,7 @@ Filter can be added using the /filter.
 
 # Variables
 
-`DB_URI` - Database URL.
+`DB_URI` - Database URL. Mongo or Postgres DB URL.
 
 `API_HASH` - Telegram API HASH.
 
