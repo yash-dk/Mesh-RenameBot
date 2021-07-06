@@ -16,6 +16,11 @@ Use of filters is easy just do what the bot says.
  - Track user activity.
  - Force join for the user for use.
 
+# Deploy to Heroku
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/yash-dk/Mesh-RenameBot)
+
+
 # Upcoming Features
  - These features will be included if users are there for this repo.
  - [ ] Rename tasks resume after reboot.
