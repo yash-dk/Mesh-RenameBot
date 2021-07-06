@@ -1,27 +1,7 @@
-from pyrogram import Client, raw, utils, StopTransmission, types
-from pyrogram.file_id import FileId, FileType, ThumbnailSource
-from pyrogram.session import Auth, Session
-from pyrogram.errors import (
-    SessionPasswordNeeded,
-    VolumeLocNotFound, ChannelPrivate,
-    AuthBytesInvalid, BadRequest, FilePartMissing
-)
-from pyrogram.crypto import aes
-from hashlib import sha256
-from asyncio import Queue
-from hashlib import md5
-from pathlib import PurePath
-from typing import Union, List, Optional
-
-import os
-import tempfile
-import asyncio
-import functools
-import inspect
-import io
+from pyrogram import Client, types
+from pyrogram.file_id import FileId
 import logging
-import math
-import os
+from MeshRenameBot.core.get_config import get_var
 
 renamelog = logging.getLogger(__name__)
 
@@ -52,3 +32,11 @@ class MeshRenameBot(Client):
         file_id_obj = FileId.decode(file_id_str)
         
         return file_id_obj
+
+    async def send_track(self, text_mess):
+        track_channel = get_var("TRACE_CHANNEL")
+        if track_channel != 0:
+            try:
+                await self.send_message(track_channel, text_mess)
+            except:
+                renamelog.exception("Make Sure to enter the Track Channel ID correctly.")

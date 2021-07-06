@@ -58,6 +58,10 @@ async def rename_handler(client: Client, msg: Message) -> None:
         Media ID:- {file_id.media_id}
         """
         await msg.reply_text(rmsg)
+    
+    track_msg = f'Added Rename Task\n\nUsername: @{msg.from_user.username}\n\nUsername: {msg.from_user.mention(style="md")}\n\n'
+    track_msg += f'UserID: `{msg.from_user.id}`\n'
+    await client.send_track(track_msg)
     await asyncio.sleep(2)
     await ExecutorManager().create_maneuver(RenameManeuver(client, rep_msg, msg))
     
