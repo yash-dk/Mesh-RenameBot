@@ -69,6 +69,10 @@ class UserDB(DataBaseHandle):
             if cur.rowcount > 0:
                 user = cur.fetchone()
                 jdata = user.get("json_data")
+                
+                if jdata is None:
+                    return None
+                
                 jdata = json.loads(jdata)
                 self.shared_users[user_id] = jdata
                 return jdata.get(var)
@@ -93,7 +97,12 @@ class UserDB(DataBaseHandle):
             if cur.rowcount > 0:
                 user = cur.fetchone()
                 jdata = user.get("json_data")
-                jdata = json.loads(jdata)
+
+                if jdata is None:
+                    jdata = {}
+                else:
+                    jdata = json.loads(jdata)
+                
                 jdata[var] = value
                 self.shared_users[user_id] = jdata
             else:
