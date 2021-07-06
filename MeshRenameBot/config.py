@@ -37,3 +37,4 @@ except ImportError:
         CLR_THUMB = "/clrthumb"
         QUEUE = "/queue"
         MODE = "/mode"
+        HELP = "/help"

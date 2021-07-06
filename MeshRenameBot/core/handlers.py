@@ -38,6 +38,7 @@ def add_handlers(client: Client) -> None:
     client.add_handler(MessageHandler(handle_clr_thumb, filters.regex(Commands.CLR_THUMB, re.IGNORECASE)))
     client.add_handler(MessageHandler(handle_queue, filters.regex(Commands.QUEUE, re.IGNORECASE)))
     client.add_handler(MessageHandler(upload_mode, filters.regex(Commands.MODE, re.IGNORECASE)))
+    client.add_handler(MessageHandler(help_str, filters.regex(Commands.HELP, re.IGNORECASE)))
     client.add_handler(CallbackQueryHandler(cancel_this, filters.regex("cancel", re.IGNORECASE)))
     client.add_handler(CallbackQueryHandler(filter_interact, filters.regex("fltr", re.IGNORECASE)))
     client.add_handler(CallbackQueryHandler(mode_callback, filters.regex("mode", re.IGNORECASE)))
@@ -70,7 +71,8 @@ async def rename_handler(client: Client, msg: Message) -> None:
     await asyncio.sleep(2)
     await ExecutorManager().create_maneuver(RenameManeuver(client, rep_msg, msg))
     
-
+async def help_str(client: Client, msg: Message) -> None:
+    await msg.reply_text(Trans.HELP_STR,quote=True)
 
 def term_handler(signum: int, frame: int) -> None:
     ExecutorManager().stop()

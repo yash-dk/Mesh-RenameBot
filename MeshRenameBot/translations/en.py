@@ -2,8 +2,8 @@ class EnTrans:
     
     WRONG_VALUE_ERROR = "Invalid value entered for {} variable."
     
-    START_MSG = "Hello there, I am Mesh Rename Bot."
-    
+    START_MSG = "Hello there, I am Mesh Rename Bot. Open Source at https://github.com/yash-dk/Mesh-RenameBot/tree/master. You can deploy your own."
+     
     CANCEL_MESSAGE = "The rename has been cancled. Will be updated soon."
     
     RENAME_NO_FILTER_MATCH = "NO FILTER MATCHED ABORTING RENAME \nUsing the filters to Rename. As no name was specified. Manage your Filters using /filters."
@@ -72,3 +72,17 @@ from the while file name.
     REMOVE_FILTER_INIT_MSG = "Enter the text that you want to remove or /ignore to go back."
 
     REMOVE_FILTER_SUCCESS = "Added the Remove filter successfully. <code>{}</code> will be removed."
+
+    HELP_STR = """
+`/start` - Check if the bot is running.
+`/rename` - Reply to media to rename `/rename filename.extension`. If only `/rename` is used filters will be used.
+`/filters` - Add/Remove Filters. Use this command to see what are these.
+`/setthumb` - Reply to image to set the thumbnail permanently.
+`/getthumb` - Get the thumbnail which is currently set.
+`/clrthumb` - Remove the thumbnail which is set.
+`/mode` - Change between 3 modes:-
+    - Same format as it was sent. [If doc is sent doc is uploaded if video is sent video is uploaded.]
+    - Force to Document. [Everything is uploaded as a file.]
+    - Upload general media. [In streamable video/audio. etc.]
+`/queue` - Gives the state of your rename and the load on bot.
+    """
