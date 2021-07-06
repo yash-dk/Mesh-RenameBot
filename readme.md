@@ -80,6 +80,10 @@ Filter can be added using the /filter.
 
 `/queue` - Gives the state of your rename and the load on bot.
 
+# For VPS Deploy
+- Install ffmpeg an python.
+- Run the bot using `python3 -m MeshRenameBot` or `python -m MeshRenameBot`
+
 # Credits
 [Me](https://github.com/yash-dk)
 
