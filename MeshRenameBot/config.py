@@ -13,3 +13,26 @@ except ImportError:
         MAX_QUEUE_SIZE = [int, 5]
         SLEEP_SECS = [int, 10]
         IS_MONGO = [bool, False]
+
+        # Access Restriction
+        IS_PRIVATE = [bool, False]
+        AUTH_USERS = [list,[123456789]]
+        OWNER_ID = [int, 0]
+
+        # Username for public and invite link for private
+        FORCEJOIN = [str,""]
+        FORCEJOIN_ID = [int,-100123465978]
+
+
+try:
+    from .tconfig import Commands
+except ImportError:
+    class Commands:
+        START = "/start"
+        RENAME = "/rename"
+        FILTERS = "/filters"
+        SET_THUMB = "/setthumb"
+        GET_THUMB = "/gethumb"
+        CLR_THUMB = "/clrthumb"
+        QUEUE = "/queue"
+        MODE = "/mode"

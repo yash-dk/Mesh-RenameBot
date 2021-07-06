@@ -13,7 +13,6 @@ Use of filters is easy just do what the bot says.
 
 # Upcoming Features
  - These features will be included if users are there for this repo.
- - [ ] Settings Menu for easier managing.
  - [ ] Rename tasks resume after reboot.
  - [ ] More Admin Control and Dump channel.
 
@@ -34,6 +33,17 @@ Use of filters is easy just do what the bot says.
 `MAX_QUEUE_SIZE` - Max simultaneous renames. 5 is recommended can be increased.
 
 `SLEEP_SECS` - Seconds to sleep before edit. 10 is recommended can be increased.
+
+`IS_PRIVATE` - Is the bot for private use.
+
+`AUTH_USERS` - ID of the users that are allowed to use the bot. It works only when `IS_PRIVATE` is True.
+
+`OWNER_ID` - ID of the owner.
+
+`FORCEJOIN` - Enter the user name(with @) or invite link of the chat that the use should join. Keep blank to disable.
+
+`FORCEJOIN_ID` - ID of the chat for which is specified in `FORCEJOIN`.
+
 
 # Commands
 `/start` - Check if the bot is running.
