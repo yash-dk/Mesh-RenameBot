@@ -73,6 +73,8 @@ from the while file name.
 
     REMOVE_FILTER_SUCCESS = "Added the Remove filter successfully. <code>{}</code> will be removed."
 
+    REPLY_TO_MEDIA = "Reply /rename to a media file."
+
     HELP_STR = """
 `/start` - Check if the bot is running.
 `/rename` - Reply to media to rename `/rename filename.extension`. If only `/rename` is used filters will be used.
