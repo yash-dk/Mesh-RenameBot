@@ -16,6 +16,7 @@ from ..utils.user_input import interactive_input
 from .thumb_manage import handle_set_thumb, handle_get_thumb, handle_clr_thumb
 from .mode_select import upload_mode, mode_callback
 from ..config import Commands
+from ..translations.trans import Trans
 
 renamelog = logging.getLogger(__name__)
 
@@ -51,6 +52,10 @@ async def start_handler(client: Client, msg: Message) -> None:
 
 async def rename_handler(client: Client, msg: Message) -> None:
     rep_msg = msg.reply_to_message
+        
+    if rep_msg is None:
+        await msg.reply_text(Trans.REPLY_TO_MEDIA,quote=True)
+    
     file_id = await client.get_file_id(rep_msg)
     if file_id is not None:
         rmsg = f"""Added the Rename to queue.
