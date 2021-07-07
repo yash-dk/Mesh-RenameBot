@@ -31,6 +31,8 @@ class DefaultManeuver(ABC):
         raise NotImplementedError("Not implemented the method execute from the calling class.")
     
     def cancel(self) -> None:
+        self._execute_pending = False
+        self._done = True
         self._canceled = True
     
     def halt(self) -> None:
