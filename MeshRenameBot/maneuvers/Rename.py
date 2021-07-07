@@ -28,6 +28,8 @@ class RenameManeuver(DefaultManeuver):
         self._fltr_obj = FilterUtils(cmd_message.from_user.id)
 
     async def execute(self) -> None:
+        self._execute_pending = False
+
         if self._media_message is None:
             await self._cmd_message.reply(Trans.REPLY_TO_MEDIA, quote=True)
             return

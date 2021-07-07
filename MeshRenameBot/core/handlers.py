@@ -101,7 +101,7 @@ async def handle_queue(client: Client, msg: Message) -> None:
     from_id = msg.from_user.id
     max_size = get_var("MAX_QUEUE_SIZE")
 
-    fmsg = f"Total Tasks in Queue:- {q_len}\nCapacity{max_size}\nCurrently Executing{currently_exec}\n\n"
+    fmsg = f"Total Tasks in Queue:- {q_len}\nCapacity:- {max_size}\nCurrently Executing:- {currently_exec}\n\n"
 
     j = 1
     for i in EM.all_maneuvers_log:
