@@ -20,7 +20,7 @@ class MeshRenameBot(Client):
                 if media is not None:
                     break
             else:
-                raise ValueError("This message doesn't contain any downloadable media")
+                return None
         else:
             media = message
 
