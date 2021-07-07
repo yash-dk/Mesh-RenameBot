@@ -31,10 +31,10 @@ class RenameManeuver(DefaultManeuver):
         self._execute_pending = False
 
         if self._media_message is None:
-            await self._cmd_message.reply(Trans.REPLY_TO_MEDIA, quote=True)
+            await self._cmd_message.reply_text(Trans.REPLY_TO_MEDIA, quote=True)
             return
         elif not self._media_message.media:
-            await self._cmd_message.reply(Trans.REPLY_TO_MEDIA, quote=True)
+            await self._cmd_message.reply_text(Trans.REPLY_TO_MEDIA, quote=True)
             return
         
         self._media_message.from_user = self._cmd_message.from_user
