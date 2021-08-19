@@ -63,7 +63,7 @@ update the config.py file inside the MeshRenameBot to change the config and comm
 
 `OWNER_ID` - ID of the owner.
 
-`FORCEJOIN` - Enter the user name(with @) or invite link of the chat that the use should join. Keep blank to disable.
+`FORCEJOIN` - Enter the public username url or invite link of private chat for that the user should join chat. Keep blank to disable.
 
 `FORCEJOIN_ID` - ID of the chat for which is specified in `FORCEJOIN`.
 
