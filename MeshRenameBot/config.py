@@ -33,7 +33,7 @@ except ImportError:
         RENAME = "/rename"
         FILTERS = "/filters"
         SET_THUMB = "/setthumb"
-        GET_THUMB = "/gethumb"
+        GET_THUMB = "/getthumb"
         CLR_THUMB = "/clrthumb"
         QUEUE = "/queue"
         MODE = "/mode"
