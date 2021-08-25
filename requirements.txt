@@ -6,3 +6,4 @@ psycopg2-binary
 pillow
 hachoir
 pymongo
+dnspython
