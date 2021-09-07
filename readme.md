@@ -97,7 +97,7 @@ update the config.py file inside the MeshRenameBot to change the config and comm
 - Run the bot using `python3 -m MeshRenameBot` or `python -m MeshRenameBot`
 
 # Credits
-[Me](https://github.com/yash-dk)
-Thanks To All [Contributors](https://github.com/yash-dk/Mesh-RenameBot/graphs/contributors)
-[Dan for Pyrogram](https://github.com/pyrogram/pyrogram)
+- [Me](https://github.com/yash-dk)
+- Thanks To All [Contributors](https://github.com/yash-dk/Mesh-RenameBot/graphs/contributors)
+- [Dan for Pyrogram](https://github.com/pyrogram/pyrogram)
 
