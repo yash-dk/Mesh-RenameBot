@@ -19,7 +19,7 @@ except ImportError:
         AUTH_USERS = [list,[123456789]]
         OWNER_ID = [int, 0]
 
-        # Username for public and invite link for private
+        # Public username url or invite link of private chat
         FORCEJOIN = [str,""]
         FORCEJOIN_ID = [int,-100123465978]
 
@@ -33,7 +33,7 @@ except ImportError:
         RENAME = "/rename"
         FILTERS = "/filters"
         SET_THUMB = "/setthumb"
-        GET_THUMB = "/gethumb"
+        GET_THUMB = "/getthumb"
         CLR_THUMB = "/clrthumb"
         QUEUE = "/queue"
         MODE = "/mode"
