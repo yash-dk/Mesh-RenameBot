@@ -22,10 +22,6 @@ Use of filters is easy just do what the bot says.
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/yash-dk/Mesh-RenameBot)
 
-# Deploy to Railway
-
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template?template=https%3A%2F%2Fgithub.com%2Fyash-dk%2FMesh-RenameBot&envs=API_ID%2CAPI_HASH%2CBOT_TOKEN%2CTRACE_CHANNEL%2COWNER_ID%2CIS_PRIVATE%2CDATABASE_URL%2CFORCEJOIN%2CFORCEJOIN_ID&optionalEnvs=TRACE_CHANNEL%2COWNER_ID%2CIS_PRIVATE%2CFORCEJOIN%2CFORCEJOIN_ID&API_IDDesc=Input+your+API+ID+from+Telegram.&API_HASHDesc=Input+your+API+HASH+from+Telegram.&BOT_TOKENDesc=Telegram+Bot+Token.&TRACE_CHANNELDesc=ID+of+the+channel+to+which+the+track+of+the+uses+is+sent+who+are+using+the+bot.+Put+0+for+no+tracking.&OWNER_IDDesc=ID+of+the+owner&IS_PRIVATEDesc=Is+this+bot+for+private+use%3F+true%2Ffalse&DATABASE_URLDesc=Don%27t+Change+it&FORCEJOINDesc=Enter+the+user+name%28with+%40%29+or+invite+link+of+the+chat+that+the+use+should+join.+Keep+blank+to+disable.&FORCEJOIN_IDDesc=ID+of+the+chat+for+which+is+specified+in+FORCEJOIN.&DATABASE_URLDefault=postgres%3A%2F%2Fsgzceaejldyjsd%3Af8d20ac34fd1f9d5be13a357b54411d7b83c3e667ffca45f9fc33e5351a977ca%40ec2-75-101-212-64.compute-1.amazonaws.com%3A5432%2Fd7j78efd3qdni9)
-
 # Upcoming Features
  - These features will be included if users are there for this repo.
  - [ ] Rename tasks resume after reboot.
