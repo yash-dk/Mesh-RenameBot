@@ -98,6 +98,6 @@ update the config.py file inside the MeshRenameBot to change the config and comm
 
 # Credits
 [Me](https://github.com/yash-dk)
-Thanks To All [Contributors](https://github.com/yash-dk/Mesh-RenameBot/graphs/contributors).
+Thanks To All [Contributors](https://github.com/yash-dk/Mesh-RenameBot/graphs/contributors)
 [Dan for Pyrogram](https://github.com/pyrogram/pyrogram)
 
