@@ -125,7 +125,7 @@ async def intercept_handler(client: Client, msg: Message) -> None:
                 return
         except UserNotParticipant:
             forcejoin = get_var("FORCEJOIN")
-            await msg.reply_text("Join the given chat in order to use this bot.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Join Updates Channel", url=f"{forcejoin}")]]),parse_mode="markdown"))
+            await msg.reply_text("Join the given chat in order to use this bot.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Join Updates Channel", url=f"{forcejoin}")]]),parse_mode="markdown")
             return
         except ChatAdminRequired:
             renamelog.error("The bot is not the admin in the chat make it admin first.")
