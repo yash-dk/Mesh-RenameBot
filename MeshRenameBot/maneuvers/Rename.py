@@ -114,8 +114,8 @@ class RenameManeuver(DefaultManeuver):
             return
         
         if dl_path is None:
-            renamelog.info(f"Download Cancled.")
-            await progress.edit_text("Download Cancled.")
+            renamelog.info(f"Download Canceled.")
+            await progress.edit_text("Download Canceled.")
             return
         
         renamelog.info(f"Download complete to {dl_path}")
