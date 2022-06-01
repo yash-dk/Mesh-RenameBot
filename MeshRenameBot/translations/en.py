@@ -2,7 +2,7 @@ class EnTrans:
     
     WRONG_VALUE_ERROR = "Invalid value entered for {} variable."
     
-    START_MSG = "Hello there, I am Mesh Rename Bot. Open Source at https://github.com/yash-dk/Mesh-RenameBot/tree/master. You can deploy your own."
+    START_MSG = "Hello there {Username} ,<b>I am Rei Suzukawa</b> a renamer bot."
      
     CANCEL_MESSAGE = "The rename has been canceled. Will be updated soon."
     
