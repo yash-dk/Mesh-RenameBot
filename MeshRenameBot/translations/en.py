@@ -2,7 +2,7 @@ class EnTrans:
     
     WRONG_VALUE_ERROR = "Invalid value entered for {} variable."
     
-    START_MSG = "Hello There {mentionUser} ,I Am 𝚁𝚎𝚒 𝚂𝚞𝚣𝚞𝚔𝚊𝚠𝚊 A Renamer Bot.\n\n⎆Owner-sama ⨭ @cant_think_one</n> <button onclick="document.location='https://t.me/goated_hentai'">Hentai Goated</button>"
+    START_MSG = "Hello There {mentionUser} ,I Am 𝚁𝚎𝚒 𝚂𝚞𝚣𝚞𝚔𝚊𝚠𝚊 A Renamer Bot.\n\n⎆Owner-sama ⨭ @cant_think_one</n>"
      
     CANCEL_MESSAGE = "The rename has been canceled. Will be updated soon."
     
