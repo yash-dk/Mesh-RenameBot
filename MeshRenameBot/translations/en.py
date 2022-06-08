@@ -1,17 +1,10 @@
 import os
-from telethon import Button
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 class EnTrans:
     
     WRONG_VALUE_ERROR = "Invalid value entered for {} variable."
     
     START_MSG = "Hello There  ,I Am <a href='https://telegra.ph/file/b10b0620a1129844a2bc8.jpg'> 𝚁𝚎𝚒 𝚂𝚞𝚣𝚞𝚔𝚊𝚠𝚊 </a>A Renamer Bot."
-    START_MSG =  InlineKeyboardMarkup([
-		[InlineKeyboardButton('⚡ Developer ⚡', url='https://t.me/TharukRenuja'),
-		 InlineKeyboardButton(' Owner ', url='https://t.me/Violetadvance')],
-		[InlineKeyboardButton('💠 Help', callback_data='help'),
-		 InlineKeyboardButton('Close ✖️', callback_data='close')]
-    ])
     CANCEL_MESSAGE = "The rename has been canceled. Will be updated soon."
     
     RENAME_NO_FILTER_MATCH = "NO FILTER MATCHED ABORTING RENAME \nUsing the filters to Rename. As no name was specified. Manage your Filters using /filters."
