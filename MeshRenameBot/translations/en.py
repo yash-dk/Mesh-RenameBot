@@ -4,7 +4,7 @@ class EnTrans:
     
     WRONG_VALUE_ERROR = "Invalid value entered for {} variable."
     
-    START_MSG = "ʜᴇʏ ᴘᴇʀᴠᴇʀᴛ💋, ɪ ᴀᴍ<a href='https://telegra.ph/file/8ede136cf5acc96cb15d1.jpg'> Rҽι Sυȥυƙυɯα</a>.\nɪ ᴄᴀɴ'ᴛ ᴡᴀɪᴛ ᴛᴏ ʀᴇɴᴀᴍᴇ ʏᴏᴜʀ ᴠɪᴅᴇᴏ ꜰɪʟᴇꜱ, ᴊᴜꜱᴛ ᴜꜱᴇ ᴍᴇ ᴀʟʀᴇᴀᴅʏ"
+    START_MSG = "ʜᴇʏ ᴘᴇʀᴠᴇʀᴛ💋, ɪ ᴀᴍ Rҽι Sυȥυƙυɯα.\nɪ ᴄᴀɴ'ᴛ ᴡᴀɪᴛ ᴛᴏ ʀᴇɴᴀᴍᴇ ʏᴏᴜʀ ᴠɪᴅᴇᴏ ꜰɪʟᴇꜱ, ᴊᴜꜱᴛ ᴜꜱᴇ ᴍᴇ ᴀʟʀᴇᴀᴅʏ."
     
     CANCEL_MESSAGE = "The rename has been canceled. Will be updated soon."
     
