@@ -11,7 +11,7 @@ class EnTrans:
 		 InlineKeyboardButton(' Owner ', url='https://t.me/Violetadvance')],
 		[InlineKeyboardButton('💠 Help', callback_data='help'),
 		 InlineKeyboardButton('Close ✖️', callback_data='close')]
-     
+    ])
     CANCEL_MESSAGE = "The rename has been canceled. Will be updated soon."
     
     RENAME_NO_FILTER_MATCH = "NO FILTER MATCHED ABORTING RENAME \nUsing the filters to Rename. As no name was specified. Manage your Filters using /filters."
