@@ -4,7 +4,8 @@ class EnTrans:
     
     WRONG_VALUE_ERROR = "Invalid value entered for {} variable."
     
-    START_MSG = "Hello There {}  ,I Am <a href='https://telegra.ph/file/e5a1a8aee6c4bf494cda1.jpg'>𝚁𝚎𝚒 𝚂𝚞𝚣𝚞𝚔𝚊𝚠𝚊</a> A Renamer Bot."
+    START_MSG = "ʜᴇʏ ᴘᴇʀᴠᴇʀᴛ💋, ɪ ᴀᴍ<a href='https://telegra.ph/file/8ede136cf5acc96cb15d1.jpg'> Rҽι Sυȥυƙυɯα</a>.\nɪ ᴄᴀɴ'ᴛ ᴡᴀɪᴛ ᴛᴏ ʀᴇɴᴀᴍᴇ ʏᴏᴜʀ ᴠɪᴅᴇᴏ ꜰɪʟᴇꜱ, ᴊᴜꜱᴛ ᴜꜱᴇ ᴍᴇ ᴀʟʀᴇᴀᴅʏ"
+    
     CANCEL_MESSAGE = "The rename has been canceled. Will be updated soon."
     
     RENAME_NO_FILTER_MATCH = "NO FILTER MATCHED ABORTING RENAME \nUsing the filters to Rename. As no name was specified. Manage your Filters using /filters."
