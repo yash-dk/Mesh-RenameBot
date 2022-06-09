@@ -5,7 +5,7 @@ class EnTrans:
     
     WRONG_VALUE_ERROR = "Invalid value entered for {} variable."
     
-    START_MSG = "<i>Hey</i> ,<i>I Am A Renamer Bot.My Master Call Me</i> <a href='https://telegra.ph/file/b29946355866f9845e5db.jpg'>Rҽι</a>.\n
+    START_MSG = "<i>Hey</i> ,<i>I Am A Renamer Bot.My Master Call Me</i> <a href='https://telegra.ph/file/b29946355866f9845e5db.jpg'>Rҽι</a>\n
               replymarkup = InlineKeyboardMarkup([
 		[InlineKeyboardButton('⭕️Mega URl Downloader Bot⭕️', url='http://t.me/Chizuru_Ichinose_xbot'),
 		 InlineKeyboardButton('Owner', url='https://t.me/Violetadvance')],
