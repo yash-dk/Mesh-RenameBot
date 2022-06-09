@@ -141,7 +141,7 @@ class UserDB(MongoDB):
         
         
         if res.count() > 0:
-            row = res[0]
+            row = res(0)
             
             
             if row["file_choice"] is None:
