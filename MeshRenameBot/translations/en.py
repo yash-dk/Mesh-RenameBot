@@ -4,7 +4,7 @@ class EnTrans:
     
     WRONG_VALUE_ERROR = "Invalid value entered for {} variable."
     
-    START_MSG = "<i>Hey {}, I Am A Renamer Bot.My Master Call Me</i> <a href='https://telegra.ph/file/df0129d7a13cc7fb2bf76.jpg'>Rҽι</a>.\n."
+    START_MSG = "<i>Hey</i> {}, <i>I Am A Renamer Bot.My Master Call Me</i> <a href='https://telegra.ph/file/df0129d7a13cc7fb2bf76.jpg'>Rҽι</a>.\n."
     
     CANCEL_MESSAGE = "The rename has been canceled. Will be updated soon."
     
