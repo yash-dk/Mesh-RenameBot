@@ -1,5 +1,4 @@
 import os
-from telethon import Button 
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 class EnTrans:
     
