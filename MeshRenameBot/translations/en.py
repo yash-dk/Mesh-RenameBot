@@ -1,6 +1,19 @@
+"""Importing"""
+# Importing External Packages
+from pyrogram import (
+    Client,
+    filters
+)
+from pyrogram.types import (
+    Update,
+    Message,
+    CallbackQuery,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup
 import os
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 class EnTrans:
+    fromUser = msg.from_user
     mentionUser = f"<a href='tg://user?id={fromUser.id}'>{fromUser.first_name}</a>"
     WRONG_VALUE_ERROR = "Invalid value entered for {} variable."
     
