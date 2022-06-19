@@ -1,6 +1,5 @@
 import os
 class EnTrans:
-    fromUser = Message.from_user
     mentionUser = f"<a href='tg://user?id=<user_id>'</a>"
     WRONG_VALUE_ERROR = "Invalid value entered for {} variable."
     
