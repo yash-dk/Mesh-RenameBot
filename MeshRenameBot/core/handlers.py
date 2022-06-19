@@ -50,9 +50,9 @@ def add_handlers(client: Client) -> None:
 async def start_handler(client: Client, msg: Message) -> None:
     await msg.reply(Trans.START_MSG, quote=True)
     reply_markup = InlineKeyboardMarkup([
-		[InlineKeyboardButton('My Master', url='http://t.me/assistant_kagut_xbot'),
-		 InlineKeyboardButton('Support Group', url='https://t.me/+Pl1QbQFEGR03OThh')]
-
+		[InlineKeyboardButton('My Master', url='http://t.me/assistant_kagut_xbot')]
+		 [InlineKeyboardButton('Support Group', url='https://t.me/+Pl1QbQFEGR03OThh')]
+    ])
 
 async def rename_handler(client: Client, msg: Message) -> None:
     rep_msg = msg.reply_to_message
