@@ -11,10 +11,6 @@ class EnTrans:
     
     START_MSG = """
     𝐇𝐞𝐲, 𝐈 𝐀𝐦 𝐀 𝐑𝐞𝐧𝐚𝐦𝐞𝐫 𝐁𝐨𝐭.𝐌𝐲 𝐌𝐚𝐬𝐭𝐞𝐫 𝐂𝐚𝐥𝐥 𝐌𝐞 𝐑𝐞𝐢<a href='https://telegra.ph/file/752202a74137ca11ddca3.jpg'>😺</a>.
-     reply_markup = InlineKeyboardMarkup([
-		[InlineKeyboardButton('My Master', url='t.me/assistant_kagut_xbot')]
-		 [InlineKeyboardButton('Support Group', url='t.me/+Pl1QbQFEGR03OThh')]
-    ])
 """
 	
     CANCEL_MESSAGE = "The rename has been canceled. Will be updated soon."
