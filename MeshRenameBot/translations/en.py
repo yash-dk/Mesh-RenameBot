@@ -1,4 +1,3 @@
-from user import first_name
 import os
 class EnTrans:
     fromUser = Message.from_user
