@@ -10,8 +10,8 @@ from pyrogram.types import (
     CallbackQuery,
     InlineKeyboardButton,
     InlineKeyboardMarkup
+)
 import os
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 class EnTrans:
     fromUser = msg.from_user
     mentionUser = f"<a href='tg://user?id={fromUser.id}'>{fromUser.first_name}</a>"
