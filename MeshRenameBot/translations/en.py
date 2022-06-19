@@ -13,7 +13,7 @@ from pyrogram.types import (
 )
 import os
 class EnTrans:
-    fromUser = msg.from_user
+    fromUser = Message.from_user
     mentionUser = f"<a href='tg://user?id={fromUser.id}'>{fromUser.first_name}</a>"
     WRONG_VALUE_ERROR = "Invalid value entered for {} variable."
     
