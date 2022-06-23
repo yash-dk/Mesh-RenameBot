@@ -156,7 +156,7 @@ class RenameManeuver(DefaultManeuver):
             
             renamelog.info(f"Is force {is_force} is audio {is_audio} is video {is_video}")
             
-            new_file_name="**"+new_file_name+"**"  # Bold caption
+            new_file_name="<i>"+new_file_name+"</i>"  # Bold caption
             
             if is_audio and not is_force:
                 try:
