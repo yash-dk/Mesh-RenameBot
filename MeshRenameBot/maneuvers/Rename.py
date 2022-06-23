@@ -24,7 +24,7 @@ renamelog = logging.getLogger(__name__)
 class RenameManeuver(DefaultManeuver):
     def __init__(self, client: Client, media_message: Message, cmd_message: Message) -> None:
         super().__init__(client, media_message, cmd_message)
-        self._unique_id = int(str(cmd_message.chat.id) + str(cmd_message.message_id))
+        self._unique_id = int(str(cmd_message.chat.id) + str(cmd_message.reply_to_message_id))
         self._fltr_obj = FilterUtils(cmd_message.from_user.id)
 
     async def execute(self) -> None:
@@ -156,7 +156,7 @@ class RenameManeuver(DefaultManeuver):
             
             renamelog.info(f"Is force {is_force} is audio {is_audio} is video {is_video}")
             
-            new_file_name="**"+new_file_name+"**"  # Bold caption
+            new_file_name="**<em>"+new_file_name+"</em>**"  # em caption
             
             if is_audio and not is_force:
                 try:

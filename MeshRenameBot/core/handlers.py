@@ -50,7 +50,6 @@ def add_handlers(client: Client) -> None:
 async def start_handler(client: Client, msg: Message) -> None:
     await msg.reply(Trans.START_MSG, quote=True)
 
-
 async def rename_handler(client: Client, msg: Message) -> None:
     rep_msg = msg.reply_to_message
         
@@ -125,7 +124,7 @@ async def intercept_handler(client: Client, msg: Message) -> None:
                 return
         except UserNotParticipant:
             forcejoin = get_var("FORCEJOIN")
-            await msg.reply_text("Join the given chat in order to use this bot.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Join Updates Channel", url=f"{forcejoin}")]]),parse_mode="markdown")
+            await msg.reply_text("Join the given chat in order to use this bot.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Hentai Goated", url=f"{forcejoin}")]]))
             return
         except ChatAdminRequired:
             renamelog.error("The bot is not the admin in the chat make it admin first.")

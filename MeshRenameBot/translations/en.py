@@ -1,9 +1,18 @@
+from pyrogram.types import (
+    Update,
+    Message,
+    CallbackQuery,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup
+)
+import os
 class EnTrans:
-    
     WRONG_VALUE_ERROR = "Invalid value entered for {} variable."
     
-    START_MSG = "Hello there, I am Mesh Rename Bot. Open Source at https://github.com/yash-dk/Mesh-RenameBot/tree/master. You can deploy your own."
-     
+    START_MSG = """
+    𝐇𝐞𝐲, 𝐈 𝐀𝐦 𝐀 𝐑𝐞𝐧𝐚𝐦𝐞𝐫 𝐁𝐨𝐭.𝐌𝐲 𝐌𝐚𝐬𝐭𝐞𝐫 𝐂𝐚𝐥𝐥 𝐌𝐞 𝐑𝐞𝐢<a href='https://telegra.ph/file/752202a74137ca11ddca3.jpg'>😺</a>.
+"""
+	
     CANCEL_MESSAGE = "The rename has been canceled. Will be updated soon."
     
     RENAME_NO_FILTER_MATCH = "NO FILTER MATCHED ABORTING RENAME \nUsing the filters to Rename. As no name was specified. Manage your Filters using /filters."
