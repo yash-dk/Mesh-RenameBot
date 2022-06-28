@@ -269,16 +269,3 @@ class RenameManeuver(DefaultManeuver):
             renamelog.exception("Errored while uplading the file.")
             await progress.edit_text("Rename process errored.")
             return
-
-        rem_this(thumb_path)
-        rem_this(ndl_path)
-        rem_this(dl_path)
-        
-        
-
-def rem_this(path):
-    try:
-        os.remove(path)
-    except:
-        print(path)
-        renamelog.exception("Errored while removeing the file.")
