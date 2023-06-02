@@ -20,8 +20,8 @@ except ImportError:
         OWNER_ID = [int, @Saitama_OnePunchMan_0]
 
         # Public username url or invite link of private chat
-        FORCEJOIN = [str,"@anime_swordsmith"]
-        FORCEJOIN_ID = [int,-100123465978]
+        FORCEJOIN = [str,"@saitama_support_Channel"]
+        FORCEJOIN_ID = [int, -1001936973188]
 
         TRACE_CHANNEL = [int, 0]
 
