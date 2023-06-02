@@ -10,8 +10,8 @@ except ImportError:
         BOT_TOKEN = [str, "6140930579:AAH0Qb6g82KunV5clBl1HqgnmImBzP6EeXM"]
         COMPLETED_STR = [str, "▰"]
         REMAINING_STR = [str, "▱"]
-        MAX_QUEUE_SIZE = [int, 5]
-        SLEEP_SECS = [int, 10]
+        MAX_QUEUE_SIZE = [int, 50]
+        SLEEP_SECS = [int, 0]
         IS_MONGO = [bool, False]
 
         # Access Restriction
