@@ -1,11 +1,11 @@
 {
-    "name": "Mesh Rename Bot",
+    "name": "Saitama Rename Bot",
     "description": "This bot is aimed to be the best rename bot around.",
     "keywords": [
       "rename bot",
       "telegram"
     ],
-    "success_url": "https://t.me/MeshBots",
+    "success_url": "https://t.me/saitama_support_Channel",
     "website": "https://github.com/yash-dk/Mesh-RenameBot",
     "repository": "https://github.com/yash-dk/Mesh-RenameBot",
     "stack": "heroku-20",
