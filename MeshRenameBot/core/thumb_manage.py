@@ -12,6 +12,7 @@ import random
 from ..database.user_db import UserDB
 from hachoir.parser import createParser
 from hachoir.metadata import extractMetadata
+from pyrogram.types import Message
 
 #TODO trans pending
 
@@ -28,8 +29,12 @@ async def adjust_image(path: str) -> Union[str, None]:
     except Exception:
         return
 
-async def handle_set_thumb(client, msg):
+async def handle_set_thumb(client, msg: Message):
     original_message = msg.reply_to_message
+    if original_message is None:
+        await msg.reply_text("Reply to an image to set it as a thumbnail.", quote=True)
+        return
+    
     if original_message.photo is not None:
         path = await original_message.download()
         path = await adjust_image(path)
@@ -46,7 +51,8 @@ async def handle_set_thumb(client, msg):
     else:
         await msg.reply_text("Reply to an image to set it as a thumbnail.", quote=True)
 
-async def handle_get_thumb(client, msg):
+async def handle_get_thumb(client, msg: Message):
+    renamelog.info("Getting Thumbnail")
     thumb_path = UserDB().get_thumbnail(msg.from_user.id)
     if thumb_path is False:
         await msg.reply("No Thumbnail Found.", quote=True)
