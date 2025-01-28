@@ -1,8 +1,9 @@
 import asyncio
 import logging
-import os
 import time
+import os
 
+from aiofiles import os as aos
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 from pyrogram import Client, StopTransmission
@@ -102,7 +103,7 @@ class RenameManeuver(DefaultManeuver):
         try:
             progress = await self._media_message.reply(Trans.DL_RENAMING_FILE, quote=True, reply_markup=markup)
             dl_path = os.path.join("downloads/{}/".format(str(time.time()).replace(".","")))
-            os.makedirs(dl_path, exist_ok=True)
+            await aos.makedirs(dl_path, exist_ok=True)
             dl_path = await self._media_message.download(
                 file_name=dl_path,
                 progress=progress_for_pyrogram, 
@@ -131,7 +132,7 @@ class RenameManeuver(DefaultManeuver):
         await asyncio.sleep(1)
 
         
-        renamelog.debug("file size " + str(os.path.getsize(dl_path)))
+        renamelog.debug("file size " + str(await aos.path.getsize(dl_path)))
         udb = UserDB()
 
         
@@ -158,15 +159,11 @@ class RenameManeuver(DefaultManeuver):
         renamelog.info(f"is force = {is_force}")
         await progress.edit_text("Downloading Done Now renaming.", reply_markup=None)        
 
-        try:
-            ndl_path = os.path.join(os.path.dirname(dl_path), new_file_name)
-            os.rename(dl_path,ndl_path)
-            
-            
+        try:        
             renamelog.info(f"Is force {is_force} is audio {is_audio} is video {is_video}")
             if is_audio and not is_force:
                 try:
-                    metadata = extractMetadata(createParser(ndl_path))
+                    metadata = extractMetadata(createParser(dl_path))
                     
                     perfo = ""
 
@@ -187,7 +184,8 @@ class RenameManeuver(DefaultManeuver):
                 
                 rmsg = await self._client.send_audio(
                     self._cmd_message.chat.id,
-                    ndl_path,
+                    dl_path,
+                    file_name=new_file_name,
                     duration=duration,
                     performer=perfo,
                     thumb=thumb_path,
@@ -211,7 +209,7 @@ class RenameManeuver(DefaultManeuver):
                     if metadata.has("height"):
                         height = metadata.get("height")
                     
-                    metadata = extractMetadata(createParser(ndl_path))
+                    metadata = extractMetadata(createParser(dl_path))
                     if self._media_message.video is not None:
                         duration = self._media_message.video.duration
                     else:
@@ -228,7 +226,8 @@ class RenameManeuver(DefaultManeuver):
 
                 rmsg = await self._client.send_video(
                     self._cmd_message.chat.id,
-                    ndl_path,
+                    dl_path,
+                    file_name=new_file_name,
                     duration=duration,
                     width=width,
                     height=height,
@@ -248,7 +247,8 @@ class RenameManeuver(DefaultManeuver):
             else:
                 rmsg = await self._client.send_document(
                     self._cmd_message.chat.id,
-                    ndl_path,
+                    dl_path,
+                    file_name=new_file_name,
                     thumb=thumb_path,
                     force_document=is_force,
                     progress=progress_for_pyrogram,
@@ -273,15 +273,14 @@ class RenameManeuver(DefaultManeuver):
             await progress.edit_text("Rename process errored.")
             return
 
-        rem_this(thumb_path)
-        rem_this(ndl_path)
-        rem_this(dl_path)
-        
+        if thumb_path is not None:
+            await rem_this(thumb_path)
+        await rem_this(dl_path)
         
 
-def rem_this(path):
+async def rem_this(path):
     try:
-        os.remove(path)
+        await aos.remove(path)
     except:
         print(path)
         renamelog.exception("Errored while removeing the file.")
