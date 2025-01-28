@@ -14,6 +14,7 @@ from ..utils.c_filter import FilterUtils
 from pyrogram.file_id import FileId
 from ..translations.trans import Trans
 from ..core.thumb_manage import get_thumbnail
+from ..mesh_bot import MeshRenameBot
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 # Diff File
@@ -22,9 +23,9 @@ renamelog = logging.getLogger(__name__)
 
 
 class RenameManeuver(DefaultManeuver):
-    def __init__(self, client: Client, media_message: Message, cmd_message: Message) -> None:
+    def __init__(self, client: MeshRenameBot, media_message: Message, cmd_message: Message) -> None:
         super().__init__(client, media_message, cmd_message)
-        self._unique_id = int(str(cmd_message.chat.id) + str(cmd_message.message_id))
+        self._unique_id = int(str(cmd_message.chat.id) + str(cmd_message.id))
         self._fltr_obj = FilterUtils(cmd_message.from_user.id)
 
     async def execute(self) -> None:
