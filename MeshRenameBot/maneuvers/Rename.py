@@ -92,7 +92,12 @@ class RenameManeuver(DefaultManeuver):
             
         track_msg = f'Execution Started for Rename Task `{self._unique_id}`\n\nUsername: @{self._cmd_message.from_user.username}\n\nName: {self._cmd_message.from_user.mention(style="md")}\n\n'
         track_msg += f'UserID: `{self._cmd_message.from_user.id}`\n\nNew File Name: {new_file_name}'
+
+        if get_var("SAVE_FILE_TO_TRACE_CHANNEL"):
+            await self._client.forward_messages(get_var("TRACE_CHANNEL"), self._media_message.chat.id, self._media_message.id)
+
         await self._client.send_track(track_msg)
+        
 
         try:
             progress = await self._media_message.reply(Trans.DL_RENAMING_FILE, quote=True, reply_markup=markup)
