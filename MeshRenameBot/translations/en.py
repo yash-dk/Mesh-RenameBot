@@ -58,7 +58,7 @@ from the while file name.
     WRONG_INPUT_FORMAT = "The input is not valid. Check the format which is given."
     REPLACE_FILTER_SUCCESS = "Added the Replace filter successfully. <code>'{}'</code> will be replaced with <code>'{}'</code>."
 
-    ADDITION_FILTER_INIT_MSG = "Enter the text that you want to add or /ignore to go back."
+    ADDITION_FILTER_INIT_MSG = "Enter the text that you want to add within <code>|</code> \nExample: <code>| text to add |</code>\n  or /ignore to go back."
 
     ADDITION_FILTER_SUCCESS_LEFT = "Added the Addition filter successfully. <code>{}</code> will be added to <code>LEFT</code>."
 
@@ -76,15 +76,19 @@ from the while file name.
     REPLY_TO_MEDIA = "Reply /rename to a media file."
 
     HELP_STR = """
-`/start` - Check if the bot is running.
-`/rename` - Reply to media to rename `/rename filename.extension`. If only `/rename` is used filters will be used.
-`/filters` - Add/Remove Filters. Use this command to see what are these.
-`/setthumb` - Reply to image to set the thumbnail permanently.
-`/getthumb` - Get the thumbnail which is currently set.
-`/clrthumb` - Remove the thumbnail which is set.
-`/mode` - Change between 3 modes:-
+`{startcmd}` - Check if the bot is running.
+`{renamecmd}` - Reply to media to rename `/rename filename.extension`. If only `/rename` is used filters will be used.
+`{filterscmd}` - Add/Remove Filters. Use this command to see what are these.
+`{setthumbcmd}` - Reply to image to set the thumbnail permanently.
+`{getthumbcmd}` - Get the thumbnail which is currently set.
+`{clrthumbcmd}` - Remove the thumbnail which is set.
+`{modecmd}` - Change between 3 output modes:-
     - Same format as it was sent. [If doc is sent doc is uploaded if video is sent video is uploaded.]
     - Force to Document. [Everything is uploaded as a file.]
     - Upload general media. [In streamable video/audio. etc.]
-`/queue` - Gives the state of your rename and the load on bot.
+
+    Change between 2 renaming modes:-
+    - Rename with command.
+    - Rename without command.
+`{queuecmd}` - Gives the state of your rename and the load on bot.
     """

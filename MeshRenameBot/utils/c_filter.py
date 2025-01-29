@@ -151,7 +151,8 @@ async def filter_controller(client: Client, msg: types.MessageEntity, is_edit: b
     rmark = InlineKeyboardMarkup(
         [
             [InlineKeyboardButton(Trans.ADD_FLTR, "fltr add")],
-            [InlineKeyboardButton(Trans.RM_FLTR, "fltr remove")]
+            [InlineKeyboardButton(Trans.RM_FLTR, "fltr remove")],
+            [InlineKeyboardButton("Close", "close")]
         ]
     )
     if is_edit:
@@ -250,6 +251,7 @@ async def filter_interact(client, msg: types.MessageEntity) -> None:
                 inob = userin(client)
                 await msg.message.edit_text(Trans.ADDITION_FILTER_INIT_MSG, reply_markup=None)
                 valg = await inob.get_value(client, msg, del_msg=True)
+                valg = valg.strip("|")
                 if valg is None:
                     await msg.message.edit_text(fltr_add + "\n\n" + Trans.NO_INPUT_FROM_USER, reply_markup=markup1)
                 

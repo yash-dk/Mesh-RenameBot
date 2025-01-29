@@ -1,11 +1,12 @@
 from abc import ABC, abstractmethod
-import re
-from pyrogram import Client, raw
 from pyrogram.types import Message
+from ..mesh_bot import MeshRenameBot
 
 
 class DefaultManeuver(ABC):
-    def __init__(self, client: Client, media_message: Message, cmd_message: Message) -> None:
+    def __init__(
+        self, client: MeshRenameBot, media_message: Message, cmd_message: Message
+    ) -> None:
         self._client = client
         self._media_message = media_message
         self._cmd_message = cmd_message
@@ -17,7 +18,7 @@ class DefaultManeuver(ABC):
         self._halt = False  # Track if the maneuver is halted [not implemented]
         self._execute_pending = True
         self._done = False
-    
+
     @property
     def sender_id(self) -> int:
         return self._sender_id
@@ -28,13 +29,15 @@ class DefaultManeuver(ABC):
 
     @abstractmethod
     async def execute(self) -> None:
-        raise NotImplementedError("Not implemented the method execute from the calling class.")
-    
+        raise NotImplementedError(
+            "Not implemented the method execute from the calling class."
+        )
+
     def cancel(self) -> None:
         self._execute_pending = False
         self._done = True
         self._canceled = True
-    
+
     def halt(self) -> None:
         self._halt = True
 
