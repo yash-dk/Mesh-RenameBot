@@ -72,7 +72,19 @@ async def rename_handler(client: Client, msg: Message) -> None:
     await ExecutorManager().create_maneuver(RenameManeuver(client, rep_msg, msg))
     
 async def help_str(client: Client, msg: Message) -> None:
-    await msg.reply_text(Trans.HELP_STR,quote=True)
+    await msg.reply_text(
+        Trans.HELP_STR.format(
+            startcmd=Commands.START,
+            renamecmd=Commands.RENAME,
+            filterscmd=Commands.FILTERS,
+            setthumbcmd=Commands.SET_THUMB,
+            getthumbcmd=Commands.GET_THUMB,
+            clrthumbcmd=Commands.CLR_THUMB,
+            modecmd=Commands.MODE,
+            queuecmd=Commands.QUEUE
+        ),
+        quote=True
+    )
 
 def term_handler(signum: int, frame: int) -> None:
     ExecutorManager().stop()

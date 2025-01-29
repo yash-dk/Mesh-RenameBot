@@ -76,15 +76,15 @@ from the while file name.
     REPLY_TO_MEDIA = "Reply /rename to a media file."
 
     HELP_STR = """
-`/start` - Check if the bot is running.
-`/rename` - Reply to media to rename `/rename filename.extension`. If only `/rename` is used filters will be used.
-`/filters` - Add/Remove Filters. Use this command to see what are these.
-`/setthumb` - Reply to image to set the thumbnail permanently.
-`/getthumb` - Get the thumbnail which is currently set.
-`/clrthumb` - Remove the thumbnail which is set.
-`/mode` - Change between 3 modes:-
+`{startcmd}` - Check if the bot is running.
+`{renamecmd}` - Reply to media to rename `/rename filename.extension`. If only `/rename` is used filters will be used.
+`{filterscmd}` - Add/Remove Filters. Use this command to see what are these.
+`{setthumbcmd}` - Reply to image to set the thumbnail permanently.
+`{getthumbcmd}` - Get the thumbnail which is currently set.
+`{clrthumbcmd}` - Remove the thumbnail which is set.
+`{modecmd}` - Change between 3 modes:-
     - Same format as it was sent. [If doc is sent doc is uploaded if video is sent video is uploaded.]
     - Force to Document. [Everything is uploaded as a file.]
     - Upload general media. [In streamable video/audio. etc.]
-`/queue` - Gives the state of your rename and the load on bot.
+`{queuecmd}` - Gives the state of your rename and the load on bot.
     """

@@ -1,6 +1,6 @@
 from typing import Union
 from pyrogram.types.user_and_chats import user
-
+from aiofiles import os as aos
 from pyrogram.types.user_and_chats.user import User
 from ..database.user_db import UserDB
 from PIL import Image
@@ -23,7 +23,7 @@ async def adjust_image(path: str) -> Union[str, None]:
         im = Image.open(path)
         im.convert("RGB").save(path,"JPEG")
         im = Image.open(path)
-        im.thumbnail((320,320), Image.ANTIALIAS)
+        im.thumbnail((320,320), Image.Resampling.LANCZOS)
         im.save(path,"JPEG")
         return path
     except Exception:
@@ -47,7 +47,7 @@ async def handle_set_thumb(client, msg: Message):
             await msg.reply_text("Thumbnail set success.", quote=True)
         else:
             await msg.reply_text("Reply to an image to set it as a thumbnail.", quote=True)
-
+        await aos.remove(path)
     else:
         await msg.reply_text("Reply to an image to set it as a thumbnail.", quote=True)
 
