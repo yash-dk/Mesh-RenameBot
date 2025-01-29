@@ -18,6 +18,7 @@ from .mode_select import upload_mode, mode_callback
 from ..config import Commands
 from ..translations.trans import Trans
 from ..database.user_db import UserDB
+from .caption_manage import set_caption, del_caption
 
 renamelog = logging.getLogger(__name__)
 
@@ -41,11 +42,13 @@ def add_handlers(client: Client) -> None:
     client.add_handler(MessageHandler(handle_queue, filters.regex(Commands.QUEUE, re.IGNORECASE)))
     client.add_handler(MessageHandler(upload_mode, filters.regex(Commands.MODE, re.IGNORECASE)))
     client.add_handler(MessageHandler(help_str, filters.regex(Commands.HELP, re.IGNORECASE)))
+    client.add_handler(MessageHandler(set_caption, filters.regex("setcaption", re.IGNORECASE)))
     client.add_handler(CallbackQueryHandler(cancel_this, filters.regex("cancel", re.IGNORECASE)))
     client.add_handler(CallbackQueryHandler(filter_interact, filters.regex("fltr", re.IGNORECASE)))
     client.add_handler(CallbackQueryHandler(mode_callback, filters.regex("mode", re.IGNORECASE)))
     client.add_handler(CallbackQueryHandler(mode_callback, filters.regex("command_mode", re.IGNORECASE)))
     client.add_handler(CallbackQueryHandler(close_message, filters.regex("close", re.IGNORECASE)))
+    client.add_handler(CallbackQueryHandler(del_caption, filters.regex("delcaption", re.IGNORECASE)))
 
     signal.signal(signal.SIGINT, term_handler)
     signal.signal(signal.SIGTERM, term_handler)

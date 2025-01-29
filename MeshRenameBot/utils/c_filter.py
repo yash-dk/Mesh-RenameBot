@@ -138,7 +138,7 @@ class FilterUtils:
         return original_name
 
 
-async def filter_controller(client: Client, msg: types.MessageEntity, is_edit: bool = False) -> None:
+async def filter_controller(client: Client, msg: types.CallbackQuery, is_edit: bool = False) -> None:
     user_id = msg.from_user.id
     fsu = FilterUtils(user_id)
     ufilters = fsu.get_filters()
@@ -158,12 +158,12 @@ async def filter_controller(client: Client, msg: types.MessageEntity, is_edit: b
     if is_edit:
         await msg.message.edit_text(fstr, reply_markup=rmark)
     else:
-        await msg.reply_text(fstr, quote=True, reply_markup=rmark)
+        await msg.message.reply_text(fstr, quote=True, reply_markup=rmark)
 
 fltr_add = Trans.FILTERS_INTRO
 
 
-async def filter_interact(client, msg: types.MessageEntity) -> None:
+async def filter_interact(client, msg: types.CallbackQuery) -> None:
     # fltr type
     data = msg.data.split(" ")
     
