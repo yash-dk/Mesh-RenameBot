@@ -151,7 +151,8 @@ async def filter_controller(client: Client, msg: types.MessageEntity, is_edit: b
     rmark = InlineKeyboardMarkup(
         [
             [InlineKeyboardButton(Trans.ADD_FLTR, "fltr add")],
-            [InlineKeyboardButton(Trans.RM_FLTR, "fltr remove")]
+            [InlineKeyboardButton(Trans.RM_FLTR, "fltr remove")],
+            [InlineKeyboardButton("Close", "close")]
         ]
     )
     if is_edit:
