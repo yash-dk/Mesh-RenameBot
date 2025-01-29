@@ -198,7 +198,6 @@ class RenameManeuver(DefaultManeuver):
                     duration=duration,
                     performer=perfo,
                     thumb=thumb_path,
-                    caption=new_file_name,
                     progress=progress_for_pyrogram,
                     progress_args=(
                         f"Uploading the file {new_file_name}",
@@ -243,7 +242,6 @@ class RenameManeuver(DefaultManeuver):
                     width=width,
                     height=height,
                     thumb=thumb_path,
-                    caption=new_file_name,
                     progress=progress_for_pyrogram,
                     progress_args=(
                         f"Uploading the file {new_file_name}",
@@ -263,7 +261,6 @@ class RenameManeuver(DefaultManeuver):
                     file_name=new_file_name,
                     caption=caption,
                     thumb=thumb_path,
-                    caption=new_file_name,
                     force_document=is_force,
                     progress=progress_for_pyrogram,
                     progress_args=(
