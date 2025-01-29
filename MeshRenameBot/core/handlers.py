@@ -2,7 +2,7 @@ from os import rename
 from MeshRenameBot.core.get_config import get_var
 from pyrogram import Client, filters
 from pyrogram.handlers import MessageHandler, CallbackQueryHandler
-from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from pyrogram.errors import UserNotParticipant, ChatAdminRequired, UsernameNotOccupied
 import re
 import logging
@@ -17,6 +17,7 @@ from .thumb_manage import handle_set_thumb, handle_get_thumb, handle_clr_thumb
 from .mode_select import upload_mode, mode_callback
 from ..config import Commands
 from ..translations.trans import Trans
+from ..database.user_db import UserDB
 
 renamelog = logging.getLogger(__name__)
 
@@ -32,6 +33,7 @@ def add_handlers(client: Client) -> None:
     client.add_handler(MessageHandler(interactive_input))
     client.add_handler(MessageHandler(start_handler, filters.regex(Commands.START, re.IGNORECASE)))
     client.add_handler(MessageHandler(rename_handler, filters.regex(Commands.RENAME, re.IGNORECASE)))
+    client.add_handler(MessageHandler(rename_handler, filters.document | filters.video | filters.audio | filters.photo))
     client.add_handler(MessageHandler(filter_controller, filters.regex(Commands.FILTERS, re.IGNORECASE)))
     client.add_handler(MessageHandler(handle_set_thumb, filters.regex(Commands.SET_THUMB, re.IGNORECASE)))
     client.add_handler(MessageHandler(handle_get_thumb, filters.regex(Commands.GET_THUMB, re.IGNORECASE)))
@@ -42,6 +44,8 @@ def add_handlers(client: Client) -> None:
     client.add_handler(CallbackQueryHandler(cancel_this, filters.regex("cancel", re.IGNORECASE)))
     client.add_handler(CallbackQueryHandler(filter_interact, filters.regex("fltr", re.IGNORECASE)))
     client.add_handler(CallbackQueryHandler(mode_callback, filters.regex("mode", re.IGNORECASE)))
+    client.add_handler(CallbackQueryHandler(mode_callback, filters.regex("command_mode", re.IGNORECASE)))
+    client.add_handler(CallbackQueryHandler(close_message, filters.regex("close", re.IGNORECASE)))
 
     signal.signal(signal.SIGINT, term_handler)
     signal.signal(signal.SIGTERM, term_handler)
@@ -52,7 +56,13 @@ async def start_handler(client: Client, msg: Message) -> None:
 
 
 async def rename_handler(client: Client, msg: Message) -> None:
-    rep_msg = msg.reply_to_message
+    command_mode = UserDB().get_var("command_mode", msg.from_user.id)
+    if command_mode == UserDB.MODE_RENAME_WITHOUT_COMMAND:
+        if msg.media is None:
+            return
+        rep_msg = msg
+    else:
+        rep_msg = msg.reply_to_message
         
     if rep_msg is None:
         await msg.reply_text(Trans.REPLY_TO_MEDIA,quote=True)
@@ -72,7 +82,19 @@ async def rename_handler(client: Client, msg: Message) -> None:
     await ExecutorManager().create_maneuver(RenameManeuver(client, rep_msg, msg))
     
 async def help_str(client: Client, msg: Message) -> None:
-    await msg.reply_text(Trans.HELP_STR,quote=True)
+    await msg.reply_text(
+        Trans.HELP_STR.format(
+            startcmd=Commands.START,
+            renamecmd=Commands.RENAME,
+            filterscmd=Commands.FILTERS,
+            setthumbcmd=Commands.SET_THUMB,
+            getthumbcmd=Commands.GET_THUMB,
+            clrthumbcmd=Commands.CLR_THUMB,
+            modecmd=Commands.MODE,
+            queuecmd=Commands.QUEUE
+        ),
+        quote=True
+    )
 
 def term_handler(signum: int, frame: int) -> None:
     ExecutorManager().stop()
@@ -138,3 +160,8 @@ async def intercept_handler(client: Client, msg: Message) -> None:
             return
 
     await msg.continue_propagation()
+
+async def close_message(client: Client, msg: CallbackQuery) -> None:
+    if msg.message.reply_to_message is not None:
+        await msg.message.reply_to_message.delete()
+    await msg.message.delete()
