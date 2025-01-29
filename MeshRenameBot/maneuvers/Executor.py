@@ -1,13 +1,12 @@
 import asyncio
 import logging
 from .Default import DefaultManeuver
-from ..mesh_bot import MeshRenameBot
 
 renamelog = logging.getLogger(__name__)
 
 
 class Executor:
-    def __init__(self, queue: asyncio.Queue["MeshRenameBot"], workerid: int) -> None:
+    def __init__(self, queue: asyncio.Queue["DefaultManeuver"], workerid: int) -> None:
         self.maneuvers_queue = queue
         renamelog.info(
             "Started executor with id {workerid} successfully".format(workerid=workerid)
@@ -41,7 +40,7 @@ class Executor:
 
             await asyncio.sleep(3)
 
-        # renamelog.debug("Started stopped with id {workerid} successfully".format(workerid=self.workerid))
+        renamelog.debug("Started stopped with id {workerid} successfully".format(workerid=self.workerid))
 
     def stop(self) -> None:
         if self._current_maneuver is not None:

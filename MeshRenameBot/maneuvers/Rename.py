@@ -157,7 +157,12 @@ class RenameManeuver(DefaultManeuver):
         
         renamelog.info(thumb_path)
         renamelog.info(f"is force = {is_force}")
-        await progress.edit_text("Downloading Done Now renaming.", reply_markup=None)        
+        await progress.edit_text("Downloading Done Now renaming.", reply_markup=None)
+
+        # getting the caption
+        caption = udb.get_var("caption", self._cmd_message.from_user.id)
+        if caption:
+            caption = caption.format(filename=new_file_name)
 
         try:        
             renamelog.info(f"Is force {is_force} is audio {is_audio} is video {is_video}")
@@ -186,6 +191,7 @@ class RenameManeuver(DefaultManeuver):
                     self._cmd_message.chat.id,
                     dl_path,
                     file_name=new_file_name,
+                    caption=caption,
                     duration=duration,
                     performer=perfo,
                     thumb=thumb_path,
@@ -228,6 +234,7 @@ class RenameManeuver(DefaultManeuver):
                     self._cmd_message.chat.id,
                     dl_path,
                     file_name=new_file_name,
+                    caption=caption,
                     duration=duration,
                     width=width,
                     height=height,
@@ -249,6 +256,7 @@ class RenameManeuver(DefaultManeuver):
                     self._cmd_message.chat.id,
                     dl_path,
                     file_name=new_file_name,
+                    caption=caption,
                     thumb=thumb_path,
                     force_document=is_force,
                     progress=progress_for_pyrogram,
