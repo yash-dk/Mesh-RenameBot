@@ -251,6 +251,7 @@ async def filter_interact(client, msg: types.MessageEntity) -> None:
                 inob = userin(client)
                 await msg.message.edit_text(Trans.ADDITION_FILTER_INIT_MSG, reply_markup=None)
                 valg = await inob.get_value(client, msg, del_msg=True)
+                valg = valg.strip("|")
                 if valg is None:
                     await msg.message.edit_text(fltr_add + "\n\n" + Trans.NO_INPUT_FROM_USER, reply_markup=markup1)
                 
