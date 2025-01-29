@@ -24,7 +24,6 @@ except ImportError:
         FORCEJOIN_ID = [int,-100123465978]
 
         TRACE_CHANNEL = [int, 0]
-        SAVE_FILE_TO_TRACE_CHANNEL = [bool, False]
 
 try:
     from .tconfig import Commands

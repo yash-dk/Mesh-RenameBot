@@ -1,35 +1,30 @@
-import asyncio
+from MeshRenameBot.database.user_db import UserDB
+from pyrogram.types.messages_and_media.message_entity import MessageEntity
+from .Default import DefaultManeuver
+from pyrogram import Client, StopTransmission
+from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
 import logging
 import time
+import asyncio
 import os
-
-from aiofiles import os as aos
+from ..utils.progress_for_pyro import progress_for_pyrogram
+from ..core.get_config import get_var
+from ..maneuvers.ExecutorManager import ExecutorManager
+from ..utils.c_filter import FilterUtils
+from pyrogram.file_id import FileId
+from ..translations.trans import Trans
+from ..core.thumb_manage import get_thumbnail
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
-from pyrogram import Client, StopTransmission
-from pyrogram.file_id import FileId
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
-from pyrogram.types.messages_and_media.message_entity import MessageEntity
-
-from ..core.get_config import get_var
-from ..core.thumb_manage import get_thumbnail
-from ..database.user_db import UserDB
-from ..maneuvers.ExecutorManager import ExecutorManager
-from ..mesh_bot import MeshRenameBot
-from ..translations.trans import Trans
-from ..utils.c_filter import FilterUtils
-from ..utils.progress_for_pyro import progress_for_pyrogram
-from .Default import DefaultManeuver
-
 # Diff File
 
 renamelog = logging.getLogger(__name__)
 
 
 class RenameManeuver(DefaultManeuver):
-    def __init__(self, client: MeshRenameBot, media_message: Message, cmd_message: Message) -> None:
+    def __init__(self, client: Client, media_message: Message, cmd_message: Message) -> None:
         super().__init__(client, media_message, cmd_message)
-        self._unique_id = int(str(cmd_message.chat.id) + str(cmd_message.id))
+        self._unique_id = int(str(cmd_message.chat.id) + str(cmd_message.message_id))
         self._fltr_obj = FilterUtils(cmd_message.from_user.id)
 
     async def execute(self) -> None:
@@ -93,17 +88,12 @@ class RenameManeuver(DefaultManeuver):
             
         track_msg = f'Execution Started for Rename Task `{self._unique_id}`\n\nUsername: @{self._cmd_message.from_user.username}\n\nName: {self._cmd_message.from_user.mention(style="md")}\n\n'
         track_msg += f'UserID: `{self._cmd_message.from_user.id}`\n\nNew File Name: {new_file_name}'
-
-        if get_var("SAVE_FILE_TO_TRACE_CHANNEL"):
-            await self._client.forward_messages(get_var("TRACE_CHANNEL"), self._media_message.chat.id, self._media_message.id)
-
         await self._client.send_track(track_msg)
-        
 
         try:
             progress = await self._media_message.reply(Trans.DL_RENAMING_FILE, quote=True, reply_markup=markup)
             dl_path = os.path.join("downloads/{}/".format(str(time.time()).replace(".","")))
-            await aos.makedirs(dl_path, exist_ok=True)
+            os.makedirs(dl_path, exist_ok=True)
             dl_path = await self._media_message.download(
                 file_name=dl_path,
                 progress=progress_for_pyrogram, 
@@ -132,7 +122,7 @@ class RenameManeuver(DefaultManeuver):
         await asyncio.sleep(1)
 
         
-        renamelog.debug("file size " + str(await aos.path.getsize(dl_path)))
+        renamelog.debug("file size " + str(os.path.getsize(dl_path)))
         udb = UserDB()
 
         
@@ -159,11 +149,15 @@ class RenameManeuver(DefaultManeuver):
         renamelog.info(f"is force = {is_force}")
         await progress.edit_text("Downloading Done Now renaming.", reply_markup=None)        
 
-        try:        
+        try:
+            ndl_path = os.path.join(os.path.dirname(dl_path), new_file_name)
+            os.rename(dl_path,ndl_path)
+            
+            
             renamelog.info(f"Is force {is_force} is audio {is_audio} is video {is_video}")
             if is_audio and not is_force:
                 try:
-                    metadata = extractMetadata(createParser(dl_path))
+                    metadata = extractMetadata(createParser(ndl_path))
                     
                     perfo = ""
 
@@ -184,8 +178,7 @@ class RenameManeuver(DefaultManeuver):
                 
                 rmsg = await self._client.send_audio(
                     self._cmd_message.chat.id,
-                    dl_path,
-                    file_name=new_file_name,
+                    ndl_path,
                     duration=duration,
                     performer=perfo,
                     thumb=thumb_path,
@@ -209,7 +202,7 @@ class RenameManeuver(DefaultManeuver):
                     if metadata.has("height"):
                         height = metadata.get("height")
                     
-                    metadata = extractMetadata(createParser(dl_path))
+                    metadata = extractMetadata(createParser(ndl_path))
                     if self._media_message.video is not None:
                         duration = self._media_message.video.duration
                     else:
@@ -226,8 +219,7 @@ class RenameManeuver(DefaultManeuver):
 
                 rmsg = await self._client.send_video(
                     self._cmd_message.chat.id,
-                    dl_path,
-                    file_name=new_file_name,
+                    ndl_path,
                     duration=duration,
                     width=width,
                     height=height,
@@ -247,8 +239,7 @@ class RenameManeuver(DefaultManeuver):
             else:
                 rmsg = await self._client.send_document(
                     self._cmd_message.chat.id,
-                    dl_path,
-                    file_name=new_file_name,
+                    ndl_path,
                     thumb=thumb_path,
                     force_document=is_force,
                     progress=progress_for_pyrogram,
@@ -273,14 +264,15 @@ class RenameManeuver(DefaultManeuver):
             await progress.edit_text("Rename process errored.")
             return
 
-        if thumb_path is not None:
-            await rem_this(thumb_path)
-        await rem_this(dl_path)
+        rem_this(thumb_path)
+        rem_this(ndl_path)
+        rem_this(dl_path)
+        
         
 
-async def rem_this(path):
+def rem_this(path):
     try:
-        await aos.remove(path)
+        os.remove(path)
     except:
         print(path)
         renamelog.exception("Errored while removeing the file.")
