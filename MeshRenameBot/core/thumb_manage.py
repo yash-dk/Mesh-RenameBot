@@ -1,6 +1,6 @@
 from typing import Union
 from pyrogram.types.user_and_chats import user
-from aiofiles import os as aos
+
 from pyrogram.types.user_and_chats.user import User
 from ..database.user_db import UserDB
 from PIL import Image
@@ -12,7 +12,6 @@ import random
 from ..database.user_db import UserDB
 from hachoir.parser import createParser
 from hachoir.metadata import extractMetadata
-from pyrogram.types import Message
 
 #TODO trans pending
 
@@ -23,18 +22,14 @@ async def adjust_image(path: str) -> Union[str, None]:
         im = Image.open(path)
         im.convert("RGB").save(path,"JPEG")
         im = Image.open(path)
-        im.thumbnail((320,320), Image.Resampling.LANCZOS)
+        im.thumbnail((320,320), Image.ANTIALIAS)
         im.save(path,"JPEG")
         return path
     except Exception:
         return
 
-async def handle_set_thumb(client, msg: Message):
+async def handle_set_thumb(client, msg):
     original_message = msg.reply_to_message
-    if original_message is None:
-        await msg.reply_text("Reply to an image to set it as a thumbnail.", quote=True)
-        return
-    
     if original_message.photo is not None:
         path = await original_message.download()
         path = await adjust_image(path)
@@ -47,12 +42,11 @@ async def handle_set_thumb(client, msg: Message):
             await msg.reply_text("Thumbnail set success.", quote=True)
         else:
             await msg.reply_text("Reply to an image to set it as a thumbnail.", quote=True)
-        await aos.remove(path)
+
     else:
         await msg.reply_text("Reply to an image to set it as a thumbnail.", quote=True)
 
-async def handle_get_thumb(client, msg: Message):
-    renamelog.info("Getting Thumbnail")
+async def handle_get_thumb(client, msg):
     thumb_path = UserDB().get_thumbnail(msg.from_user.id)
     if thumb_path is False:
         await msg.reply("No Thumbnail Found.", quote=True)
