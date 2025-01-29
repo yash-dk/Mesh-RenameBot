@@ -61,12 +61,13 @@ class Commands:
         "SET_THUMB": "/setthumb",
         "GET_THUMB": "/getthumb",
         "CLR_THUMB": "/clrthumb",
+        "SET_CAPTION": "/setcaption",
         "QUEUE": "/queue",
         "MODE": "/mode",
         "HELP": "/help",
     }
 
-    COMMANDS = config_data.get("COMMANDS", command_defaults)
+    COMMANDS: dict = config_data.get("COMMANDS", command_defaults)
 
     START = COMMANDS.get("START", "/start")
     RENAME = COMMANDS.get("RENAME", "/rename")
@@ -77,3 +78,4 @@ class Commands:
     QUEUE = COMMANDS.get("QUEUE", "/queue")
     MODE = COMMANDS.get("MODE", "/mode")
     HELP = COMMANDS.get("HELP", "/help")
+    SET_CAPTION = COMMANDS.get("SET_CAPTION", "/setcaption")
