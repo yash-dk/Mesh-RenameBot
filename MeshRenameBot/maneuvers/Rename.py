@@ -16,7 +16,7 @@ from ..core.thumb_manage import get_thumbnail
 from ..database.user_db import UserDB
 from ..maneuvers.ExecutorManager import ExecutorManager
 from ..mesh_bot import MeshRenameBot
-from ..translations.trans import Trans
+from ..translations import Translator
 from ..utils.c_filter import FilterUtils
 from ..utils.progress_for_pyro import progress_for_pyrogram
 from .Default import DefaultManeuver
@@ -34,12 +34,13 @@ class RenameManeuver(DefaultManeuver):
 
     async def execute(self) -> None:
         self._execute_pending = False
+        translator = Translator(self._cmd_message.from_user.id)
 
         if self._media_message is None:
-            await self._cmd_message.reply_text(Trans.REPLY_TO_MEDIA, quote=True)
+            await self._cmd_message.reply_text(translator.get("REPLY_TO_MEDIA"), quote=True)
             return
         elif not self._media_message.media:
-            await self._cmd_message.reply_text(Trans.REPLY_TO_MEDIA, quote=True)
+            await self._cmd_message.reply_text(translator.get("REPLY_TO_MEDIA"), quote=True)
             return
         
         self._media_message.from_user = self._cmd_message.from_user
@@ -79,15 +80,15 @@ class RenameManeuver(DefaultManeuver):
                 
                 new_file_name = await self._fltr_obj.filtered_name(original_file_name)
                 if original_file_name == new_file_name:
-                    await self._cmd_message.reply_text(Trans.RENAME_NO_FILTER_MATCH)
+                    await self._cmd_message.reply_text(translator.get("RENAME_NO_FILTER_MATCH"))
                     return
 
-                await self._cmd_message.reply_text(Trans.RENAME_FILTER_MATCH_USED + f"\nFile name:- {new_file_name}")
+                await self._cmd_message.reply_text(translator.get("RENAME_FILTER_MATCH_USED") + f"\nFile name:- {new_file_name}")
             else:
-                await self._cmd_message.reply_text(Trans.RENAME_NOFLTR_NONAME)
+                await self._cmd_message.reply_text(translator.get("RENAME_NOFLTR_NONAME"))
                 return
 
-        markup = InlineKeyboardMarkup([[InlineKeyboardButton(Trans.RENAME_CANCEL,
+        markup = InlineKeyboardMarkup([[InlineKeyboardButton(translator.get("RENAME_CANCEL"),
                                                              "cancel {}".format(self._unique_id))]])
 
             
@@ -101,7 +102,7 @@ class RenameManeuver(DefaultManeuver):
         
 
         try:
-            progress = await self._media_message.reply(Trans.DL_RENAMING_FILE, quote=True, reply_markup=markup)
+            progress = await self._media_message.reply(translator.get("DL_RENAMING_FILE"), quote=True, reply_markup=markup)
             dl_path = os.path.join("downloads/{}/".format(str(time.time()).replace(".","")))
             await aos.makedirs(dl_path, exist_ok=True)
             dl_path = await self._media_message.download(

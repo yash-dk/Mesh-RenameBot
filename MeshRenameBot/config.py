@@ -36,6 +36,7 @@ class Config:
     MAX_QUEUE_SIZE = [int, get_config_value("MAX_QUEUE_SIZE", [int, 5])]
     SLEEP_SECS = [int, get_config_value("SLEEP_SECS", [int, 10])]
     IS_MONGO = [bool, get_config_value("IS_MONGO", [bool, False])]
+    DEFAULT_LOCALE = [str, get_config_value("DEFAULT_LOCALE", [str, "en"])]
 
     # Access Restriction
     IS_PRIVATE = [bool, get_config_value("IS_PRIVATE", [bool, False])]

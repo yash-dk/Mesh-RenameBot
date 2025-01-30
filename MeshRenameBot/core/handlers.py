@@ -13,7 +13,6 @@ import re
 import logging
 import signal
 import asyncio
-from ..translations.trans import Trans
 from ..maneuvers.ExecutorManager import ExecutorManager
 from ..maneuvers.Rename import RenameManeuver
 from ..utils.c_filter import filter_controller, filter_interact
@@ -21,7 +20,7 @@ from ..utils.user_input import interactive_input
 from .thumb_manage import handle_set_thumb, handle_get_thumb, handle_clr_thumb
 from .mode_select import upload_mode, mode_callback
 from ..config import Commands
-from ..translations.trans import Trans
+from ..translations import Translator
 from ..database.user_db import UserDB
 from .caption_manage import set_caption, del_caption
 from ..mesh_bot import MeshRenameBot
@@ -108,11 +107,15 @@ def add_handlers(client: MeshRenameBot) -> None:
 
 
 async def start_handler(_: MeshRenameBot, msg: Message) -> None:
-    await msg.reply(Trans.START_MSG, quote=True)
+    user_locale = UserDB().get_var("locale", msg.from_user.id)
+
+    await msg.reply(Translator(user_locale).get("START_MSG"), quote=True)
 
 
 async def rename_handler(client: MeshRenameBot, msg: Message) -> None:
     command_mode = UserDB().get_var("command_mode", msg.from_user.id)
+    user_locale = UserDB().get_var("locale", msg.from_user.id)
+
     if command_mode == UserDB.MODE_RENAME_WITHOUT_COMMAND:
         if msg.media is None:
             return
@@ -121,7 +124,7 @@ async def rename_handler(client: MeshRenameBot, msg: Message) -> None:
         rep_msg = msg.reply_to_message
 
     if rep_msg is None:
-        await msg.reply_text(Trans.REPLY_TO_MEDIA, quote=True)
+        await msg.reply_text(Translator(user_locale).get("REPLY_TO_MEDIA"), quote=True)
 
     file_id = await client.get_file_id(rep_msg)
     if file_id is not None:
@@ -138,9 +141,11 @@ async def rename_handler(client: MeshRenameBot, msg: Message) -> None:
     await ExecutorManager().create_maneuver(RenameManeuver(client, rep_msg, msg))
 
 
-async def help_str(client: Client, msg: Message) -> None:
+async def help_str(_: MeshRenameBot, msg: Message) -> None:
+    user_locale = UserDB().get_var("locale", msg.from_user.id)
     await msg.reply_text(
-        Trans.HELP_STR.format(
+        Translator(user_locale).get(
+            "HELP_STR",
             startcmd=Commands.START,
             renamecmd=Commands.RENAME,
             filterscmd=Commands.FILTERS,
@@ -161,7 +166,8 @@ def term_handler(signum: int, frame: int) -> None:
 async def cancel_this(_: MeshRenameBot, msg: CallbackQuery) -> None:
     data = str(msg.data).split(" ")
     ExecutorManager().canceled_uids.append(int(data[1]))
-    await msg.answer(Trans.CANCEL_MESSAGE, show_alert=True)
+    user_locale = UserDB().get_var("locale", msg.from_user.id)
+    await msg.answer(Translator(user_locale).get("CANCEL_MESSAGE"), show_alert=True)
 
 
 async def handle_queue(_: MeshRenameBot, msg: Message) -> None:
