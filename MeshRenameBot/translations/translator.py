@@ -1,10 +1,22 @@
 from typing import Dict
 from jinja2 import Template
 from .en import EnglishTranslations
+from .es import SpanishTranslations
+from .ar import ArabicTranslations
+from .hi import HindiTranslations
+from .ko import KoreanTranslations
+from .ru import RussianTranslations
+from .zh import ChineseTranslations
 from ..config import Config
 
 TRANSLATION_MAP: Dict[str, object] = {
     "en": EnglishTranslations(),
+    "es": SpanishTranslations(),
+    "ar": ArabicTranslations(),
+    "hi": HindiTranslations(),
+    "ko": KoreanTranslations(),
+    "ru": RussianTranslations(),
+    "zh": ChineseTranslations(),
 }
 
 
