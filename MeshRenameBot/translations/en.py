@@ -26,29 +26,31 @@ class EnglishTranslations:
 
     RENAME_CANCEL_BY_USER = "Canceled by the user."
 
-    FLTR_ADD_LEFT_STR = "Addition Filter: <code>{{ text_1 }}</code> <code>To Left</code>"
-    FLTR_ADD_RIGHT_STR = "Addition Filter: <code>{{ text_1 }}</code> <code>To Right</code>"
+    FLTR_ADD_LEFT_STR = (
+        "Addition Filter: <code>{{ text_1 }}</code> <code>To Left</code>"
+    )
+    FLTR_ADD_RIGHT_STR = (
+        "Addition Filter: <code>{{ text_1 }}</code> <code>To Right</code>"
+    )
     FLTR_RM_STR = "Remove Filter: <code>{{ text_1 }}</code>"
-    FLTR_REPLACE_STR = "Replace Filter: <code>{{ text_1 }}</code> with <code>{{ text_2 }}</code>"
+    FLTR_REPLACE_STR = (
+        "Replace Filter: <code>{{ text_1 }}</code> with <code>{{ text_2 }}</code>"
+    )
 
     CURRENT_FLTRS = "Your Current Filters:-"
     ADD_FLTR = "Add Filter."
     RM_FLTR = "Remove Filter."
 
-    FILTERS_INTRO = """
-Welcome to adding filter.
-3 Types of filter.
-
-Replace Filter:- This filter will replace a
-given word with the one you sepcified
-
-Addition Filter:- This filter will add given word
-at end or beginning.
-
-Remove Filter:- This filer will remove given word
-from the while file name.
-
-"""
+    FILTERS_INTRO = (
+        "Welcome to adding filter.\n"
+        "3 Types of filter.\n\n"
+        "Replace Filter:- This filter will replace a "
+        "given word with the one you specified.\n\n"
+        "Addition Filter:- This filter will add a given word "
+        "at the end or beginning.\n\n"
+        "Remove Filter:- This filter will remove a given word "
+        "from the whole file name.\n"
+    )
 
     ADD_REPLACE_FLTR = "Add Replace Filter."
     ADD_ADDITION_FLTR = "Add Addition Filter."
@@ -77,9 +79,7 @@ from the while file name.
         "Enter the text that you want to remove or /ignore to go back."
     )
 
-    REMOVE_FILTER_SUCCESS = (
-        "Added the Remove filter successfully. <code>{{ text_1 }}</code> will be removed."
-    )
+    REMOVE_FILTER_SUCCESS = "Added the Remove filter successfully. <code>{{ text_1 }}</code> will be removed."
 
     REPLY_TO_MEDIA = "Reply /rename to a media file."
 
@@ -100,3 +100,20 @@ from the while file name.
     - Rename without command.
 `{{ queuecmd }}` - Gives the state of your rename and the load on bot.
     """
+
+    RENAME_DOWNLOADING_DONE = "Downloading done. Now renaming the file."
+    RENAME_ERRORED = "Rename process errored."
+    RENAME_CANCEL_BY_USER = "Download canceled."
+
+    TRACK_MESSAGE_EXECUTION_START = (
+        "Execution Started for Rename Task. `{{ uid }}`\n\n"
+        "Username: @{{ username }}\n"
+        "Name: {{ name }}\n"
+        "User ID: <code>{{ user_id }}</code>\n"
+        "File Name: <code>{{ file_name }}</code>\n"
+    )
+
+    UPLOADING_THE_FILE = "Uploading the file {new_file_name}."
+
+    RENAME_UPLOAD_CANCELLED_BY_USER = "Upload Cancelled by the user."
+    RENAME_UPLOADING_DONE = "Rename Process Done."
