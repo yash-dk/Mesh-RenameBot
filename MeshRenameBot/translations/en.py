@@ -191,3 +191,8 @@ class EnglishTranslations:
     MODE_SET_2 = "3"
     COMMAND_MODE_SET_3 = "A"
     COMMAND_MODE_SET_4 = "B"
+
+    THUMB_REPLY_TO_MEDIA = "Reply to an image to set it as a thumbnail."
+    THUMB_SET_SUCCESS = "Thumbnail set success."
+    THUMB_NOT_FOUND = "No Thumbnail Found."
+    THUMB_CLEARED = "Thumbnail cleared successfully."
