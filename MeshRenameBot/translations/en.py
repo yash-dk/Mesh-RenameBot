@@ -113,7 +113,18 @@ class EnglishTranslations:
         "File Name: <code>{{ file_name }}</code>\n"
     )
 
-    UPLOADING_THE_FILE = "Uploading the file {new_file_name}."
+    UPLOADING_THE_FILE = "Uploading the file {{ new_file_name }}."
 
     RENAME_UPLOAD_CANCELLED_BY_USER = "Upload Cancelled by the user."
     RENAME_UPLOADING_DONE = "Rename Process Done."
+
+    CAPTION_FOOT_NOTE = (
+        "NOTE: You can set the caption by sending /setcaption followed by a space and then the caption. "
+        "You can include <code>{file_name}</code> in the caption to include the filename of the file being renamed."
+    )
+
+    DELETE_CAPTION = "Delete Caption"
+    CLOSE = "Close"
+
+    CAPTION_CURRENT = "Your current caption is: {{ caption }}"
+    CAPTION_NOT_SET = "No caption set."
