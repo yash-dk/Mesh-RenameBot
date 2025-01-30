@@ -176,7 +176,7 @@ async def filter_controller(
         [
             [InlineKeyboardButton(translator.get("ADD_FLTR"), "fltr add")],
             [InlineKeyboardButton(translator.get("RM_FLTR"), "fltr remove")],
-            [InlineKeyboardButton("Close", "close")],
+            [InlineKeyboardButton(translator.get("CLOSE"), "close")],
         ]
     )
     if is_edit:
