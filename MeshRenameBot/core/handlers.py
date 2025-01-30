@@ -161,6 +161,8 @@ async def help_str(_: MeshRenameBot, msg: Message) -> None:
             clrthumbcmd=Commands.CLR_THUMB,
             modecmd=Commands.MODE,
             queuecmd=Commands.QUEUE,
+            setcaptioncmd=Commands.SET_CAPTION,
+            helpcmd=Commands.HELP,
         ),
         quote=True,
     )

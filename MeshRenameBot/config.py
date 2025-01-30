@@ -66,6 +66,7 @@ class Commands:
         "QUEUE": "/queue",
         "MODE": "/mode",
         "HELP": "/help",
+        "SET_CAPTION": "/setcaption",
     }
 
     COMMANDS: dict = config_data.get("COMMANDS", command_defaults)

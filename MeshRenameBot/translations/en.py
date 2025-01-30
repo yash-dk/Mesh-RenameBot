@@ -211,6 +211,8 @@ class EnglishTranslations:
         "    🔄 Switch between renaming modes:\n"
         "    - 🏷 Rename **with command**.\n"
         "    - ✨ Rename **without command**.\n\n"
-        "`{{ queuecmd }}` - 📊 View the bot's rename queue status."
+        "`{{ queuecmd }}` - 📊 View the bot's rename queue status.\n"
+        "`{{ setcaptioncmd }}` - 📝 Set a caption for the renamed files.\n"
+        "`{{ helpcmd }}` - 📖 Show this help message.\n"
     )
 
