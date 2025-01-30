@@ -113,6 +113,13 @@ class EnglishTranslations:
         "File Name: <code>{{ file_name }}</code>\n"
     )
 
+    TRACK_MESSAGE_ADDED_RENAME = (
+        "Added Rename Task\n\n"
+        "Username: @{{ username }}\n"
+        "Name: {{ name }}\n"
+        "UserID: <code>{{ user_id }}</code>\n"
+    )
+
     UPLOADING_THE_FILE = "Uploading the file {{ new_file_name }}."
 
     RENAME_UPLOAD_CANCELLED_BY_USER = "Upload Cancelled by the user."
@@ -128,3 +135,33 @@ class EnglishTranslations:
 
     CAPTION_CURRENT = "Your current caption is: {{ caption }}"
     CAPTION_NOT_SET = "No caption set."
+    CAPTION_SET = "Caption set to: {{ caption }}"
+    CAPTION_DELETED = "Caption deleted successfully."
+
+    RENAME_ADDED_TO_QUEUE = (
+        "Added the Rename to queue.\n"
+        "DC ID   :- {{ dc_id }}\n"
+        "Media ID:- {{ media_id }}"
+    )
+
+    RENAME_QUEUE_STATUS = (
+        "Rename Queue Status:\n"
+        "Total Tasks in Queue: {{ total_tasks }}\n"
+        "Capacity of Queue: {{ queue_capacity }}\n"
+        "Currently Processing: {{ current_task }}\n"
+    )
+
+    RENAME_QUEUE_USER_STATUS = (
+        "{% if is_executing %}"
+        "Your Task is Executing\n"
+        "Task ID: {{ task_id }}\n"
+        "{% end_if %}"
+        "{% if is_pending %}"
+        "Your Task Number in Queue: {{ task_number }}\n"
+        "Task ID: {{ task_id }}\n"
+        "{% end_if %}"
+    )
+
+    USER_KICKED = "You were kicked from the chat. You can't use this bot."
+    USER_NOT_PARTICIPANT = "Join the given chat in order to use this bot."
+    JOIN_CHANNEL = "Join Updates Channel"

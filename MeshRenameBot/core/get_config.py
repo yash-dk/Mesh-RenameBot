@@ -26,7 +26,7 @@ def get_var(variable_name: str) -> Union[str, list, bool, int]:
                         Translator().get(
                             "WRONG_VALUE_ERROR", variable_name=variable_name
                         )
-                    )
+                    )  # Translate only this log because the user will most likely make this mistake
 
             elif typename == bool:
                 new_val = new_val.lower()

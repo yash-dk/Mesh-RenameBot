@@ -115,6 +115,7 @@ async def start_handler(_: MeshRenameBot, msg: Message) -> None:
 async def rename_handler(client: MeshRenameBot, msg: Message) -> None:
     command_mode = UserDB().get_var("command_mode", msg.from_user.id)
     user_locale = UserDB().get_var("locale", msg.from_user.id)
+    translator = Translator(user_locale)
 
     if command_mode == UserDB.MODE_RENAME_WITHOUT_COMMAND:
         if msg.media is None:
@@ -124,19 +125,25 @@ async def rename_handler(client: MeshRenameBot, msg: Message) -> None:
         rep_msg = msg.reply_to_message
 
     if rep_msg is None:
-        await msg.reply_text(Translator(user_locale).get("REPLY_TO_MEDIA"), quote=True)
+        await msg.reply_text(translator.get("REPLY_TO_MEDIA"), quote=True)
 
     file_id = await client.get_file_id(rep_msg)
     if file_id is not None:
-        rmsg = f"""Added the Rename to queue.
-        DC ID   :- {file_id.dc_id}
-        Media ID:- {file_id.media_id}
-        """
-        await msg.reply_text(rmsg)
+        await msg.reply_text(
+            translator.get(
+                "RENAME_ADDED_TO_QUEUE", dc_id=file_id.dc_id, media_id=file_id.media_id
+            ),
+            quote=True,
+        )
 
-    track_msg = f'Added Rename Task\n\nUsername: @{msg.from_user.username}\n\nName: {msg.from_user.mention(style="md")}\n\n'
-    track_msg += f"UserID: `{msg.from_user.id}`\n"
-    await client.send_track(track_msg)
+    await client.send_track(
+        translator.get(
+            "TRACK_MESSAGE_ADDED_RENAME",
+            username=msg.from_user.username,
+            name=msg.from_user.first_name,
+            user_id=msg.from_user.id,
+        )
+    )
     await asyncio.sleep(2)
     await ExecutorManager().create_maneuver(RenameManeuver(client, rep_msg, msg))
 
@@ -172,6 +179,9 @@ async def cancel_this(_: MeshRenameBot, msg: CallbackQuery) -> None:
 
 async def handle_queue(_: MeshRenameBot, msg: Message) -> None:
     EM = ExecutorManager()
+    user_id = msg.from_user.id
+    user_locale = UserDB().get_var("locale", user_id)
+    translator = Translator(user_locale)
 
     j = 0
     for i in EM.all_maneuvers_log:
@@ -188,15 +198,23 @@ async def handle_queue(_: MeshRenameBot, msg: Message) -> None:
     from_id = msg.from_user.id
     max_size = get_var("MAX_QUEUE_SIZE")
 
-    fmsg = f"Total Tasks in Queue:- {q_len}\nCapacity:- {max_size}\nCurrently Executing:- {currently_exec}\n\n"
+    fmsg = translator.get(
+        "RENAME_QUEUE_STATUS",
+        total_tasks=q_len,
+        queue_capacity=max_size,
+        current_task=currently_exec,
+    )
 
     j = 1
     for i in EM.all_maneuvers_log:
         if i.sender_id == from_id:
-            if i.is_executing:
-                fmsg += f"Your Task Is Executing\nTask Unique Number {i._unique_id}\n\n"
-            if i.is_pending:
-                fmsg += f"Your Task Number in Queue: {j}\nTask Unique Number {i._unique_id}\n\n"
+            fmsg += translator.get(
+                "RENAME_QUEUE_USER_STATUS",
+                is_executing=i.is_executing,
+                is_pending=i.is_pending,
+                task_id=i._unique_id,
+                task_number=j,
+            )
 
         if i.is_pending:
             j += 1
@@ -205,22 +223,30 @@ async def handle_queue(_: MeshRenameBot, msg: Message) -> None:
 
 
 async def intercept_handler(client: Client, msg: Message) -> None:
+    user_id = msg.from_user.id
+    user_locale = UserDB().get_var("locale", user_id)
+    translator = Translator(user_locale)
+
     if get_var("FORCEJOIN") != "":
         try:
             user_state = await client.get_chat_member(
                 get_var("FORCEJOIN_ID"), msg.from_user.id
             )
             if user_state.status == "kicked":
-                await msg.reply_text(
-                    "You were kicked from the chat. You can't use this bot."
-                )
+                await msg.reply_text(translator.get("USER_KICKED"), quote=True)
                 return
         except UserNotParticipant:
             forcejoin = get_var("FORCEJOIN")
             await msg.reply_text(
-                "Join the given chat in order to use this bot.",
+                translator.get("JOIN_CHANNEL"),
                 reply_markup=InlineKeyboardMarkup(
-                    [[InlineKeyboardButton("Join Updates Channel", url=f"{forcejoin}")]]
+                    [
+                        [
+                            InlineKeyboardButton(
+                                translator.get("JOIN_CHANNEL"), url=f"{forcejoin}"
+                            )
+                        ]
+                    ]
                 ),
                 parse_mode="markdown",
             )
