@@ -153,15 +153,41 @@ class EnglishTranslations:
 
     RENAME_QUEUE_USER_STATUS = (
         "{% if is_executing %}"
-        "Your Task is Executing\n"
+        "\nYour Task is Executing\n"
         "Task ID: {{ task_id }}\n"
-        "{% end_if %}"
+        "{% endif %}"
         "{% if is_pending %}"
         "Your Task Number in Queue: {{ task_number }}\n"
         "Task ID: {{ task_id }}\n"
-        "{% end_if %}"
+        "{% endif %}"
     )
 
     USER_KICKED = "You were kicked from the chat. You can't use this bot."
     USER_NOT_PARTICIPANT = "Join the given chat in order to use this bot."
     JOIN_CHANNEL = "Join Updates Channel"
+
+    MODE_INITIAL_MSG = (
+        "File output mode: \n\n"
+        "{% if mode == udb.MODE_SAME_AS_SENT %}➡️ "
+        "{% endif %}"
+        "1. MODE to the same format as it was sent.\n"
+        "{% if mode == udb.MODE_AS_DOCUMENT %}➡️ "
+        "{% endif %}"
+        "2. MODE Forced Document.\n"
+        "{% if mode == udb.MODE_AS_GMEDIA %}➡️ "
+        "{% endif %}"
+        "3. Mode General Media.\n"
+        "\n\nSelect the mode for renaming files:\n"
+        "{% if command_mode == udb.MODE_RENAME_WITH_COMMAND %}➡️ "
+        "{% endif %}"
+        "A. Rename with command.\n"
+        "{% if command_mode == udb.MODE_RENAME_WITHOUT_COMMAND %}➡️ "
+        "{% endif %}"
+        "B. Rename without command."
+    )
+
+    MODE_SET_0 = "1"
+    MODE_SET_1 = "2"
+    MODE_SET_2 = "3"
+    COMMAND_MODE_SET_3 = "A"
+    COMMAND_MODE_SET_4 = "B"
