@@ -36,7 +36,10 @@ class RenameManeuver(DefaultManeuver):
 
     async def execute(self) -> None:
         self._execute_pending = False
-        translator = Translator(self._cmd_message.from_user.id)
+        user_id = self._cmd_message.from_user.id
+        user_locale = UserDB().get_var("locale", user_id)
+
+        translator = Translator(user_locale)
 
         if self._media_message is None:
             await self._cmd_message.reply_text(
@@ -241,7 +244,7 @@ class RenameManeuver(DefaultManeuver):
                     thumb=thumb_path,
                     progress=progress_for_pyrogram,
                     progress_args=(
-                        translator.get("UPLOADING_FILE", file_name=new_file_name),
+                        translator.get("UPLOADING_THE_FILE", file_name=new_file_name),
                         progress,
                         time.time(),
                         get_var("SLEEP_SECS"),
@@ -285,7 +288,7 @@ class RenameManeuver(DefaultManeuver):
                     thumb=thumb_path,
                     progress=progress_for_pyrogram,
                     progress_args=(
-                        translator.get("UPLOADING_FILE", file_name=new_file_name),
+                        translator.get("UPLOADING_THE_FILE", file_name=new_file_name),
                         progress,
                         time.time(),
                         get_var("SLEEP_SECS"),
@@ -305,7 +308,7 @@ class RenameManeuver(DefaultManeuver):
                     force_document=is_force,
                     progress=progress_for_pyrogram,
                     progress_args=(
-                        translator.get("UPLOADING_FILE", file_name=new_file_name),
+                        translator.get("UPLOADING_THE_FILE", file_name=new_file_name),
                         progress,
                         time.time(),
                         get_var("SLEEP_SECS"),

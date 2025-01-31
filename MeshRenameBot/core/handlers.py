@@ -129,6 +129,8 @@ async def rename_handler(client: MeshRenameBot, msg: Message) -> None:
             return
         rep_msg = msg
     else:
+        if msg.media:
+            return
         rep_msg = msg.reply_to_message
 
     if rep_msg is None:
