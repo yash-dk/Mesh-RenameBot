@@ -2,6 +2,8 @@ from dataclasses import dataclass
 
 @dataclass
 class ArabicTranslations:
+    LANGUAGE_NAME = "العربية"
+    LANGUAGE_CODE = "ar"
 
     WRONG_VALUE_ERROR = "❌ تم إدخال قيمة غير صالحة للمتغير {{ variable_name }}."
 
@@ -214,3 +216,5 @@ class ArabicTranslations:
         "`{{ setcaptioncmd }}` - 📝 تعيين تسمية للملفات المعاد تسميتها.\n"
         "`{{ helpcmd }}` - 📖 عرض رسالة المساعدة هذه.\n"
     )
+
+    CURRENT_LOCALE = "🌐 **لغتك الحالية:** {{ user_locale }}"

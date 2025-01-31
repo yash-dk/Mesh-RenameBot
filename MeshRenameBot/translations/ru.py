@@ -2,6 +2,8 @@ from dataclasses import dataclass
 
 @dataclass
 class RussianTranslations:
+    LANGUAGE_NAME = "Русский"
+    LANGUAGE_CODE = "ru"
 
     WRONG_VALUE_ERROR = "❌ Введено недопустимое значение для переменной {{ variable_name }}."
 
@@ -214,3 +216,5 @@ class RussianTranslations:
         "`{{ setcaptioncmd }}` - 📝 Установить подпись для переименованных файлов.\n"
         "`{{ helpcmd }}` - 📖 Показать это справочное сообщение.\n"
     )
+
+    CURRENT_LOCALE = "🌐 **Ваш текущий язык:** {{ user_locale }}"

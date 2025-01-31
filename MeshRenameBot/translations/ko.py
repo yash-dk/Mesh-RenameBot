@@ -2,6 +2,8 @@ from dataclasses import dataclass
 
 @dataclass
 class KoreanTranslations:
+    LANGUAGE_NAME = "한국어"
+    LANGUAGE_CODE = "ko"
 
     WRONG_VALUE_ERROR = "❌ {{ variable_name }} 변수에 잘못된 값이 입력되었습니다."
 
@@ -214,3 +216,6 @@ class KoreanTranslations:
         "`{{ setcaptioncmd }}` - 📝 이름이 변경된 파일의 캡션을 설정합니다.\n"
         "`{{ helpcmd }}` - 📖 이 도움말 메시지를 표시합니다.\n"
     )
+
+    CURRENT_LOCALE = "🌐 **현재 사용 중인 언어:** {{ user_locale }}"
+

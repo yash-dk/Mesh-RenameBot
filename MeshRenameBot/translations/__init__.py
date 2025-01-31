@@ -1,1 +1,1 @@
-from .translator import Translator
+from .translator import Translator, TRANSLATION_MAP

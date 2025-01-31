@@ -20,10 +20,11 @@ from ..utils.user_input import interactive_input
 from .thumb_manage import handle_set_thumb, handle_get_thumb, handle_clr_thumb
 from .mode_select import upload_mode, mode_callback
 from ..config import Commands
-from ..translations import Translator
+from ..translations import Translator, TRANSLATION_MAP
 from ..database.user_db import UserDB
 from .caption_manage import set_caption, del_caption
 from ..mesh_bot import MeshRenameBot
+from .change_locale import change_locale, set_locale
 
 renamelog = logging.getLogger(__name__)
 
@@ -82,6 +83,9 @@ def add_handlers(client: MeshRenameBot) -> None:
         MessageHandler(set_caption, filters.regex(Commands.SET_CAPTION, re.IGNORECASE))
     )
     client.add_handler(
+        MessageHandler(change_locale, filters.regex(Commands.SET_LANG, re.IGNORECASE))
+    )
+    client.add_handler(
         CallbackQueryHandler(cancel_this, filters.regex("cancel", re.IGNORECASE))
     )
     client.add_handler(
@@ -100,6 +104,9 @@ def add_handlers(client: MeshRenameBot) -> None:
     )
     client.add_handler(
         CallbackQueryHandler(del_caption, filters.regex("delcaption", re.IGNORECASE))
+    )
+    client.add_handler(
+        CallbackQueryHandler(set_locale, filters.regex("set_locale", re.IGNORECASE))
     )
 
     signal.signal(signal.SIGINT, term_handler)

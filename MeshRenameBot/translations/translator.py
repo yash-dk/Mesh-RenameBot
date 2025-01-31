@@ -22,10 +22,9 @@ TRANSLATION_MAP: Dict[str, object] = {
 
 class Translator:
     def __init__(self, user_locale: str = None):
-        user_locale = Config.DEFAULT_LOCALE[
-            1
-        ]  # Exception handling without get-config module
-        self.user_locale = user_locale if user_locale in TRANSLATION_MAP else "en"
+        self.user_locale = (
+            user_locale if user_locale in TRANSLATION_MAP else Config.DEFAULT_LOCALE[1]
+        )
 
     def get(self, key: str, **kwargs) -> str:
         translations = TRANSLATION_MAP[self.user_locale]

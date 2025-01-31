@@ -67,6 +67,7 @@ class Commands:
         "MODE": "/mode",
         "HELP": "/help",
         "SET_CAPTION": "/setcaption",
+        "SET_LANG": "/setlanguage",
     }
 
     COMMANDS: dict = config_data.get("COMMANDS", command_defaults)
@@ -81,3 +82,4 @@ class Commands:
     MODE = COMMANDS.get("MODE", "/mode")
     HELP = COMMANDS.get("HELP", "/help")
     SET_CAPTION = COMMANDS.get("SET_CAPTION", "/setcaption")
+    SET_LANG = COMMANDS.get("SET_LANG", "/setlanguage")

@@ -3,6 +3,8 @@ from dataclasses import dataclass
 
 @dataclass
 class EnglishTranslations:
+    LANGUAGE_NAME = "English"
+    LANGUAGE_CODE = "en"
 
     WRONG_VALUE_ERROR = "❌ Invalid value entered for {{ variable_name }} variable."
 
@@ -215,4 +217,6 @@ class EnglishTranslations:
         "`{{ setcaptioncmd }}` - 📝 Set a caption for the renamed files.\n"
         "`{{ helpcmd }}` - 📖 Show this help message.\n"
     )
+
+    CURRENT_LOCALE = "🌐 **Your current language:** {{ user_locale }}"
 

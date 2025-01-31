@@ -3,6 +3,8 @@ from dataclasses import dataclass
 
 @dataclass
 class ChineseTranslations:
+    LANGUAGE_NAME = "中文"
+    LANGUAGE_CODE = "zh"
 
     WRONG_VALUE_ERROR = "❌ 为 {{ variable_name }} 变量输入了无效的值。"
 
@@ -213,3 +215,5 @@ class ChineseTranslations:
         "`{{ setcaptioncmd }}` - 📝 为重命名的文件设置标题。\n"
         "`{{ helpcmd }}` - 📖 显示此帮助信息。\n"
     )
+
+    CURRENT_LOCALE = "🌐 **您当前的语言:** {{ user_locale }}"
