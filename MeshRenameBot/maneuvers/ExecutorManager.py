@@ -1,19 +1,20 @@
 import asyncio
+from typing import List
 from ..core.get_config import get_var
 from .Executor import Executor
 from .Default import DefaultManeuver
 
 
 class ExecutorManager:
-    maneuvers_queue = asyncio.Queue(maxsize=0)
-    all_maneuvers_log = []
-    active_executors = []
+    maneuvers_queue: asyncio.Queue["DefaultManeuver"] = asyncio.Queue(maxsize=0)
+    all_maneuvers_log: List[DefaultManeuver] = []
+    active_executors: List[Executor] = []
     canceled_uids = []
 
     def __init__(self) -> None:
         self._max_simultaneous = get_var("MAX_QUEUE_SIZE")
         self.create_executors()
-    
+
     def create_executors(self) -> None:
         if len(self.active_executors) == 0:
             for i in range(1, self._max_simultaneous + 1):
