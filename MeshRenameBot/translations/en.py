@@ -216,6 +216,7 @@ class EnglishTranslations:
         "`{{ queuecmd }}` - 📊 View the bot's rename queue status.\n"
         "`{{ setcaptioncmd }}` - 📝 Set a caption for the renamed files.\n"
         "`{{ helpcmd }}` - 📖 Show this help message.\n"
+        "`{{ setlanguagecmd }}` - 🌐 Change the bot's language."
     )
 
     CURRENT_LOCALE = "🌐 **Your current language:** {{ user_locale }}"

@@ -218,6 +218,7 @@ class SpanishTranslations:
         "`{{ queuecmd }}` - 📊 Ver el estado de la cola de renombrado del bot.\n"
         "`{{ setcaptioncmd }}` - 📝 Establecer un título para los archivos renombrados.\n"
         "`{{ helpcmd }}` - 📖 Mostrar este mensaje de ayuda.\n"
+        "`{{ setlanguagecmd }}` - 🌐 Cambiar el idioma del bot.\n"
     )
 
     CURRENT_LOCALE = "🌐 **Tu idioma actual:** {{ user_locale }}"

@@ -214,6 +214,7 @@ class ChineseTranslations:
         "`{{ queuecmd }}` - 📊 查看机器人的重命名队列状态。\n"
         "`{{ setcaptioncmd }}` - 📝 为重命名的文件设置标题。\n"
         "`{{ helpcmd }}` - 📖 显示此帮助信息。\n"
+        "`{{ setlaguagecmd }}` - 🌐 设置机器人的语言。\n"
     )
 
     CURRENT_LOCALE = "🌐 **您当前的语言:** {{ user_locale }}"
