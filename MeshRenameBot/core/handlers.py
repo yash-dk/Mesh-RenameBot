@@ -172,6 +172,7 @@ async def help_str(_: MeshRenameBot, msg: Message) -> None:
             queuecmd=Commands.QUEUE,
             setcaptioncmd=Commands.SET_CAPTION,
             helpcmd=Commands.HELP,
+            setlanguagecmd=Commands.SET_LANG,
         ),
         quote=True,
     )
@@ -234,6 +235,9 @@ async def handle_queue(_: MeshRenameBot, msg: Message) -> None:
 
 
 async def intercept_handler(client: Client, msg: Message) -> None:
+    if not msg.from_user:
+        return
+
     user_id = msg.from_user.id
     user_locale = UserDB().get_var("locale", user_id)
     translator = Translator(user_locale)
