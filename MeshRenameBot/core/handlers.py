@@ -253,7 +253,7 @@ async def intercept_handler(client: Client, msg: Message) -> None:
         except UserNotParticipant:
             forcejoin = get_var("FORCEJOIN")
             await msg.reply_text(
-                translator.get("JOIN_CHANNEL"),
+                translator.get("USER_NOT_PARTICIPANT"),
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
