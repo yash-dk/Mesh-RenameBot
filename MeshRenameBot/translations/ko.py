@@ -169,7 +169,7 @@ class KoreanTranslations:
 
     USER_KICKED = "🚷 **채팅에서 제거되었습니다. 이 봇을 사용할 수 없습니다.**"
     USER_NOT_PARTICIPANT = "⚠️ **이 봇을 사용하려면 필요한 채팅에 참여하세요.**"
-    JOIN_CHANNEL = "🔗 **업데이트 채널에 가입하세요**"
+    JOIN_CHANNEL = "🔗 업데이트 채널에 가입하세요"
 
     MODE_INITIAL_MSG = (
         "📂 **파일 출력 모드:**\n\n"

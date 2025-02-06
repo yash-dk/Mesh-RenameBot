@@ -172,7 +172,7 @@ class SpanishTranslations:
 
     USER_KICKED = "🚷 **Has sido eliminado del chat. No puedes usar este bot.**"
     USER_NOT_PARTICIPANT = "⚠️ **Únete al chat requerido para usar este bot.**"
-    JOIN_CHANNEL = "🔗 **Únete al Canal de Actualizaciones**"
+    JOIN_CHANNEL = "🔗 Únete al Canal de Actualizaciones"
 
     MODE_INITIAL_MSG = (
         "📂 **Modo de Salida de Archivos:**\n\n"
