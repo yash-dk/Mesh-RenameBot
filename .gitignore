@@ -1,5 +1,6 @@
 # custom config
 tconfig.py
+config.json
 
 # you know these
 venv

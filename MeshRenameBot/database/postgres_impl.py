@@ -170,6 +170,9 @@ class UserDB(DataBaseHandle):
     MODE_AS_DOCUMENT = 1
     MODE_AS_GMEDIA = 2
 
+    MODE_RENAME_WITH_COMMAND = 3
+    MODE_RENAME_WITHOUT_COMMAND = 4
+
     def set_mode(self, mode: int, user_id: int) -> None:
         user_id = str(user_id)
         sql = "SELECT * FROM ttk_users WHERE user_id=%s"

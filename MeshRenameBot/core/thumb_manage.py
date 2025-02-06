@@ -1,6 +1,6 @@
 from typing import Union
 from pyrogram.types.user_and_chats import user
-
+from aiofiles import os as aos
 from pyrogram.types.user_and_chats.user import User
 from ..database.user_db import UserDB
 from PIL import Image
@@ -12,24 +12,36 @@ import random
 from ..database.user_db import UserDB
 from hachoir.parser import createParser
 from hachoir.metadata import extractMetadata
+from pyrogram.types import Message
+from ..translations import Translator
 
-#TODO trans pending
+# TODO trans pending
 
 renamelog = logging.getLogger(__name__)
+
 
 async def adjust_image(path: str) -> Union[str, None]:
     try:
         im = Image.open(path)
-        im.convert("RGB").save(path,"JPEG")
+        im.convert("RGB").save(path, "JPEG")
         im = Image.open(path)
-        im.thumbnail((320,320), Image.ANTIALIAS)
-        im.save(path,"JPEG")
+        im.thumbnail((320, 320), Image.Resampling.LANCZOS)
+        im.save(path, "JPEG")
         return path
     except Exception:
         return
 
-async def handle_set_thumb(client, msg):
+
+async def handle_set_thumb(client, msg: Message):
+    user_id = msg.from_user.id
+    user_locale = UserDB().get_var("locale", user_id)
+    translator = Translator(user_locale)
+
     original_message = msg.reply_to_message
+    if original_message is None:
+        await msg.reply_text(translator.get("THUMB_REPLY_TO_MEDIA"), quote=True)
+        return
+
     if original_message.photo is not None:
         path = await original_message.download()
         path = await adjust_image(path)
@@ -37,37 +49,54 @@ async def handle_set_thumb(client, msg):
             with open(path, "rb") as file_handle:
                 data = file_handle.read()
                 UserDB().set_thumbnail(data, msg.from_user.id)
-            
+
             os.remove(path)
-            await msg.reply_text("Thumbnail set success.", quote=True)
+            await msg.reply_text(translator.get("THUMB_SET_SUCCESS"), quote=True)
         else:
-            await msg.reply_text("Reply to an image to set it as a thumbnail.", quote=True)
-
+            await msg.reply_text(translator.get("THUMB_REPLY_TO_MEDIA"), quote=True)
+        await aos.remove(path)
     else:
-        await msg.reply_text("Reply to an image to set it as a thumbnail.", quote=True)
+        await msg.reply_text(translator.get("THUMB_REPLY_TO_MEDIA"), quote=True)
 
-async def handle_get_thumb(client, msg):
+
+async def handle_get_thumb(client, msg: Message):
+    user_id = msg.from_user.id
+    user_locale = UserDB().get_var("locale", user_id)
+    translator = Translator(user_locale)
+
+    renamelog.info("Getting Thumbnail")
     thumb_path = UserDB().get_thumbnail(msg.from_user.id)
     if thumb_path is False:
-        await msg.reply("No Thumbnail Found.", quote=True)
+        await msg.reply(translator.get("THUMB_NOT_FOUND"), quote=True)
     else:
         await msg.reply_photo(thumb_path, quote=True)
         os.remove(thumb_path)
 
 
 async def gen_ss(filepath, ts, opfilepath=None):
-    # todo check the error pipe and do processing 
+    # todo check the error pipe and do processing
     source = filepath
     destination = os.path.dirname(source)
-    ss_name =  str(os.path.basename(source)) + "_" + str(round(time.time())) + ".jpg"
-    ss_path = os.path.join(destination,ss_name)
+    ss_name = str(os.path.basename(source)) + "_" + str(round(time.time())) + ".jpg"
+    ss_path = os.path.join(destination, ss_name)
 
-    cmd = ["ffmpeg","-loglevel","error","-ss",str(ts),"-i",str(source),"-vframes","1","-q:v","2",str(ss_path)]
+    cmd = [
+        "ffmpeg",
+        "-loglevel",
+        "error",
+        "-ss",
+        str(ts),
+        "-i",
+        str(source),
+        "-vframes",
+        "1",
+        "-q:v",
+        "2",
+        str(ss_path),
+    ]
 
     subpr = await asyncio.create_subprocess_exec(
-        *cmd,
-        stdout=asyncio.subprocess.PIPE,
-        stderr=asyncio.subprocess.PIPE
+        *cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
     )
     spipe, epipe = await subpr.communicate()
     epipe = epipe.decode().strip()
@@ -77,20 +106,21 @@ async def gen_ss(filepath, ts, opfilepath=None):
 
     return ss_path
 
-async def resize_img(path,width=None,height=None):
+
+async def resize_img(path, width=None, height=None):
     img = Image.open(path)
-    wei,hei = img.size
+    wei, hei = img.size
 
     wei = width if width is not None else wei
     hei = height if height is not None else hei
 
-    img.thumbnail((wei,hei))
-    
-    img.save(path,"JPEG")
+    img.thumbnail((wei, hei))
+
+    img.save(path, "JPEG")
     return path
 
 
-async def get_thumbnail(file_path, user_id = None, force_docs = False):
+async def get_thumbnail(file_path, user_id=None, force_docs=False):
     print(file_path, "-", user_id, "-", force_docs)
     metadata = extractMetadata(createParser(file_path))
     try:
@@ -109,18 +139,23 @@ async def get_thumbnail(file_path, user_id = None, force_docs = False):
             if user_thumb is not False:
                 return user_thumb
             else:
-                path = await gen_ss(file_path,random.randint(2,duration.seconds))
-                path = await resize_img(path,320)
+                path = await gen_ss(file_path, random.randint(2, duration.seconds))
+                path = await resize_img(path, 320)
                 return path
 
     else:
         if force_docs:
             return None
-        
-        path = await gen_ss(file_path,random.randint(2,duration.seconds))
-        path = await resize_img(path,320)
+
+        path = await gen_ss(file_path, random.randint(2, duration.seconds))
+        path = await resize_img(path, 320)
         return path
 
+
 async def handle_clr_thumb(client, msg):
-    UserDB().set_thumbnail(None, msg.from_user.id)
-    await msg.reply_text("Thumbnail Cleared.", quote=True)
+    user_id = msg.from_user.id
+    udb = UserDB()
+    user_locale = udb.get_var("locale", user_id)
+    translator = Translator(user_locale)
+    udb.set_thumbnail(None, msg.from_user.id)
+    await msg.reply_text(translator.get("THUMB_CLEARED"), quote=True)
