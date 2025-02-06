@@ -28,6 +28,11 @@ This bot is aimed to be **the best rename bot around**! 🏆✨
 
 ---
 
+## Test the bot
+[Check on Telegram](https://t.me/MeshRenameBot)
+
+---
+
 ## ☁️ Deploy to Heroku  
 Deploy your own instance of the bot on Heroku with one click!
 
