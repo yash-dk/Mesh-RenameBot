@@ -263,7 +263,6 @@ async def intercept_handler(client: Client, msg: Message) -> None:
                         ]
                     ]
                 ),
-                parse_mode="markdown",
             )
             return
         except ChatAdminRequired:

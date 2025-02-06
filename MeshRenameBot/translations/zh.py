@@ -168,7 +168,7 @@ class ChineseTranslations:
 
     USER_KICKED = "🚷 **你已被移出聊天。你无法使用此机器人。**"
     USER_NOT_PARTICIPANT = "⚠️ **加入所需的聊天以使用此机器人。**"
-    JOIN_CHANNEL = "🔗 **加入更新频道**"
+    JOIN_CHANNEL = "🔗 加入更新频道"
 
     MODE_INITIAL_MSG = (
         "📂 **文件输出模式：**\n\n"
